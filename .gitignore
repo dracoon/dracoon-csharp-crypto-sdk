@@ -1,0 +1,27 @@
+## VS sdk
+DracoonCryptoSdk/[Bb]in/
+DracoonCryptoSdk/[Oo]bj/
+DracoonCryptoSdk/[Ll]og/
+DracoonCryptoSdk/*.nupkg
+
+## VS test
+DracoonCryptoSdkTest/[Bb]in/
+DracoonCryptoSdkTest/[Oo]bj/
+DracoonCryptoSdkTest/[Ll]og/
+TestResults/
+
+## VS Example
+DracoonCryptoSdkExample/[Bb]in/
+DracoonCryptoSdkExample/[Oo]bj/
+DracoonCryptoSdkExample/[Ll]og/
+
+## VS config files
+[Tt]est[Rr]esults
+.vs
+
+## NuGet
+packages/
+
+## Windows
+Thumbs.db
+Desktop.ini
