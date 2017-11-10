@@ -1,0 +1,6 @@
+language: csharp
+solution: DracoonCryptoSdkSolution.sln
+install:
+  - nuget restore DracoonCryptoSdkSolution.sln
+script:
+  - xbuild /p:Configuration=Release DracoonCryptoSdk/DracoonCryptoSdk.csproj

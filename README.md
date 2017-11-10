@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/dracoon/dracoon-csharp-crypto-sdk.svg?branch=master)](https://travis-ci.org/dracoon/)
 # Dracoon C# Crypto SDK
 
 A library which implements the client-side encryption of Dracoon.
@@ -18,11 +19,11 @@ client-side encryption in detail.
 NuGet: Add the this dependency to your packages.config:
 If you're using nuget with package management "Packages.config", then edit your project's "packages.config" and add this to the packages section:
 ```xml
-<package id="Dracoon.Crypto.Sdk" version="1.0.0" />
+<package id="Dracoon.Crypto.Sdk" version="1.0.1" />
 ```
 If you are using Visual Studio 2017 (or higher) add you're using nuget with package management "PackageReference" then edit your .csproj file and add this to the package dependency group:
 ```xml
-<PackageReference Include="Dracoon.Crypto.Sdk" Version="1.0.0" />
+<PackageReference Include="Dracoon.Crypto.Sdk" Version="1.0.1" />
 ```
 
 DLL import: The latest DLL can be found [here](https://github.com/dracoon/dracoon-csharp-crypto-sdk/releases).
