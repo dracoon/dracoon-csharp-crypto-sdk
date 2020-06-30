@@ -19,7 +19,7 @@ namespace Dracoon.Crypto.Sdk.Example {
         static void Main(String[] args){
             // --- INITIALIZATION ---
             // Generate key pair
-            UserKeyPair userKeyPair = Crypto.GenerateUserKeyPair(USER_PASSWORD);
+            UserKeyPair userKeyPair = Crypto.GenerateUserKeyPair(UserKeyPairAlgorithm.RSA4096, USER_PASSWORD);
             // Check key pair
             if (!Crypto.CheckUserKeyPair(userKeyPair, USER_PASSWORD))
             {
@@ -36,7 +36,7 @@ namespace Dracoon.Crypto.Sdk.Example {
 
             // --- ENCRYPTION ---
             // Generate plain file key
-            PlainFileKey fileKey = Crypto.GenerateFileKey();
+            PlainFileKey fileKey = Crypto.GenerateFileKey(PlainFileKeyAlgorithm.AES256GCM);
             // Encrypt blocks
             byte[] encData = EncryptData(fileKey, plainData);
             // Encrypt file key

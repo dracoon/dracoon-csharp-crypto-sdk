@@ -88,18 +88,6 @@ namespace Dracoon.Crypto.Sdk {
         #region Key management
 
         /// <summary>
-        /// Generates a random user key pair. (The default encryption version "A" is used)
-        /// </summary>
-        /// <param name="password">The password which should be used to secure the private key.</param>
-        /// <returns>The generated user key pair.</returns>
-        /// <exception cref="Dracoon.Crypto.Sdk.InvalidKeyPairException">If the version for the user key pair is not supported.</exception>
-        /// <exception cref="Dracoon.Crypto.Sdk.InvalidPasswordException">If the password to secure the private key is invalid.</exception>
-        /// <exception cref="Dracoon.Crypto.Sdk.CryptoSystemException">If an unexpected error occured.</exception>
-        /// <exception cref="Dracoon.Crypto.Sdk.CryptoException">If an unexpected error in the encryption of the private key occured.</exception>
-        public static UserKeyPair GenerateUserKeyPair(string password) {
-            return GenerateUserKeyPair(CryptoConstants.defaultVersion, password);
-        }
-        /// <summary>
         /// Generates a random user key pair.
         /// </summary>
         /// <param name="version">The encryption version for which the key pair should be created.</param>
@@ -109,8 +97,7 @@ namespace Dracoon.Crypto.Sdk {
         /// <exception cref="Dracoon.Crypto.Sdk.InvalidPasswordException">If the password to secure the private key is invalid.</exception>
         /// <exception cref="Dracoon.Crypto.Sdk.CryptoSystemException">If an unexpected error occured.</exception>
         /// <exception cref="Dracoon.Crypto.Sdk.CryptoException">If an unexpected error in the encryption of the private key occured.</exception>
-        public static UserKeyPair GenerateUserKeyPair(string version, string password) {
-            ValidateUserKeyPairVersion(version);
+        public static UserKeyPair GenerateUserKeyPair(UserKeyPairAlgorithm algorithm, string password) {
             ValidatePassword(password);
 
             AsymmetricCipherKeyPair rsaKeyInfo;
@@ -125,8 +112,8 @@ namespace Dracoon.Crypto.Sdk {
             string encrytedPrivateKeyString = EncryptPrivateKey(rsaKeyInfo.Private, password);
             string publicKeyString = ConvertPublicKey(rsaKeyInfo.Public);
 
-            UserPrivateKey userPrivateKey = new UserPrivateKey() { Version = version, PrivateKey = encrytedPrivateKeyString };
-            UserPublicKey userPublicKey = new UserPublicKey() { Version = version, PublicKey = publicKeyString };
+            UserPrivateKey userPrivateKey = new UserPrivateKey() { Version = algorithm, PrivateKey = encrytedPrivateKeyString };
+            UserPublicKey userPublicKey = new UserPublicKey() { Version = algorithm, PublicKey = publicKeyString };
 
             return new UserKeyPair() { UserPrivateKey = userPrivateKey, UserPublicKey = userPublicKey };
         }
@@ -243,7 +230,7 @@ namespace Dracoon.Crypto.Sdk {
                 Key = Convert.ToBase64String(eFileKey),
                 Iv = plainFileKey.Iv,
                 Tag = plainFileKey.Tag,
-                Version = plainFileKey.Version
+                Version = plainFileKey.Version.ParsePlainFileKeyAlgorithm(userPublicKey.Version)
             };
             return encFileKey;
         }
@@ -279,7 +266,7 @@ namespace Dracoon.Crypto.Sdk {
                 Key = Convert.ToBase64String(dFileKey),
                 Iv = encFileKey.Iv,
                 Tag = encFileKey.Tag,
-                Version = encFileKey.Version
+                Version = encFileKey.Version.ParseEncryptedAlgorithm()
             };
             return plainFileKey;
         }
@@ -288,22 +275,12 @@ namespace Dracoon.Crypto.Sdk {
         #region Symmetric encryption and decryption
 
         /// <summary>
-        /// Generates a random file key (The default encryption version "A" is used).
-        /// </summary>
-        /// <returns>The generated file key.</returns>
-        public static PlainFileKey GenerateFileKey() {
-            return GenerateFileKey(CryptoConstants.defaultVersion);
-        }
-
-        /// <summary>
         /// Generates a random file key.
         /// </summary>
         /// <param name="version">The encryption version for which the file key should be created.</param>
         /// <returns>The generated file key.</returns>
         /// <exception cref="Dracoon.Crypto.Sdk.InvalidFileKeyException">If the version for the file key is not supported.</exception>
-        public static PlainFileKey GenerateFileKey(string version) {
-            ValidateFileKeyVersion(version);
-
+        public static PlainFileKey GenerateFileKey(PlainFileKeyAlgorithm version) {
             byte[] key = new byte[fileKeySize];
             new SecureRandom().NextBytes(key);
             byte[] iv = new byte[ivSize];
@@ -382,9 +359,6 @@ namespace Dracoon.Crypto.Sdk {
             if (privateKey == null) {
                 throw new InvalidKeyPairException("Private key container cannot be null.");
             }
-            if (privateKey.Version == null || !privateKey.Version.Equals(CryptoConstants.defaultVersion)) {
-                throw new InvalidKeyPairException("Unknown private key version.");
-            }
             if (privateKey.PrivateKey == null || privateKey.PrivateKey.Length == 0) {
                 throw new InvalidKeyPairException("Private key cannot be null or empty.");
             }
@@ -397,16 +371,6 @@ namespace Dracoon.Crypto.Sdk {
         private static void ValidateUserKeyPair(UserKeyPair userKeyPair) {
             if (userKeyPair == null) {
                 throw new InvalidKeyPairException("User key pair cannot be null.");
-            }
-        }
-        /// <summary>
-        /// Checks the version of the key pair.
-        /// </summary>
-        /// <param name="version">The version to check.</param>
-        /// <exception cref="Dracoon.Crypto.Sdk.InvalidKeyPairException"/>
-        private static void ValidateUserKeyPairVersion(string version) {
-            if (version == null || version.Length == 0 || !version.Equals(CryptoConstants.defaultVersion)) {
-                throw new InvalidKeyPairException("Unknown user key pair version.");
             }
         }
         /// <summary>
@@ -428,21 +392,8 @@ namespace Dracoon.Crypto.Sdk {
             if (publicKey == null) {
                 throw new InvalidKeyPairException("Public key container cannot be null.");
             }
-            if (publicKey.Version == null || !publicKey.Version.Equals(CryptoConstants.defaultVersion)) {
-                throw new InvalidKeyPairException("Unknown public key version.");
-            }
             if (publicKey.PublicKey == null | publicKey.PublicKey.Length == 0) {
                 throw new InvalidKeyPairException("Public key cannot be null or empty.");
-            }
-        }
-        /// <summary>
-        /// Checks the version of a file key.
-        /// </summary>
-        /// <param name="version">The file key to check.</param>
-        /// <exception cref="Dracoon.Crypto.Sdk.InvalidFileKeyException"/>
-        private static void ValidateFileKeyVersion(string version) {
-            if (version == null || version.Length == 0 || !version.Equals(CryptoConstants.defaultVersion)) {
-                throw new InvalidFileKeyException("Unknown file key version.");
             }
         }
         /// <summary>
@@ -454,9 +405,6 @@ namespace Dracoon.Crypto.Sdk {
             if (fileKey == null) {
                 throw new InvalidFileKeyException("File key cannot be null.");
             }
-            if (fileKey.Version == null || !fileKey.Version.Equals(CryptoConstants.defaultVersion)) {
-                throw new InvalidFileKeyException("Unknown file key version.");
-            }
         }
         /// <summary>
         /// Checks the encrypted file key for file encryption.
@@ -466,9 +414,6 @@ namespace Dracoon.Crypto.Sdk {
         private static void ValidateEncryptedFileKey(EncryptedFileKey encFileKey) {
             if (encFileKey == null) {
                 throw new InvalidFileKeyException("File key cannot be null.");
-            }
-            if (encFileKey.Version == null || !encFileKey.Version.Equals(CryptoConstants.defaultVersion)) {
-                throw new InvalidFileKeyException("Unknown file key version.");
             }
         }
         #endregion

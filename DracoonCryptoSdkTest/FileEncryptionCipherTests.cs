@@ -150,7 +150,7 @@ namespace Dracoon.Crypto.Sdk.Test {
 
         //[TestMethod()]
         public void TestEnDecryption() {
-            PlainFileKey generatedFK = Crypto.GenerateFileKey();
+            PlainFileKey generatedFK = Crypto.GenerateFileKey(PlainFileKeyAlgorithm.AES256GCM);
             byte[] plainFileBytes = Encoding.UTF8.GetBytes("Dinge die ich jetzt testen will.");
 
             // Encrypt text

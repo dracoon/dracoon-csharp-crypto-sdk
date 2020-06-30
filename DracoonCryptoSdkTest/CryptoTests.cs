@@ -11,24 +11,22 @@ namespace Dracoon.Crypto.Sdk.Test {
 
         [TestMethod()]
         public void TestGenerateUserKeyPair_Success() {
-            UserKeyPair testUkp = Crypto.GenerateUserKeyPair("A", "Qwer1234");
+            UserKeyPair testUkp = Crypto.GenerateUserKeyPair(UserKeyPairAlgorithm.RSA2048, "Qwer1234");
             Assert.IsNotNull(testUkp, "Key pair is null!");
 
             UserPrivateKey testPrivateKey = testUkp.UserPrivateKey;
             Assert.IsNotNull(testPrivateKey, "Private key container is null!");
             Assert.IsNotNull(testPrivateKey.Version, "Private key version is null");
-            Assert.IsTrue(testPrivateKey.Version.Length > 0, "Private key version is empty!");
-            Assert.IsTrue(testPrivateKey.Version.Equals("A"), "Private key version is invalid!");
             Assert.IsNotNull(testPrivateKey.PrivateKey, "Private key is null!");
             Assert.IsTrue(testPrivateKey.PrivateKey.StartsWith("-----BEGIN ENCRYPTED PRIVATE KEY-----"), "Privat ekey is invalid!");
+            Assert.AreEqual(testPrivateKey.Version, UserKeyPairAlgorithm.RSA2048, "Private key version is not correct!");
 
             UserPublicKey testPublicKey = testUkp.UserPublicKey;
             Assert.IsNotNull(testPublicKey, "Public key container is null!");
             Assert.IsNotNull(testPublicKey.Version, "Public key version is null");
-            Assert.IsTrue(testPublicKey.Version.Length > 0, "Public key version is empty!");
-            Assert.IsTrue(testPublicKey.Version.Equals("A"), "Public key version is invalid!");
             Assert.IsNotNull(testPublicKey.PublicKey, "Public key is null!");
             Assert.IsTrue(testPublicKey.PublicKey.StartsWith("-----BEGIN PUBLIC KEY-----"), "Public ekey is invalid!");
+            Assert.AreEqual(testPublicKey.Version, UserKeyPairAlgorithm.RSA2048, "Public key version is not correct!");
         }
         #endregion
 
@@ -37,7 +35,7 @@ namespace Dracoon.Crypto.Sdk.Test {
         [TestMethod()]
         public void TestGenerateUserKeyPair_VersionNull() {
             try {
-                Crypto.GenerateUserKeyPair(null, "Qwer1234");
+                Crypto.GenerateUserKeyPair(new UserKeyPairAlgorithm().ParseAlgorithm(null), "Qwer1234");
             } catch (InvalidKeyPairException) {
                 return;
             }
@@ -46,7 +44,7 @@ namespace Dracoon.Crypto.Sdk.Test {
         [TestMethod()]
         public void TestGenerateUserKeyPair_VersionInvalid() {
             try {
-                Crypto.GenerateUserKeyPair("Z", "Qwer1234");
+                Crypto.GenerateUserKeyPair(new UserKeyPairAlgorithm().ParseAlgorithm("Z"), "Qwer1234");
             } catch (InvalidKeyPairException) {
                 return;
             }
@@ -59,7 +57,7 @@ namespace Dracoon.Crypto.Sdk.Test {
         [TestMethod()]
         public void TestGenerateUserKeyPair_PasswordNull() {
             try {
-                Crypto.GenerateUserKeyPair("A", null);
+                Crypto.GenerateUserKeyPair(UserKeyPairAlgorithm.RSA2048, null);
             } catch (InvalidPasswordException) {
                 return;
             }
@@ -68,7 +66,7 @@ namespace Dracoon.Crypto.Sdk.Test {
         [TestMethod()]
         public void TestGenerateUserKeyPair_PasswordEmpty() {
             try {
-                Crypto.GenerateUserKeyPair("A", "");
+                Crypto.GenerateUserKeyPair(UserKeyPairAlgorithm.RSA2048, "");
             } catch (InvalidPasswordException) {
                 return;
             }
