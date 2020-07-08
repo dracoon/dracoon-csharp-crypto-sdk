@@ -72,20 +72,37 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Resources\enc_file_key.json" />
-    <None Include="Resources\enc_file_key_bad_iv.json" />
-    <None Include="Resources\enc_file_key_bad_key.json" />
-    <None Include="Resources\enc_file_key_bad_tag.json" />
-    <None Include="Resources\enc_file_key_bad_version.json" />
-    <None Include="Resources\plain_file_key.json" />
-    <None Include="Resources\plain_file_key_bad_iv.json" />
-    <None Include="Resources\plain_file_key_bad_key.json" />
-    <None Include="Resources\plain_file_key_bad_tag.json" />
-    <None Include="Resources\private_key.json" />
-    <None Include="Resources\private_key_bad_pem.json" />
-    <None Include="Resources\private_key_bad_value.json" />
-    <None Include="Resources\private_key_bad_version.json" />
-    <None Include="Resources\public_key.json" />
+    <None Include="Resources\FileKeyRSA2048_AES256GCM\enc_file_key.json" />
+    <None Include="Resources\FileKeyGeneral\enc_file_key_bad_iv.json" />
+    <None Include="Resources\FileKeyGeneral\enc_file_key_bad_key.json" />
+    <None Include="Resources\FileKeyGeneral\enc_file_key_bad_tag.json" />
+    <None Include="Resources\FileKeyGeneral\enc_file_key_bad_version.json" />
+    <None Include="Resources\FileKeyRSA4096_AES256GCM\enc_file_key_RSA4096_AES256GCM_1.json" />
+    <None Include="Resources\FileKeyRSA4096_AES256GCM\enc_file_key_RSA4096_AES256GCM_2.json" />
+    <None Include="Resources\FileKeyRSA4096_AES256GCM\enc_file_key_RSA4096_AES256GCM_3.json" />
+    <None Include="Resources\FileKeyRSA4096_AES256GCM\enc_file_key_RSA4096_AES256GCM_4.json" />
+    <None Include="Resources\FileKeyRSA4096_AES256GCM\plain_file_key_RSA4096_AES256GCM_1.json" />
+    <None Include="Resources\FileKeyRSA4096_AES256GCM\plain_file_key_RSA4096_AES256GCM_2.json" />
+    <None Include="Resources\FileKeyRSA4096_AES256GCM\plain_file_key_RSA4096_AES256GCM_4.json" />
+    <None Include="Resources\KeyPairVersionA\private_key_A_2.json" />
+    <None Include="Resources\KeyPairVersionA\public_key_A_2.json" />
+    <None Include="Resources\KeyPairVersionRSA4096\private_key_RSA4096_4.json" />
+    <None Include="Resources\KeyPairVersionRSA4096\private_key_RSA4096_1.json" />
+    <None Include="Resources\KeyPairVersionRSA4096\private_key_RSA4096_2.json" />
+    <None Include="Resources\KeyPairVersionRSA4096\private_key_RSA4096_3.json" />
+    <None Include="Resources\KeyPairVersionRSA4096\public_key_RSA4096_1.json" />
+    <None Include="Resources\KeyPairVersionRSA4096\public_key_RSA4096_2.json" />
+    <None Include="Resources\FileKeyRSA2048_AES256GCM\plain_file_key.json" />
+    <None Include="Resources\FileKeyGeneral\plain_file_key_bad_iv.json" />
+    <None Include="Resources\FileKeyGeneral\plain_file_key_bad_key.json" />
+    <None Include="Resources\FileKeyGeneral\plain_file_key_bad_tag.json" />
+    <None Include="Resources\KeyPairVersionA\private_key.json" />
+    <None Include="Resources\KeyPairGeneral\private_key_bad_pem.json" />
+    <None Include="Resources\KeyPairGeneral\private_key_bad_value.json" />
+    <None Include="Resources\KeyPairGeneral\private_key_bad_version.json" />
+    <None Include="Resources\KeyPairVersionA\public_key.json" />
+    <None Include="Resources\KeyPairVersionRSA4096\public_key_RSA4096_3.json" />
+    <None Include="Resources\KeyPairVersionRSA4096\public_key_RSA4096_4.json" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DracoonCryptoSdk\DracoonCryptoSdk.csproj">
@@ -100,17 +117,18 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\enc_file_modified.txt" />
+    <None Include="Resources\FileKeyGeneral\enc_file_modified.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\enc_file.txt" />
+    <None Include="Resources\FileKeyRSA2048_AES256GCM\enc_file.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\plain_file_modified.txt" />
+    <None Include="Resources\FileKeyGeneral\plain_file_modified.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\plain_file.txt" />
+    <None Include="Resources\FileKeyRSA2048_AES256GCM\plain_file.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

@@ -19,7 +19,7 @@ namespace Dracoon.Crypto.Sdk.Test {
     // -Klasse über ein Tool wie ResGen oder Visual Studio automatisch generiert.
     // Um einen Member hinzuzufügen oder zu entfernen, bearbeiten Sie die .ResX-Datei und führen dann ResGen
     // mit der /str-Option erneut aus, oder Sie erstellen Ihr VS-Projekt neu.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class TestResources {
@@ -120,6 +120,46 @@ namespace Dracoon.Crypto.Sdk.Test {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] enc_file_key_RSA4096_AES256GCM_1 {
+            get {
+                object obj = ResourceManager.GetObject("enc_file_key_RSA4096_AES256GCM_1", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] enc_file_key_RSA4096_AES256GCM_2 {
+            get {
+                object obj = ResourceManager.GetObject("enc_file_key_RSA4096_AES256GCM_2", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] enc_file_key_RSA4096_AES256GCM_3 {
+            get {
+                object obj = ResourceManager.GetObject("enc_file_key_RSA4096_AES256GCM_3", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] enc_file_key_RSA4096_AES256GCM_4 {
+            get {
+                object obj = ResourceManager.GetObject("enc_file_key_RSA4096_AES256GCM_4", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die XZoZFAZekI+xyaI6Kirb/6PfGvjH0Gi5EPA5XU49OFt9wqdDsISEtvSKQ6ISgOZ+mso= ähnelt.
         /// </summary>
         internal static string enc_file_modified {
@@ -178,6 +218,36 @@ namespace Dracoon.Crypto.Sdk.Test {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] plain_file_key_RSA4096_AES256GCM_1 {
+            get {
+                object obj = ResourceManager.GetObject("plain_file_key_RSA4096_AES256GCM_1", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] plain_file_key_RSA4096_AES256GCM_2 {
+            get {
+                object obj = ResourceManager.GetObject("plain_file_key_RSA4096_AES256GCM_2", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] plain_file_key_RSA4096_AES256GCM_4 {
+            get {
+                object obj = ResourceManager.GetObject("plain_file_key_RSA4096_AES256GCM_4", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die XGVzdEFCQ0RFRkdIIDEyMwpUZXN0SUpLTE1OT1AgNDU2ClRlc3RRUlNUVVZXWCA3ODk= ähnelt.
         /// </summary>
         internal static string plain_file_modified {
@@ -192,6 +262,16 @@ namespace Dracoon.Crypto.Sdk.Test {
         internal static byte[] private_key {
             get {
                 object obj = ResourceManager.GetObject("private_key", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] private_key_A_2 {
+            get {
+                object obj = ResourceManager.GetObject("private_key_A_2", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -229,9 +309,99 @@ namespace Dracoon.Crypto.Sdk.Test {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
+        internal static byte[] private_key_RSA4096_1 {
+            get {
+                object obj = ResourceManager.GetObject("private_key_RSA4096_1", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] private_key_RSA4096_2 {
+            get {
+                object obj = ResourceManager.GetObject("private_key_RSA4096_2", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] private_key_RSA4096_3 {
+            get {
+                object obj = ResourceManager.GetObject("private_key_RSA4096_3", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] private_key_RSA4096_4 {
+            get {
+                object obj = ResourceManager.GetObject("private_key_RSA4096_4", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
         internal static byte[] public_key {
             get {
                 object obj = ResourceManager.GetObject("public_key", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] public_key_A_2 {
+            get {
+                object obj = ResourceManager.GetObject("public_key_A_2", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] public_key_RSA4096_1 {
+            get {
+                object obj = ResourceManager.GetObject("public_key_RSA4096_1", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] public_key_RSA4096_2 {
+            get {
+                object obj = ResourceManager.GetObject("public_key_RSA4096_2", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] public_key_RSA4096_3 {
+            get {
+                object obj = ResourceManager.GetObject("public_key_RSA4096_3", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] public_key_RSA4096_4 {
+            get {
+                object obj = ResourceManager.GetObject("public_key_RSA4096_4", resourceCulture);
                 return ((byte[])(obj));
             }
         }

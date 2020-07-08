@@ -6,14 +6,14 @@ namespace Dracoon.Crypto.Sdk {
     public enum UserKeyPairAlgorithm : int {
         [StringValue("A")]
         RSA2048 = 1,
-        [StringValue("RSA4096")]
+        [StringValue("RSA-4096")]
         RSA4096 = 2
     }
 
     public enum EncryptedFileKeyAlgorithm : int {
         [StringValue("A")]
         RSA2048_AES256GCM = 1,
-        [StringValue("RSA4096_AES256GCM")]
+        [StringValue("RSA-4096/AES-256-GCM")]
         RSA4096_AES256GCM = 2
     }
 
@@ -46,7 +46,7 @@ namespace Dracoon.Crypto.Sdk {
             switch (value) {
                 case "A":
                     return UserKeyPairAlgorithm.RSA2048;
-                case "RSA4096":
+                case "RSA-4096":
                     return UserKeyPairAlgorithm.RSA4096;
                 default:
                     throw new InvalidKeyPairException((value ?? "null") + " is not a supported key pair algorithm.");
@@ -71,7 +71,7 @@ namespace Dracoon.Crypto.Sdk {
             switch (value) {
                 case "A":
                     return EncryptedFileKeyAlgorithm.RSA2048_AES256GCM;
-                case "RSA4096_AES256GCM":
+                case "RSA-4096/AES-256-GCM":
                     return EncryptedFileKeyAlgorithm.RSA4096_AES256GCM;
                 default:
                     throw new InvalidFileKeyException((value ?? "null") + " is not a supported encrypted file key algorithm.");

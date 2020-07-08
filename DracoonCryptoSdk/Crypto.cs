@@ -225,6 +225,19 @@ namespace Dracoon.Crypto.Sdk {
 
         #region Asymmetric encryption and decryption
 
+        private static IDigest SelectMGF1Hash(UserKeyPairAlgorithm algorithm) {
+            IDigest mgf1Hashing = null;
+            switch (algorithm) {
+                case UserKeyPairAlgorithm.RSA2048:
+                    mgf1Hashing = new Sha1Digest();
+                    break;
+                case UserKeyPairAlgorithm.RSA4096:
+                    mgf1Hashing = new Sha256Digest();
+                    break;
+            }
+            return mgf1Hashing;
+        }
+
         /// <summary>
         /// Encrypts a file key.
         /// </summary>
@@ -242,16 +255,7 @@ namespace Dracoon.Crypto.Sdk {
             AsymmetricKeyParameter pubKey = ConvertPublicKey(userPublicKey.PublicKey);
             byte[] eFileKey;
             try {
-                IDigest mgf1Hashing = null;
-                switch (userPublicKey.Version) {
-                    case UserKeyPairAlgorithm.RSA2048:
-                        mgf1Hashing = new Sha1Digest();
-                        break;
-                    case UserKeyPairAlgorithm.RSA4096:
-                        mgf1Hashing = new Sha256Digest();
-                        break;
-                }
-                OaepEncoding engine = new OaepEncoding(new RsaEngine(), new Sha256Digest(), mgf1Hashing, null);
+                OaepEncoding engine = new OaepEncoding(new RsaEngine(), new Sha256Digest(), SelectMGF1Hash(userPublicKey.Version), null);
                 engine.Init(true, pubKey);
                 byte[] pFileKey = Convert.FromBase64String(plainFileKey.Key);
                 eFileKey = engine.ProcessBlock(pFileKey, 0, pFileKey.Length);
@@ -287,7 +291,7 @@ namespace Dracoon.Crypto.Sdk {
             AsymmetricKeyParameter privateKey = DecryptPrivateKey(userPrivateKey.PrivateKey, password);
             byte[] dFileKey;
             try {
-                OaepEncoding engine = new OaepEncoding(new RsaEngine(), new Sha256Digest(), new Sha1Digest(), null);
+                OaepEncoding engine = new OaepEncoding(new RsaEngine(), new Sha256Digest(), SelectMGF1Hash(userPrivateKey.Version), null);
                 engine.Init(false, privateKey);
                 byte[] eFileKey = Convert.FromBase64String(encFileKey.Key);
                 dFileKey = engine.ProcessBlock(eFileKey, 0, eFileKey.Length);
@@ -385,7 +389,7 @@ namespace Dracoon.Crypto.Sdk {
         #region Validators
         private static void ValidateFileKeyCompatibility(string keyPairAlgorithm, string fileKeyAlgorithm) {
             string[] fileKeyParts = fileKeyAlgorithm.Split('/');
-            if (!keyPairAlgorithm.Equals(fileKeyParts[0])) {
+            if (!"A".Equals(fileKeyAlgorithm) && !keyPairAlgorithm.Equals(fileKeyParts[0])) {
                 throw new InvalidFileKeyException("User key pair algorithm " + keyPairAlgorithm + " and file key algorithm " + fileKeyAlgorithm + " are not compatible.");
             }
         }
