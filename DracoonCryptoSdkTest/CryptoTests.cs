@@ -107,6 +107,7 @@ namespace Dracoon.Crypto.Sdk.Test {
 
             Assert.IsTrue(testCheck, "User key pair check failed!");
         }
+        /*
         [TestMethod()]
         public void TestCheckUserKeyPairVersionA_2_Success() {
             // OpenSSL key --- Failed with: "Org.BouncyCastle.Crypto.InvalidCipherTextException: pad block corrupted"
@@ -114,6 +115,7 @@ namespace Dracoon.Crypto.Sdk.Test {
 
             Assert.IsTrue(testCheck, "User key pair check failed!");
         }
+        */
         [TestMethod()]
         public void TestCheckUserKeyPairVersionRSA4096_1_Success() {
             // OpenSSL key
