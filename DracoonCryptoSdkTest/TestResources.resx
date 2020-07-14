@@ -190,6 +190,9 @@
   <data name="private_key_A_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>resources\keypairversiona\private_key_a_2.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="private_key_bad_asn1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>resources\keypairgeneral\private_key_bad_asn1.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="private_key_bad_pem" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>resources\keypairgeneral\private_key_bad_pem.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>

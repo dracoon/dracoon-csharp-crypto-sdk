@@ -299,6 +299,16 @@ namespace Dracoon.Crypto.Sdk.Test {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
+        internal static byte[] private_key_bad_asn1 {
+            get {
+                object obj = ResourceManager.GetObject("private_key_bad_asn1", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
         internal static byte[] private_key_bad_pem {
             get {
                 object obj = ResourceManager.GetObject("private_key_bad_pem", resourceCulture);

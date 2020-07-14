@@ -182,6 +182,12 @@ namespace Dracoon.Crypto.Sdk.Test {
             }
             Assert.Fail();
         }
+
+        [TestMethod()]
+        public void TestCheckUserKeyPair_PrivateKeyBadAsn1() {
+            bool testCheck = TestCheckUserKeyPair(TestResources.private_key_bad_asn1, "Qwer1234!");
+            Assert.IsTrue(testCheck, "User key pair ASN1 check failed!");
+        }
         #endregion
 
         #region Invalid password
