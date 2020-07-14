@@ -124,6 +124,9 @@
   <data name="enc_file_key" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>resources\filekeyrsa2048_aes256gcm\enc_file_key.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="enc_file_key_A_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>resources\filekeyrsa2048_aes256gcm\enc_file_key_a_1.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="enc_file_key_bad_iv" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>resources\filekeygeneral\enc_file_key_bad_iv.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -156,6 +159,9 @@
   </data>
   <data name="plain_file_key" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>resources\filekeyrsa2048_aes256gcm\plain_file_key.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="plain_file_key_A_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>resources\filekeyrsa2048_aes256gcm\plain_file_key_a_1.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="plain_file_key_bad_iv" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>resources\filekeygeneral\plain_file_key_bad_iv.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

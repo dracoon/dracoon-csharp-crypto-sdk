@@ -82,6 +82,16 @@ namespace Dracoon.Crypto.Sdk.Test {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
+        internal static byte[] enc_file_key_A_1 {
+            get {
+                object obj = ResourceManager.GetObject("enc_file_key_A_1", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
         internal static byte[] enc_file_key_bad_iv {
             get {
                 object obj = ResourceManager.GetObject("enc_file_key_bad_iv", resourceCulture);
@@ -183,6 +193,16 @@ namespace Dracoon.Crypto.Sdk.Test {
         internal static byte[] plain_file_key {
             get {
                 object obj = ResourceManager.GetObject("plain_file_key", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] plain_file_key_A_1 {
+            get {
+                object obj = ResourceManager.GetObject("plain_file_key_A_1", resourceCulture);
                 return ((byte[])(obj));
             }
         }

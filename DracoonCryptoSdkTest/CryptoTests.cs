@@ -107,15 +107,13 @@ namespace Dracoon.Crypto.Sdk.Test {
 
             Assert.IsTrue(testCheck, "User key pair check failed!");
         }
-        /*
         [TestMethod()]
         public void TestCheckUserKeyPairVersionA_2_Success() {
-            // OpenSSL key --- Failed with: "Org.BouncyCastle.Crypto.InvalidCipherTextException: pad block corrupted"
+            // OpenSSL key
             bool testCheck = TestCheckUserKeyPair(TestResources.private_key_A_2, "Qwer1234!");
 
             Assert.IsTrue(testCheck, "User key pair check failed!");
         }
-        */
         [TestMethod()]
         public void TestCheckUserKeyPairVersionRSA4096_1_Success() {
             // OpenSSL key
@@ -215,7 +213,7 @@ namespace Dracoon.Crypto.Sdk.Test {
         #region Success
 
         [TestMethod()]
-        public void TestEncryptFileKey_Success() {
+        public void TestEncryptFileKey_A_Success() {
             // Old key
             EncryptedFileKey efk = TestUtilities.ReadTestResource<EncryptedFileKey>(TestResources.enc_file_key);
             EncryptedFileKey testEfk = TestEncryptFileKey(TestResources.plain_file_key, TestResources.public_key);
@@ -228,7 +226,20 @@ namespace Dracoon.Crypto.Sdk.Test {
             Assert.AreEqual(efk.Tag, testEfk.Tag, "Tag is incorrect!");
             Assert.AreEqual(efk.Version, testEfk.Version, "Version is incorrect!");
         }
+        [TestMethod()]
+        public void TestEncryptFileKey_A_1_Success() {
+            // OpenSSL key
+            EncryptedFileKey efk = TestUtilities.ReadTestResource<EncryptedFileKey>(TestResources.enc_file_key_A_1);
+            EncryptedFileKey testEfk = TestEncryptFileKey(TestResources.plain_file_key_A_1, TestResources.public_key_A_2);
 
+            PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.plain_file_key_A_1);
+            PlainFileKey testPfk = Crypto.DecryptFileKey(testEfk, TestUtilities.ReadTestResource<UserPrivateKey>(TestResources.private_key_A_2), "Qwer1234!");
+
+            Assert.AreEqual(pfk.Key, testPfk.Key, "File key is incorrect!");
+            Assert.AreEqual(efk.Iv, testEfk.Iv, "Initialization vector is incorrect!");
+            Assert.AreEqual(efk.Tag, testEfk.Tag, "Tag is incorrect!");
+            Assert.AreEqual(efk.Version, testEfk.Version, "Version is incorrect!");
+        }
         [TestMethod()]
         public void TestEncryptFileKey_RSA4096_1_Success() {
             // OpenSSL key
@@ -243,7 +254,6 @@ namespace Dracoon.Crypto.Sdk.Test {
             Assert.AreEqual(efk.Tag, testEfk.Tag, "Tag is incorrect!");
             Assert.AreEqual(efk.Version, testEfk.Version, "Version is incorrect!");
         }
-
         [TestMethod()]
         public void TestEncryptFileKey_RSA4096_2_Success() {
             // Swift Key
@@ -300,11 +310,23 @@ namespace Dracoon.Crypto.Sdk.Test {
         #region Success
 
         [TestMethod()]
-        public void TestDecryptFileKey_Success() {
+        public void TestDecryptFileKey_A_Success() {
             // Old key
             string pw = "Pass1234!";
             PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.plain_file_key);
             PlainFileKey testPfk = TestDecryptFileKey(TestResources.enc_file_key, TestResources.private_key, pw);
+
+            Assert.AreEqual(pfk.Key, testPfk.Key, "File key is incorrect!");
+            Assert.AreEqual(pfk.Iv, testPfk.Iv, "Initialization vector is incorrect!");
+            Assert.AreEqual(pfk.Tag, testPfk.Tag, "Tag is incorrect!");
+            Assert.AreEqual(pfk.Version, testPfk.Version, "Version is incorrect!");
+        }
+        [TestMethod()]
+        public void TestDecryptFileKey_A_1_Success() {
+            // Old key
+            string pw = "Qwer1234!";
+            PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.plain_file_key_A_1);
+            PlainFileKey testPfk = TestDecryptFileKey(TestResources.enc_file_key_A_1, TestResources.private_key_A_2, pw);
 
             Assert.AreEqual(pfk.Key, testPfk.Key, "File key is incorrect!");
             Assert.AreEqual(pfk.Iv, testPfk.Iv, "Initialization vector is incorrect!");

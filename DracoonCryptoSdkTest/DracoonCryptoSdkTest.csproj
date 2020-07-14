@@ -77,6 +77,8 @@
     <None Include="Resources\FileKeyGeneral\enc_file_key_bad_key.json" />
     <None Include="Resources\FileKeyGeneral\enc_file_key_bad_tag.json" />
     <None Include="Resources\FileKeyGeneral\enc_file_key_bad_version.json" />
+    <None Include="Resources\FileKeyRSA2048_AES256GCM\enc_file_key_A_1.json" />
+    <None Include="Resources\FileKeyRSA2048_AES256GCM\plain_file_key_A_1.json" />
     <None Include="Resources\FileKeyRSA4096_AES256GCM\enc_file_key_RSA4096_AES256GCM_1.json" />
     <None Include="Resources\FileKeyRSA4096_AES256GCM\enc_file_key_RSA4096_AES256GCM_2.json" />
     <None Include="Resources\FileKeyRSA4096_AES256GCM\enc_file_key_RSA4096_AES256GCM_3.json" />
