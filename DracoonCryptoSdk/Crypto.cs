@@ -179,6 +179,7 @@ namespace Dracoon.Crypto.Sdk {
         }
 
         private static AsymmetricKeyParameter DecryptPrivateKey(string privateKey, string password) {
+            Environment.SetEnvironmentVariable("Org.BouncyCastle.Asn1.AllowUnsafeInteger", "true", EnvironmentVariableTarget.Process);
             try {
                 AsymmetricKeyParameter decryptedPrivateKey;
                 using (TextReader txtReader = new StringReader(privateKey)) {
@@ -377,6 +378,7 @@ namespace Dracoon.Crypto.Sdk {
             }
         }
         private static AsymmetricKeyParameter ConvertPublicKey(string pubKeyString) {
+            Environment.SetEnvironmentVariable("Org.BouncyCastle.Asn1.AllowUnsafeInteger", "true", EnvironmentVariableTarget.Process);
             AsymmetricKeyParameter pubKey;
             using (TextReader txtReader = new StringReader(pubKeyString)) {
                 PemReader pemReader = new PemReader(txtReader);
