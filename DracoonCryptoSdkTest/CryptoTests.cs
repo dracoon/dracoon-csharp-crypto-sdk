@@ -142,6 +142,13 @@ namespace Dracoon.Crypto.Sdk.Test {
 
             Assert.IsTrue(testCheck, "User key pair check failed!");
         }
+        [TestMethod()]
+        public void TestCheckUserKeyPairVersionRSA4096_5_Success() {
+            // WebApp key
+            bool testCheck = TestCheckUserKeyPair(TestResources.private_key_RSA4096_5, "Qwer1234!");
+
+            Assert.IsTrue(testCheck, "User key pair check failed!");
+        }
         #endregion
 
         #region Invalid private key
@@ -296,6 +303,20 @@ namespace Dracoon.Crypto.Sdk.Test {
             string json = JsonConvert.SerializeObject(testEfk);
             PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.plain_file_key_RSA4096_AES256GCM_4);
             PlainFileKey testPfk = Crypto.DecryptFileKey(testEfk, TestUtilities.ReadTestResource<UserPrivateKey>(TestResources.private_key_RSA4096_4), "Qwer1234!");
+
+            Assert.AreEqual(pfk.Key, testPfk.Key, "File key is incorrect!");
+            Assert.AreEqual(efk.Iv, testEfk.Iv, "Initialization vector is incorrect!");
+            Assert.AreEqual(efk.Tag, testEfk.Tag, "Tag is incorrect!");
+            Assert.AreEqual(efk.Version, testEfk.Version, "Version is incorrect!");
+        }
+        [TestMethod()]
+        public void TestEncryptFileKey_RSA4096_5_Success() {
+            // WebbApp Key
+            EncryptedFileKey efk = TestUtilities.ReadTestResource<EncryptedFileKey>(TestResources.enc_file_key_RSA4096_AES256GCM_5);
+            EncryptedFileKey testEfk = TestEncryptFileKey(TestResources.plain_file_key_RSA4096_AES256GCM_5, TestResources.public_key_RSA4096_5);
+            string json = JsonConvert.SerializeObject(testEfk);
+            PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.plain_file_key_RSA4096_AES256GCM_5);
+            PlainFileKey testPfk = Crypto.DecryptFileKey(testEfk, TestUtilities.ReadTestResource<UserPrivateKey>(TestResources.private_key_RSA4096_5), "Qwer1234!");
 
             Assert.AreEqual(pfk.Key, testPfk.Key, "File key is incorrect!");
             Assert.AreEqual(efk.Iv, testEfk.Iv, "Initialization vector is incorrect!");

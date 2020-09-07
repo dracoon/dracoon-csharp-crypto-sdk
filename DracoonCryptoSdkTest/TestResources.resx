@@ -151,6 +151,9 @@
   <data name="enc_file_key_RSA4096_AES256GCM_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>resources\filekeyrsa4096_aes256gcm\enc_file_key_rsa4096_aes256gcm_4.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="enc_file_key_RSA4096_AES256GCM_5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>resources\filekeyrsa4096_aes256gcm\enc_file_key_rsa4096_aes256gcm_5.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="enc_file_modified" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>resources\filekeygeneral\enc_file_modified.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
@@ -180,6 +183,9 @@
   </data>
   <data name="plain_file_key_RSA4096_AES256GCM_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>resources\filekeyrsa4096_aes256gcm\plain_file_key_rsa4096_aes256gcm_4.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="plain_file_key_RSA4096_AES256GCM_5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>resources\filekeyrsa4096_aes256gcm\plain_file_key_rsa4096_aes256gcm_5.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="plain_file_modified" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>resources\filekeygeneral\plain_file_modified.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
@@ -214,6 +220,9 @@
   <data name="private_key_RSA4096_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>resources\keypairversionrsa4096\private_key_rsa4096_4.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="private_key_RSA4096_5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>resources\keypairversionrsa4096\private_key_rsa4096_5.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="public_key" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>resources\keypairversiona\public_key.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -231,5 +240,8 @@
   </data>
   <data name="public_key_RSA4096_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>resources\keypairversionrsa4096\public_key_rsa4096_4.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="public_key_RSA4096_5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>resources\keypairversionrsa4096\public_key_rsa4096_5.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>
