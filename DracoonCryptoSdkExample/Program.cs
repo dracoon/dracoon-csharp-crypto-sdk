@@ -7,12 +7,12 @@ using System.Text;
 namespace Dracoon.Crypto.Sdk.Example {
     class Program
     {
-        private static readonly String USER_PASSWORD = "Pass1234!";
+        private static readonly String USER_PASSWORD = "acw9q857n(";
 
         private static readonly String DATA =
-                "TestABCDEFGH 123\n" +
-                "TestIJKLMNOP 456\n" +
-                "TestQRSTUVWX 789";
+                "Things1\n" +
+                "OtherThings12\n" +
+                "MoreThings123";
 
         private static readonly int BLOCK_SIZE = 16;
 
