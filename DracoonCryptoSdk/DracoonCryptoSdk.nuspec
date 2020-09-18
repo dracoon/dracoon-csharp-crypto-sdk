@@ -39,7 +39,7 @@
 
     <!-- Dependencies are automatically installed when the package is installed -->
     <dependencies>
-        <dependency id="BouncyCastle" version="1.8.1"/>
+        <dependency id="BouncyCastle" version="1.8.6.1"/>
     </dependencies>
     </metadata>
 </package>
