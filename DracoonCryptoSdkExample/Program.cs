@@ -7,19 +7,19 @@ using System.Text;
 namespace Dracoon.Crypto.Sdk.Example {
     class Program
     {
-        private static readonly String USER_PASSWORD = "Pass1234!";
+        private static readonly String USER_PASSWORD = "acw9q857n(";
 
         private static readonly String DATA =
-                "TestABCDEFGH 123\n" +
-                "TestIJKLMNOP 456\n" +
-                "TestQRSTUVWX 789";
+                "Things1\n" +
+                "OtherThings12\n" +
+                "MoreThings123";
 
         private static readonly int BLOCK_SIZE = 16;
 
         static void Main(String[] args){
             // --- INITIALIZATION ---
             // Generate key pair
-            UserKeyPair userKeyPair = Crypto.GenerateUserKeyPair(USER_PASSWORD);
+            UserKeyPair userKeyPair = Crypto.GenerateUserKeyPair(UserKeyPairAlgorithm.RSA4096, USER_PASSWORD);
             // Check key pair
             if (!Crypto.CheckUserKeyPair(userKeyPair, USER_PASSWORD))
             {
@@ -36,7 +36,7 @@ namespace Dracoon.Crypto.Sdk.Example {
 
             // --- ENCRYPTION ---
             // Generate plain file key
-            PlainFileKey fileKey = Crypto.GenerateFileKey();
+            PlainFileKey fileKey = Crypto.GenerateFileKey(PlainFileKeyAlgorithm.AES256GCM);
             // Encrypt blocks
             byte[] encData = EncryptData(fileKey, plainData);
             // Encrypt file key

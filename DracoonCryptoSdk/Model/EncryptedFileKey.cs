@@ -9,7 +9,7 @@
         public string Tag {
             get; set;
         }
-        public string Version {
+        public EncryptedFileKeyAlgorithm Version {
             get; set;
         }
     }

@@ -5,8 +5,9 @@ A library which implements the client-side encryption of Dracoon.
 
 # Introduction
 
-Later, a link to the Dracoon client-side encryption white paper will be added here. This document describes the
-client-side encryption in detail. 
+A document which describes the client-side encryption in detail can be found here:
+
+https://support.dracoon.com/hc/en-us/articles/360000986345 
 
 # Setup
 
@@ -19,17 +20,17 @@ client-side encryption in detail.
 NuGet: Add the this dependency to your packages.config:
 If you're using nuget with package management "Packages.config", then edit your project's "packages.config" and add this to the packages section:
 ```xml
-<package id="Dracoon.Crypto.Sdk" version="1.0.2" />
+<package id="Dracoon.Crypto.Sdk" version="2.0.0" />
 ```
 If you are using Visual Studio 2017 (or higher) add you're using nuget with package management "PackageReference" then edit your .csproj file and add this to the package dependency group:
 ```xml
-<PackageReference Include="Dracoon.Crypto.Sdk" Version="1.0.2" />
+<PackageReference Include="Dracoon.Crypto.Sdk" Version="2.0.0" />
 ```
 
 DLL import: The latest DLL can be found [here](https://github.com/dracoon/dracoon-csharp-crypto-sdk/releases).
 
 Note that you also need to include the following dependencies:
-1. Bouncy Castle Provider (v1.8.1): https://www.nuget.org/packages/BouncyCastle/
+1. Bouncy Castle Provider (v1.8.6.1): https://www.nuget.org/packages/BouncyCastle/
 
 # Example
 

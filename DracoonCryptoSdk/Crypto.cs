@@ -26,7 +26,6 @@ namespace Dracoon.Crypto.Sdk {
     /// 
     /// <item>
     /// <description>User key pair generation: 
-    /// <see cref="Dracoon.Crypto.Sdk.Crypto.GenerateUserKeyPair(string)"/>
     /// <see cref="Dracoon.Crypto.Sdk.Crypto.GenerateUserKeyPair(string, string)"/>
     /// </description>
     /// </item>
@@ -39,7 +38,6 @@ namespace Dracoon.Crypto.Sdk {
     /// 
     /// <item>
     /// <description> File key generation: 
-    /// <see cref="Dracoon.Crypto.Sdk.Crypto.GenerateFileKey"/>
     /// <see cref="Dracoon.Crypto.Sdk.Crypto.GenerateFileKey(string)"/>
     /// </description>
     /// </item>
@@ -82,23 +80,42 @@ namespace Dracoon.Crypto.Sdk {
         }
 
         private const int hashIterationCount = 10000;
-        private const int fileKeySize = 32;
         private const int ivSize = 12;
+
+        private static AsymmetricCipherKeyPair ParseAsymmetricCypherKeyPair(UserKeyPairAlgorithm algorithm) {
+            AsymmetricCipherKeyPair asymmetricCipher;
+            try {
+                switch (algorithm) {
+                    case UserKeyPairAlgorithm.RSA2048:
+                        using (RSACryptoServiceProvider provider = new RSACryptoServiceProvider(2048)) {
+                            asymmetricCipher = DotNetUtilities.GetRsaKeyPair(provider.ExportParameters(true));
+                        }
+                        break;
+                    case UserKeyPairAlgorithm.RSA4096:
+                        using (RSACryptoServiceProvider provider = new RSACryptoServiceProvider(4096)) {
+                            asymmetricCipher = DotNetUtilities.GetRsaKeyPair(provider.ExportParameters(true));
+                        }
+                        break;
+                    default:
+                        throw new InvalidKeyPairException((algorithm.GetStringValue() ?? "null") + " is not a supported key pair algorithm.");
+                }
+            } catch (CryptographicException e) {
+                throw new CryptoSystemException("Could not generate RSA key pair.", e);
+            }
+            return asymmetricCipher;
+        }
+
+        private static int ParseSymmetricKeyLength(PlainFileKeyAlgorithm algorithm) {
+            switch (algorithm) {
+                case PlainFileKeyAlgorithm.AES256GCM:
+                    return 32;
+                default:
+                    throw new InvalidFileKeyException((algorithm.GetStringValue() ?? "null") + " is not a supported file key algorithm.");
+            }
+        }
 
         #region Key management
 
-        /// <summary>
-        /// Generates a random user key pair. (The default encryption version "A" is used)
-        /// </summary>
-        /// <param name="password">The password which should be used to secure the private key.</param>
-        /// <returns>The generated user key pair.</returns>
-        /// <exception cref="Dracoon.Crypto.Sdk.InvalidKeyPairException">If the version for the user key pair is not supported.</exception>
-        /// <exception cref="Dracoon.Crypto.Sdk.InvalidPasswordException">If the password to secure the private key is invalid.</exception>
-        /// <exception cref="Dracoon.Crypto.Sdk.CryptoSystemException">If an unexpected error occured.</exception>
-        /// <exception cref="Dracoon.Crypto.Sdk.CryptoException">If an unexpected error in the encryption of the private key occured.</exception>
-        public static UserKeyPair GenerateUserKeyPair(string password) {
-            return GenerateUserKeyPair(CryptoConstants.defaultVersion, password);
-        }
         /// <summary>
         /// Generates a random user key pair.
         /// </summary>
@@ -109,24 +126,16 @@ namespace Dracoon.Crypto.Sdk {
         /// <exception cref="Dracoon.Crypto.Sdk.InvalidPasswordException">If the password to secure the private key is invalid.</exception>
         /// <exception cref="Dracoon.Crypto.Sdk.CryptoSystemException">If an unexpected error occured.</exception>
         /// <exception cref="Dracoon.Crypto.Sdk.CryptoException">If an unexpected error in the encryption of the private key occured.</exception>
-        public static UserKeyPair GenerateUserKeyPair(string version, string password) {
-            ValidateUserKeyPairVersion(version);
+        public static UserKeyPair GenerateUserKeyPair(UserKeyPairAlgorithm algorithm, string password) {
             ValidatePassword(password);
 
-            AsymmetricCipherKeyPair rsaKeyInfo;
-            try {
-                using (RSACryptoServiceProvider rsa = new RSACryptoServiceProvider(2048)) {
-                    rsaKeyInfo = DotNetUtilities.GetRsaKeyPair(rsa.ExportParameters(true));
-                }
-            } catch (CryptographicException e) {
-                throw new CryptoSystemException("Could not generate RSA key pair.", e);
-            }
+            AsymmetricCipherKeyPair rsaKeyInfo = ParseAsymmetricCypherKeyPair(algorithm);
 
             string encrytedPrivateKeyString = EncryptPrivateKey(rsaKeyInfo.Private, password);
             string publicKeyString = ConvertPublicKey(rsaKeyInfo.Public);
 
-            UserPrivateKey userPrivateKey = new UserPrivateKey() { Version = version, PrivateKey = encrytedPrivateKeyString };
-            UserPublicKey userPublicKey = new UserPublicKey() { Version = version, PublicKey = publicKeyString };
+            UserPrivateKey userPrivateKey = new UserPrivateKey() { Version = algorithm, PrivateKey = encrytedPrivateKeyString };
+            UserPublicKey userPublicKey = new UserPublicKey() { Version = algorithm, PublicKey = publicKeyString };
 
             return new UserKeyPair() { UserPrivateKey = userPrivateKey, UserPublicKey = userPublicKey };
         }
@@ -170,6 +179,7 @@ namespace Dracoon.Crypto.Sdk {
         }
 
         private static AsymmetricKeyParameter DecryptPrivateKey(string privateKey, string password) {
+            Environment.SetEnvironmentVariable("Org.BouncyCastle.Asn1.AllowUnsafeInteger", "true", EnvironmentVariableTarget.Process);
             try {
                 AsymmetricKeyParameter decryptedPrivateKey;
                 using (TextReader txtReader = new StringReader(privateKey)) {
@@ -197,7 +207,7 @@ namespace Dracoon.Crypto.Sdk {
         /// <returns>True if the user key pair could be unlocked. Otherwise false.</returns>
         /// <exception cref="Dracoon.Crypto.Sdk.InvalidKeyPairException">If the provided key pair is invalid.</exception>
         /// <exception cref="Dracoon.Crypto.Sdk.CryptoException">If an unexpected error in the decryption of the private key occured.</exception>
-        public static bool CheckUserKeyPair(UserKeyPair userKeyPair, String password) {
+        public static bool CheckUserKeyPair(UserKeyPair userKeyPair, string password) {
             ValidateUserKeyPair(userKeyPair);
             ValidateUserPrivateKey(userKeyPair.UserPrivateKey);
 
@@ -216,6 +226,19 @@ namespace Dracoon.Crypto.Sdk {
 
         #region Asymmetric encryption and decryption
 
+        private static IDigest SelectMGF1Hash(UserKeyPairAlgorithm algorithm) {
+            IDigest mgf1Hashing = null;
+            switch (algorithm) {
+                case UserKeyPairAlgorithm.RSA2048:
+                    mgf1Hashing = new Sha1Digest();
+                    break;
+                case UserKeyPairAlgorithm.RSA4096:
+                    mgf1Hashing = new Sha256Digest();
+                    break;
+            }
+            return mgf1Hashing;
+        }
+
         /// <summary>
         /// Encrypts a file key.
         /// </summary>
@@ -228,11 +251,12 @@ namespace Dracoon.Crypto.Sdk {
         public static EncryptedFileKey EncryptFileKey(PlainFileKey plainFileKey, UserPublicKey userPublicKey) {
             ValidatePlainFileKey(plainFileKey);
             ValidateUserPublicKey(userPublicKey);
+            ValidateFileKeyCompatibility(userPublicKey.Version.GetStringValue(), plainFileKey.Version.GetStringValue());
 
             AsymmetricKeyParameter pubKey = ConvertPublicKey(userPublicKey.PublicKey);
             byte[] eFileKey;
             try {
-                OaepEncoding engine = new OaepEncoding(new RsaEngine(), new Sha256Digest(), new Sha1Digest(), null);
+                OaepEncoding engine = new OaepEncoding(new RsaEngine(), new Sha256Digest(), SelectMGF1Hash(userPublicKey.Version), null);
                 engine.Init(true, pubKey);
                 byte[] pFileKey = Convert.FromBase64String(plainFileKey.Key);
                 eFileKey = engine.ProcessBlock(pFileKey, 0, pFileKey.Length);
@@ -243,7 +267,7 @@ namespace Dracoon.Crypto.Sdk {
                 Key = Convert.ToBase64String(eFileKey),
                 Iv = plainFileKey.Iv,
                 Tag = plainFileKey.Tag,
-                Version = plainFileKey.Version
+                Version = plainFileKey.Version.ParsePlainFileKeyAlgorithm(userPublicKey.Version)
             };
             return encFileKey;
         }
@@ -263,11 +287,12 @@ namespace Dracoon.Crypto.Sdk {
             ValidateEncryptedFileKey(encFileKey);
             ValidateUserPrivateKey(userPrivateKey);
             ValidatePassword(password);
+            ValidateFileKeyCompatibility(userPrivateKey.Version.GetStringValue(), encFileKey.Version.GetStringValue());
 
             AsymmetricKeyParameter privateKey = DecryptPrivateKey(userPrivateKey.PrivateKey, password);
             byte[] dFileKey;
             try {
-                OaepEncoding engine = new OaepEncoding(new RsaEngine(), new Sha256Digest(), new Sha1Digest(), null);
+                OaepEncoding engine = new OaepEncoding(new RsaEngine(), new Sha256Digest(), SelectMGF1Hash(userPrivateKey.Version), null);
                 engine.Init(false, privateKey);
                 byte[] eFileKey = Convert.FromBase64String(encFileKey.Key);
                 dFileKey = engine.ProcessBlock(eFileKey, 0, eFileKey.Length);
@@ -279,7 +304,7 @@ namespace Dracoon.Crypto.Sdk {
                 Key = Convert.ToBase64String(dFileKey),
                 Iv = encFileKey.Iv,
                 Tag = encFileKey.Tag,
-                Version = encFileKey.Version
+                Version = encFileKey.Version.ParseEncryptedAlgorithm()
             };
             return plainFileKey;
         }
@@ -288,23 +313,13 @@ namespace Dracoon.Crypto.Sdk {
         #region Symmetric encryption and decryption
 
         /// <summary>
-        /// Generates a random file key (The default encryption version "A" is used).
-        /// </summary>
-        /// <returns>The generated file key.</returns>
-        public static PlainFileKey GenerateFileKey() {
-            return GenerateFileKey(CryptoConstants.defaultVersion);
-        }
-
-        /// <summary>
         /// Generates a random file key.
         /// </summary>
         /// <param name="version">The encryption version for which the file key should be created.</param>
         /// <returns>The generated file key.</returns>
         /// <exception cref="Dracoon.Crypto.Sdk.InvalidFileKeyException">If the version for the file key is not supported.</exception>
-        public static PlainFileKey GenerateFileKey(string version) {
-            ValidateFileKeyVersion(version);
-
-            byte[] key = new byte[fileKeySize];
+        public static PlainFileKey GenerateFileKey(PlainFileKeyAlgorithm version) {
+            byte[] key = new byte[ParseSymmetricKeyLength(version)];
             new SecureRandom().NextBytes(key);
             byte[] iv = new byte[ivSize];
             new SecureRandom().NextBytes(iv);
@@ -363,6 +378,7 @@ namespace Dracoon.Crypto.Sdk {
             }
         }
         private static AsymmetricKeyParameter ConvertPublicKey(string pubKeyString) {
+            Environment.SetEnvironmentVariable("Org.BouncyCastle.Asn1.AllowUnsafeInteger", "true", EnvironmentVariableTarget.Process);
             AsymmetricKeyParameter pubKey;
             using (TextReader txtReader = new StringReader(pubKeyString)) {
                 PemReader pemReader = new PemReader(txtReader);
@@ -373,6 +389,13 @@ namespace Dracoon.Crypto.Sdk {
         #endregion
 
         #region Validators
+        private static void ValidateFileKeyCompatibility(string keyPairAlgorithm, string fileKeyAlgorithm) {
+            string[] fileKeyParts = fileKeyAlgorithm.Split('/');
+            if (!"A".Equals(fileKeyAlgorithm) && !keyPairAlgorithm.Equals(fileKeyParts[0])) {
+                throw new InvalidFileKeyException("User key pair algorithm " + keyPairAlgorithm + " and file key algorithm " + fileKeyAlgorithm + " are not compatible.");
+            }
+        }
+
         /// <summary>
         /// Checks the private key of a user.
         /// </summary>
@@ -381,9 +404,6 @@ namespace Dracoon.Crypto.Sdk {
         private static void ValidateUserPrivateKey(UserPrivateKey privateKey) {
             if (privateKey == null) {
                 throw new InvalidKeyPairException("Private key container cannot be null.");
-            }
-            if (privateKey.Version == null || !privateKey.Version.Equals(CryptoConstants.defaultVersion)) {
-                throw new InvalidKeyPairException("Unknown private key version.");
             }
             if (privateKey.PrivateKey == null || privateKey.PrivateKey.Length == 0) {
                 throw new InvalidKeyPairException("Private key cannot be null or empty.");
@@ -397,16 +417,6 @@ namespace Dracoon.Crypto.Sdk {
         private static void ValidateUserKeyPair(UserKeyPair userKeyPair) {
             if (userKeyPair == null) {
                 throw new InvalidKeyPairException("User key pair cannot be null.");
-            }
-        }
-        /// <summary>
-        /// Checks the version of the key pair.
-        /// </summary>
-        /// <param name="version">The version to check.</param>
-        /// <exception cref="Dracoon.Crypto.Sdk.InvalidKeyPairException"/>
-        private static void ValidateUserKeyPairVersion(string version) {
-            if (version == null || version.Length == 0 || !version.Equals(CryptoConstants.defaultVersion)) {
-                throw new InvalidKeyPairException("Unknown user key pair version.");
             }
         }
         /// <summary>
@@ -428,21 +438,8 @@ namespace Dracoon.Crypto.Sdk {
             if (publicKey == null) {
                 throw new InvalidKeyPairException("Public key container cannot be null.");
             }
-            if (publicKey.Version == null || !publicKey.Version.Equals(CryptoConstants.defaultVersion)) {
-                throw new InvalidKeyPairException("Unknown public key version.");
-            }
             if (publicKey.PublicKey == null | publicKey.PublicKey.Length == 0) {
                 throw new InvalidKeyPairException("Public key cannot be null or empty.");
-            }
-        }
-        /// <summary>
-        /// Checks the version of a file key.
-        /// </summary>
-        /// <param name="version">The file key to check.</param>
-        /// <exception cref="Dracoon.Crypto.Sdk.InvalidFileKeyException"/>
-        private static void ValidateFileKeyVersion(string version) {
-            if (version == null || version.Length == 0 || !version.Equals(CryptoConstants.defaultVersion)) {
-                throw new InvalidFileKeyException("Unknown file key version.");
             }
         }
         /// <summary>
@@ -454,9 +451,6 @@ namespace Dracoon.Crypto.Sdk {
             if (fileKey == null) {
                 throw new InvalidFileKeyException("File key cannot be null.");
             }
-            if (fileKey.Version == null || !fileKey.Version.Equals(CryptoConstants.defaultVersion)) {
-                throw new InvalidFileKeyException("Unknown file key version.");
-            }
         }
         /// <summary>
         /// Checks the encrypted file key for file encryption.
@@ -466,9 +460,6 @@ namespace Dracoon.Crypto.Sdk {
         private static void ValidateEncryptedFileKey(EncryptedFileKey encFileKey) {
             if (encFileKey == null) {
                 throw new InvalidFileKeyException("File key cannot be null.");
-            }
-            if (encFileKey.Version == null || !encFileKey.Version.Equals(CryptoConstants.defaultVersion)) {
-                throw new InvalidFileKeyException("Unknown file key version.");
             }
         }
         #endregion

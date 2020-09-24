@@ -12,10 +12,10 @@ namespace Dracoon.Crypto.Sdk.Test {
 
         [TestMethod()]
         public void TestEncryptSingleBlock_Success() {
-            PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.plain_file_key);
+            PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.csharp_fk_rsa2048_aes256gcm_plain_file_key);
             byte[] ft = Convert.FromBase64String(pfk.Tag);
-            byte[] pfc = Convert.FromBase64String(TestResources.plain_file);
-            byte[] efc = Convert.FromBase64String(TestResources.enc_file);
+            byte[] pfc = Convert.FromBase64String(Encoding.UTF8.GetString(TestResources.csharp_plain_file));
+            byte[] efc = Convert.FromBase64String(Encoding.UTF8.GetString(TestResources.csharp_aes256gcm_enc_file));
 
             PlainDataContainer testPdc = new PlainDataContainer(pfc);
             EncryptedDataContainer testEdc = TestEncryptSingleBlock(pfk, testPdc);
@@ -25,9 +25,9 @@ namespace Dracoon.Crypto.Sdk.Test {
         }
         [TestMethod()]
         public void TestEncryptSingleBlock_DifferentContent() {
-            PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.plain_file_key);
+            PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.csharp_fk_rsa2048_aes256gcm_plain_file_key);
             byte[] pfc = Convert.FromBase64String(TestResources.plain_file_modified);
-            byte[] efc = Convert.FromBase64String(TestResources.enc_file);
+            byte[] efc = TestResources.csharp_aes256gcm_enc_file;
 
             PlainDataContainer testPdc = new PlainDataContainer(pfc);
             EncryptedDataContainer testEdc = TestEncryptSingleBlock(pfk, testPdc);
@@ -38,7 +38,7 @@ namespace Dracoon.Crypto.Sdk.Test {
         public void TestEncryptSingleBlock_DifferentTag() {
             PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.plain_file_key_bad_tag);
             byte[] ft = Convert.FromBase64String(pfk.Tag);
-            byte[] pfc = Convert.FromBase64String(TestResources.plain_file);
+            byte[] pfc = TestResources.csharp_plain_file;
 
             PlainDataContainer testPdc = new PlainDataContainer(pfc);
             EncryptedDataContainer testEdc = TestEncryptSingleBlock(pfk, testPdc);
@@ -49,8 +49,8 @@ namespace Dracoon.Crypto.Sdk.Test {
         public void TestEncryptSingleBlock_DifferentKey() {
             PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.plain_file_key_bad_key);
             byte[] ft = Convert.FromBase64String(pfk.Tag);
-            byte[] pfc = Convert.FromBase64String(TestResources.plain_file);
-            byte[] efc = Convert.FromBase64String(TestResources.enc_file);
+            byte[] pfc = TestResources.csharp_plain_file;
+            byte[] efc = TestResources.csharp_aes256gcm_enc_file;
 
             PlainDataContainer testPdc = new PlainDataContainer(pfc);
             EncryptedDataContainer testEdc = TestEncryptSingleBlock(pfk, testPdc);
@@ -62,8 +62,8 @@ namespace Dracoon.Crypto.Sdk.Test {
         public void TestEncryptSingleBlock_DifferentIv() {
             PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.plain_file_key_bad_iv);
             byte[] ft = Convert.FromBase64String(pfk.Tag);
-            byte[] pfc = Convert.FromBase64String(TestResources.plain_file);
-            byte[] efc = Convert.FromBase64String(TestResources.enc_file);
+            byte[] pfc = TestResources.csharp_plain_file;
+            byte[] efc = TestResources.csharp_aes256gcm_enc_file;
 
             PlainDataContainer testPdc = new PlainDataContainer(pfc);
             EncryptedDataContainer testEdc = TestEncryptSingleBlock(pfk, testPdc);
@@ -87,11 +87,11 @@ namespace Dracoon.Crypto.Sdk.Test {
         #region Multi block encryption tests
 
         [TestMethod()]
-        public void TestEncryptMultiBlock_Success() {
-            PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.plain_file_key);
+        public void Test_FileEncrypt_AES256GCM_CSharp() {
+            PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.csharp_fk_rsa2048_aes256gcm_plain_file_key);
             byte[] ft = Convert.FromBase64String(pfk.Tag);
-            byte[] pfc = Convert.FromBase64String(TestResources.plain_file);
-            byte[] efc = Convert.FromBase64String(TestResources.enc_file);
+            byte[] pfc = Convert.FromBase64String(Encoding.UTF8.GetString(TestResources.csharp_plain_file));
+            byte[] efc = Convert.FromBase64String(Encoding.UTF8.GetString(TestResources.csharp_aes256gcm_enc_file));
 
             FileEncryptionCipher encCipher = Crypto.CreateFileEncryptionCipher(pfk);
 
@@ -116,6 +116,131 @@ namespace Dracoon.Crypto.Sdk.Test {
                 CollectionAssert.AreEqual(ft, testFt, "File tag does not match!");
             }
         }
+
+        [TestMethod()]
+        public void Test_FileEncrypt_AES256GCM_Ruby() {
+            PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.ruby_fk_rsa2048_aes256gcm_plain_file_key);
+            byte[] ft = Convert.FromBase64String(pfk.Tag);
+            byte[] pfc = Convert.FromBase64String(Encoding.UTF8.GetString(TestResources.ruby_plain_file));
+            byte[] efc = Convert.FromBase64String(Encoding.UTF8.GetString(TestResources.ruby_aes256gcm_enc_file));
+
+            FileEncryptionCipher encCipher = Crypto.CreateFileEncryptionCipher(pfk);
+
+            using (MemoryStream output = new MemoryStream()) {
+                using (MemoryStream input = new MemoryStream(pfc)) {
+                    byte[] buffer = new byte[16];
+                    int bytesRead;
+                    while ((bytesRead = input.Read(buffer, 0, buffer.Length)) != 0) {
+                        byte[] blockBytes = new byte[bytesRead];
+                        Array.Copy(buffer, blockBytes, bytesRead);
+                        EncryptedDataContainer currentEdc = encCipher.ProcessBytes(new PlainDataContainer(blockBytes));
+                        output.Write(currentEdc.Content, 0, currentEdc.Content.Length);
+                    }
+                }
+                EncryptedDataContainer testEdc = encCipher.DoFinal();
+                output.Write(testEdc.Content, 0, testEdc.Content.Length);
+
+                byte[] testFt = testEdc.Tag;
+                byte[] testEfc = output.ToArray();
+
+                CollectionAssert.AreEqual(efc, testEfc, "File content does not match!");
+                CollectionAssert.AreEqual(ft, testFt, "File tag does not match!");
+            }
+        }
+
+        [TestMethod()]
+        public void Test_FileEncrypt_AES256GCM_Java() {
+            PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.java_fk_rsa2048_aes256gcm_plain_file_key);
+            byte[] ft = Convert.FromBase64String(pfk.Tag);
+            byte[] pfc = Convert.FromBase64String(Encoding.UTF8.GetString(TestResources.java_plain_file));
+            byte[] efc = Convert.FromBase64String(Encoding.UTF8.GetString(TestResources.java_aes256gcm_enc_file));
+
+            FileEncryptionCipher encCipher = Crypto.CreateFileEncryptionCipher(pfk);
+
+            using (MemoryStream output = new MemoryStream()) {
+                using (MemoryStream input = new MemoryStream(pfc)) {
+                    byte[] buffer = new byte[16];
+                    int bytesRead;
+                    while ((bytesRead = input.Read(buffer, 0, buffer.Length)) != 0) {
+                        byte[] blockBytes = new byte[bytesRead];
+                        Array.Copy(buffer, blockBytes, bytesRead);
+                        EncryptedDataContainer currentEdc = encCipher.ProcessBytes(new PlainDataContainer(blockBytes));
+                        output.Write(currentEdc.Content, 0, currentEdc.Content.Length);
+                    }
+                }
+                EncryptedDataContainer testEdc = encCipher.DoFinal();
+                output.Write(testEdc.Content, 0, testEdc.Content.Length);
+
+                byte[] testFt = testEdc.Tag;
+                byte[] testEfc = output.ToArray();
+
+                CollectionAssert.AreEqual(efc, testEfc, "File content does not match!");
+                CollectionAssert.AreEqual(ft, testFt, "File tag does not match!");
+            }
+        }
+
+        [TestMethod()]
+        public void Test_FileEncrypt_AES256GCM_WebApp() {
+            PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.webapp_fk_rsa2048_aes256gcm_plain_file_key);
+            byte[] ft = Convert.FromBase64String(pfk.Tag);
+            byte[] pfc = Convert.FromBase64String(Encoding.UTF8.GetString(TestResources.webapp_plain_file));
+            byte[] efc = Convert.FromBase64String(Encoding.UTF8.GetString(TestResources.webapp_aes256gcm_enc_file));
+
+            FileEncryptionCipher encCipher = Crypto.CreateFileEncryptionCipher(pfk);
+
+            using (MemoryStream output = new MemoryStream()) {
+                using (MemoryStream input = new MemoryStream(pfc)) {
+                    byte[] buffer = new byte[16];
+                    int bytesRead;
+                    while ((bytesRead = input.Read(buffer, 0, buffer.Length)) != 0) {
+                        byte[] blockBytes = new byte[bytesRead];
+                        Array.Copy(buffer, blockBytes, bytesRead);
+                        EncryptedDataContainer currentEdc = encCipher.ProcessBytes(new PlainDataContainer(blockBytes));
+                        output.Write(currentEdc.Content, 0, currentEdc.Content.Length);
+                    }
+                }
+                EncryptedDataContainer testEdc = encCipher.DoFinal();
+                output.Write(testEdc.Content, 0, testEdc.Content.Length);
+
+                byte[] testFt = testEdc.Tag;
+                byte[] testEfc = output.ToArray();
+
+                CollectionAssert.AreEqual(efc, testEfc, "File content does not match!");
+                CollectionAssert.AreEqual(ft, testFt, "File tag does not match!");
+            }
+        }
+
+        [TestMethod()]
+        public void Test_FileEncrypt_AES256GCM_Swift() {
+            PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.swift_fk_rsa2048_aes256gcm_plain_file_key);
+            byte[] ft = Convert.FromBase64String(pfk.Tag);
+            byte[] pfc = Convert.FromBase64String(Encoding.UTF8.GetString(TestResources.swift_plain_file));
+            byte[] efc = Convert.FromBase64String(Encoding.UTF8.GetString(TestResources.swift_aes256gcm_enc_file));
+
+            FileEncryptionCipher encCipher = Crypto.CreateFileEncryptionCipher(pfk);
+
+            using (MemoryStream output = new MemoryStream()) {
+                using (MemoryStream input = new MemoryStream(pfc)) {
+                    byte[] buffer = new byte[16];
+                    int bytesRead;
+                    while ((bytesRead = input.Read(buffer, 0, buffer.Length)) != 0) {
+                        byte[] blockBytes = new byte[bytesRead];
+                        Array.Copy(buffer, blockBytes, bytesRead);
+                        EncryptedDataContainer currentEdc = encCipher.ProcessBytes(new PlainDataContainer(blockBytes));
+                        output.Write(currentEdc.Content, 0, currentEdc.Content.Length);
+                    }
+                }
+                EncryptedDataContainer testEdc = encCipher.DoFinal();
+                output.Write(testEdc.Content, 0, testEdc.Content.Length);
+
+                byte[] testFt = testEdc.Tag;
+                byte[] testEfc = output.ToArray();
+
+                CollectionAssert.AreEqual(efc, testEfc, "File content does not match!");
+                CollectionAssert.AreEqual(ft, testFt, "File tag does not match!");
+            }
+        }
+
         #endregion
 
         #region Illegal data container tests
@@ -140,7 +265,7 @@ namespace Dracoon.Crypto.Sdk.Test {
             Assert.Fail();
         }
         private void TestEncryptProcessArguments(PlainDataContainer pdc) {
-            PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.plain_file_key);
+            PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.csharp_fk_rsa2048_aes256gcm_plain_file_key);
             FileEncryptionCipher encCipher = Crypto.CreateFileEncryptionCipher(pfk);
             encCipher.ProcessBytes(pdc);
         }
@@ -148,36 +273,5 @@ namespace Dracoon.Crypto.Sdk.Test {
 
         #endregion
 
-        //[TestMethod()]
-        public void TestEnDecryption() {
-            PlainFileKey generatedFK = Crypto.GenerateFileKey();
-            byte[] plainFileBytes = Encoding.UTF8.GetBytes("Dinge die ich jetzt testen will.");
-
-            // Encrypt text
-            PlainDataContainer plainDC = new PlainDataContainer(plainFileBytes);
-            FileEncryptionCipher encCipher = Crypto.CreateFileEncryptionCipher(generatedFK);
-            EncryptedDataContainer encryptedResult;
-            using (MemoryStream ms = new MemoryStream()) {
-                EncryptedDataContainer encryptedDC = encCipher.ProcessBytes(plainDC);
-                ms.Write(encryptedDC.Content, 0, encryptedDC.Content.Length);
-                encryptedDC = encCipher.DoFinal();
-                ms.Write(encryptedDC.Content, 0, encryptedDC.Content.Length);
-                encryptedResult = new EncryptedDataContainer(ms.ToArray(), encryptedDC.Tag);
-            }
-            generatedFK.Tag = Convert.ToBase64String(encryptedResult.Tag);
-
-            // Decrypt text
-            FileDecryptionCipher decCipher = Crypto.CreateFileDecryptionCipher(generatedFK);
-            PlainDataContainer decryptedResult;
-            using (MemoryStream ms = new MemoryStream()) {
-                PlainDataContainer decryptedDC = decCipher.ProcessBytes(new EncryptedDataContainer(encryptedResult.Content, null));
-                ms.Write(decryptedDC.Content, 0, decryptedDC.Content.Length);
-                decryptedDC = decCipher.DoFinal(new EncryptedDataContainer(null, Convert.FromBase64String(generatedFK.Tag)));
-                ms.Write(decryptedDC.Content, 0, decryptedDC.Content.Length);
-                decryptedResult = new PlainDataContainer(ms.ToArray());
-            }
-
-            System.Diagnostics.Debug.WriteLine("Result: " + Encoding.UTF8.GetString(decryptedResult.Content));
-        }
     }
 }

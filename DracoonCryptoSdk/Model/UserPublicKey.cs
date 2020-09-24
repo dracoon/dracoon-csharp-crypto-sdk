@@ -1,6 +1,6 @@
 ﻿namespace Dracoon.Crypto.Sdk.Model {
     public class UserPublicKey {
-        public string Version {
+        public UserKeyPairAlgorithm Version {
             get; set;
         }
         public string PublicKey {

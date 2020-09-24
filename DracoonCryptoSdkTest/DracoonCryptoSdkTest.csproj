@@ -72,20 +72,67 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Resources\enc_file_key.json" />
-    <None Include="Resources\enc_file_key_bad_iv.json" />
-    <None Include="Resources\enc_file_key_bad_key.json" />
-    <None Include="Resources\enc_file_key_bad_tag.json" />
-    <None Include="Resources\enc_file_key_bad_version.json" />
-    <None Include="Resources\plain_file_key.json" />
-    <None Include="Resources\plain_file_key_bad_iv.json" />
-    <None Include="Resources\plain_file_key_bad_key.json" />
-    <None Include="Resources\plain_file_key_bad_tag.json" />
-    <None Include="Resources\private_key.json" />
-    <None Include="Resources\private_key_bad_pem.json" />
-    <None Include="Resources\private_key_bad_value.json" />
-    <None Include="Resources\private_key_bad_version.json" />
-    <None Include="Resources\public_key.json" />
+    <None Include="Resources\FileKeyFail\enc_file_key_bad_iv.json" />
+    <None Include="Resources\FileKeyFail\enc_file_key_bad_key.json" />
+    <None Include="Resources\FileKeyFail\enc_file_key_bad_tag.json" />
+    <None Include="Resources\FileKeyFail\enc_file_key_bad_version.json" />
+    <None Include="Resources\KeyPairFail\private_key_bad_asn1.json" />
+    <None Include="Resources\FileKeyFail\plain_file_key_bad_iv.json" />
+    <None Include="Resources\FileKeyFail\plain_file_key_bad_key.json" />
+    <None Include="Resources\FileKeyFail\plain_file_key_bad_tag.json" />
+    <None Include="Resources\KeyPairFail\private_key_bad_pem.json" />
+    <None Include="Resources\KeyPairFail\private_key_bad_value.json" />
+    <None Include="Resources\KeyPairFail\private_key_bad_version.json" />
+    <None Include="Resources\Keys_CSharp\data\fk_rsa2048_aes256gcm\enc_file_key.json" />
+    <None Include="Resources\Keys_CSharp\data\fk_rsa2048_aes256gcm\plain_file_key.json" />
+    <None Include="Resources\Keys_CSharp\data\fk_rsa4096_aes256gcm\enc_file_key.json" />
+    <None Include="Resources\Keys_CSharp\data\fk_rsa4096_aes256gcm\plain_file_key.json" />
+    <None Include="Resources\Keys_CSharp\data\kp_rsa2048\private_key.json" />
+    <None Include="Resources\Keys_CSharp\data\kp_rsa2048\public_key.json" />
+    <None Include="Resources\Keys_CSharp\data\kp_rsa4096\private_key.json" />
+    <None Include="Resources\Keys_CSharp\data\kp_rsa4096\public_key.json" />
+    <None Include="Resources\Keys_CSharp\files\aes256gcm\enc_file.b64" />
+    <None Include="Resources\Keys_CSharp\files\plain_file.b64" />
+    <None Include="Resources\Keys_Java\data\fk_rsa2048_aes256gcm\enc_file_key.json" />
+    <None Include="Resources\Keys_Java\data\fk_rsa2048_aes256gcm\plain_file_key.json" />
+    <None Include="Resources\Keys_Java\data\fk_rsa4096_aes256gcm\enc_file_key.json" />
+    <None Include="Resources\Keys_Java\data\fk_rsa4096_aes256gcm\plain_file_key.json" />
+    <None Include="Resources\Keys_Java\data\kp_rsa2048\private_key.json" />
+    <None Include="Resources\Keys_Java\data\kp_rsa2048\public_key.json" />
+    <None Include="Resources\Keys_Java\data\kp_rsa4096\private_key.json" />
+    <None Include="Resources\Keys_Java\data\kp_rsa4096\public_key.json" />
+    <None Include="Resources\Keys_Java\files\aes256gcm\enc_file.b64" />
+    <None Include="Resources\Keys_Java\files\plain_file.b64" />
+    <None Include="Resources\Keys_Ruby\data\fk_rsa2048_aes256gcm\enc_file_key.json" />
+    <None Include="Resources\Keys_Ruby\data\fk_rsa2048_aes256gcm\plain_file_key.json" />
+    <None Include="Resources\Keys_Ruby\data\fk_rsa4096_aes256gcm\enc_file_key.json" />
+    <None Include="Resources\Keys_Ruby\data\fk_rsa4096_aes256gcm\plain_file_key.json" />
+    <None Include="Resources\Keys_Ruby\data\kp_rsa2048\private_key.json" />
+    <None Include="Resources\Keys_Ruby\data\kp_rsa2048\public_key.json" />
+    <None Include="Resources\Keys_Ruby\data\kp_rsa4096\private_key.json" />
+    <None Include="Resources\Keys_Ruby\data\kp_rsa4096\public_key.json" />
+    <None Include="Resources\Keys_Ruby\files\aes256gcm\enc_file.b64" />
+    <None Include="Resources\Keys_Ruby\files\plain_file.b64" />
+    <None Include="Resources\Keys_Swift\data\fk_rsa2048_aes256gcm\enc_file_key.json" />
+    <None Include="Resources\Keys_Swift\data\fk_rsa2048_aes256gcm\plain_file_key.json" />
+    <None Include="Resources\Keys_Swift\data\fk_rsa4096_aes256gcm\enc_file_key.json" />
+    <None Include="Resources\Keys_Swift\data\fk_rsa4096_aes256gcm\plain_file_key.json" />
+    <None Include="Resources\Keys_Swift\data\kp_rsa2048\private_key.json" />
+    <None Include="Resources\Keys_Swift\data\kp_rsa2048\public_key.json" />
+    <None Include="Resources\Keys_Swift\data\kp_rsa4096\private_key.json" />
+    <None Include="Resources\Keys_Swift\data\kp_rsa4096\public_key.json" />
+    <None Include="Resources\Keys_Swift\files\aes256gcm\enc_file.b64" />
+    <None Include="Resources\Keys_Swift\files\plain_file.b64" />
+    <None Include="Resources\Keys_WebApp\data\fk_rsa2048_aes256gcm\enc_file_key.json" />
+    <None Include="Resources\Keys_WebApp\data\fk_rsa2048_aes256gcm\plain_file_key.json" />
+    <None Include="Resources\Keys_WebApp\data\fk_rsa4096_aes256gcm\enc_file_key.json" />
+    <None Include="Resources\Keys_WebApp\data\fk_rsa4096_aes256gcm\plain_file_key.json" />
+    <None Include="Resources\Keys_WebApp\data\kp_rsa2048\private_key.json" />
+    <None Include="Resources\Keys_WebApp\data\kp_rsa2048\public_key.json" />
+    <None Include="Resources\Keys_WebApp\data\kp_rsa4096\private_key.json" />
+    <None Include="Resources\Keys_WebApp\data\kp_rsa4096\public_key.json" />
+    <None Include="Resources\Keys_WebApp\files\aes256gcm\enc_file.b64" />
+    <None Include="Resources\Keys_WebApp\files\plain_file.b64" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DracoonCryptoSdk\DracoonCryptoSdk.csproj">
@@ -97,19 +144,27 @@
     <EmbeddedResource Include="TestResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>TestResources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\enc_file_modified.txt" />
+    <None Include="Resources\FileKeyFail\enc_file_modified.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\enc_file.txt" />
+    <None Include="Resources\FileKeyFail\plain_file_modified.txt" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <None Include="Resources\plain_file_modified.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\plain_file.txt" />
+    <Content Include="Resources\Keys_CSharp\data\kp_rsa2048\password.txt" />
+    <Content Include="Resources\Keys_CSharp\data\kp_rsa4096\password.txt" />
+    <Content Include="Resources\Keys_Java\data\kp_rsa2048\password.txt" />
+    <Content Include="Resources\Keys_Java\data\kp_rsa4096\password.txt" />
+    <Content Include="Resources\Keys_Ruby\data\kp_rsa2048\password.txt" />
+    <Content Include="Resources\Keys_Ruby\data\kp_rsa4096\password.txt" />
+    <Content Include="Resources\Keys_Swift\data\kp_rsa2048\password.txt" />
+    <Content Include="Resources\Keys_Swift\data\kp_rsa4096\password.txt" />
+    <Content Include="Resources\Keys_WebApp\data\kp_rsa2048\password.txt" />
+    <Content Include="Resources\Keys_WebApp\data\kp_rsa4096\password.txt" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
