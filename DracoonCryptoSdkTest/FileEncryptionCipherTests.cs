@@ -180,11 +180,11 @@ namespace Dracoon.Crypto.Sdk.Test {
         }
 
         [TestMethod()]
-        public void Test_FileEncrypt_AES256GCM_WebApp() {
-            PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.webapp_fk_rsa2048_aes256gcm_plain_file_key);
+        public void Test_FileEncrypt_AES256GCM_Swift() {
+            PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.swift_fk_rsa2048_aes256gcm_plain_file_key);
             byte[] ft = Convert.FromBase64String(pfk.Tag);
-            byte[] pfc = Convert.FromBase64String(Encoding.UTF8.GetString(TestResources.webapp_plain_file));
-            byte[] efc = Convert.FromBase64String(Encoding.UTF8.GetString(TestResources.webapp_aes256gcm_enc_file));
+            byte[] pfc = Convert.FromBase64String(Encoding.UTF8.GetString(TestResources.swift_plain_file));
+            byte[] efc = Convert.FromBase64String(Encoding.UTF8.GetString(TestResources.swift_aes256gcm_enc_file));
 
             FileEncryptionCipher encCipher = Crypto.CreateFileEncryptionCipher(pfk);
 
@@ -211,11 +211,11 @@ namespace Dracoon.Crypto.Sdk.Test {
         }
 
         [TestMethod()]
-        public void Test_FileEncrypt_AES256GCM_Swift() {
-            PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.swift_fk_rsa2048_aes256gcm_plain_file_key);
+        public void Test_FileEncrypt_AES256GCM_JS() {
+            PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.js_fk_rsa2048_aes256gcm_plain_file_key);
             byte[] ft = Convert.FromBase64String(pfk.Tag);
-            byte[] pfc = Convert.FromBase64String(Encoding.UTF8.GetString(TestResources.swift_plain_file));
-            byte[] efc = Convert.FromBase64String(Encoding.UTF8.GetString(TestResources.swift_aes256gcm_enc_file));
+            byte[] pfc = Convert.FromBase64String(Encoding.UTF8.GetString(TestResources.js_plain_file));
+            byte[] efc = Convert.FromBase64String(Encoding.UTF8.GetString(TestResources.js_aes256gcm_enc_file));
 
             FileEncryptionCipher encCipher = Crypto.CreateFileEncryptionCipher(pfk);
 

@@ -146,20 +146,6 @@ namespace Dracoon.Crypto.Sdk.Test {
         }
 
         [TestMethod()]
-        public void Test_KP_RSA2048_WebApp() {
-            bool testCheck = TestCheckUserKeyPair(TestResources.webapp_kp_rsa2048_private_key, TestResources.webapp_kp_rsa2048_password);
-
-            Assert.IsTrue(testCheck, "User key pair check failed!");
-        }
-
-        [TestMethod()]
-        public void Test_KP_RSA4096_WebApp() {
-            bool testCheck = TestCheckUserKeyPair(TestResources.webapp_kp_rsa4096_private_key, TestResources.webapp_kp_rsa4096_password);
-
-            Assert.IsTrue(testCheck, "User key pair check failed!");
-        }
-
-        [TestMethod()]
         public void Test_KP_RSA2048_Swift() {
             bool testCheck = TestCheckUserKeyPair(TestResources.swift_kp_rsa2048_private_key, TestResources.swift_kp_rsa2048_password);
 
@@ -169,6 +155,20 @@ namespace Dracoon.Crypto.Sdk.Test {
         [TestMethod()]
         public void Test_KP_RSA4096_Swift() {
             bool testCheck = TestCheckUserKeyPair(TestResources.swift_kp_rsa4096_private_key, TestResources.swift_kp_rsa4096_password);
+
+            Assert.IsTrue(testCheck, "User key pair check failed!");
+        }
+
+        [TestMethod()]
+        public void Test_KP_RSA2048_JS() {
+            bool testCheck = TestCheckUserKeyPair(TestResources.js_kp_rsa2048_private_key, TestResources.js_kp_rsa2048_password);
+
+            Assert.IsTrue(testCheck, "User key pair check failed!");
+        }
+
+        [TestMethod()]
+        public void Test_KP_RSA4096_JS() {
+            bool testCheck = TestCheckUserKeyPair(TestResources.js_kp_rsa4096_private_key, TestResources.js_kp_rsa4096_password);
 
             Assert.IsTrue(testCheck, "User key pair check failed!");
         }
@@ -337,35 +337,6 @@ namespace Dracoon.Crypto.Sdk.Test {
         }
 
         [TestMethod()]
-        public void Test_FKEncrypt_RSA2048_AES256GCM_WebApp() {
-            EncryptedFileKey efk = TestUtilities.ReadTestResource<EncryptedFileKey>(TestResources.webapp_fk_rsa2048_aes256gcm_enc_file_key);
-            EncryptedFileKey testEfk = TestEncryptFileKey(TestResources.webapp_fk_rsa2048_aes256gcm_plain_file_key, TestResources.webapp_kp_rsa2048_public_key);
-
-            PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.webapp_fk_rsa2048_aes256gcm_plain_file_key);
-            PlainFileKey testPfk = Crypto.DecryptFileKey(testEfk, TestUtilities.ReadTestResource<UserPrivateKey>(TestResources.webapp_kp_rsa2048_private_key), TestResources.webapp_kp_rsa2048_password);
-
-            Assert.AreEqual(pfk.Key, testPfk.Key, "File key is incorrect!");
-            Assert.AreEqual(efk.Iv, testEfk.Iv, "Initialization vector is incorrect!");
-            Assert.AreEqual(efk.Tag, testEfk.Tag, "Tag is incorrect!");
-            Assert.AreEqual(efk.Version, testEfk.Version, "Version is incorrect!");
-        }
-
-
-        [TestMethod()]
-        public void Test_FKEncrypt_RSA4096_AES256GCM_WebApp() {
-            EncryptedFileKey efk = TestUtilities.ReadTestResource<EncryptedFileKey>(TestResources.webapp_fk_rsa4096_aes256gcm_enc_file_key);
-            EncryptedFileKey testEfk = TestEncryptFileKey(TestResources.webapp_fk_rsa4096_aes256gcm_plain_file_key, TestResources.webapp_kp_rsa4096_public_key);
-
-            PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.webapp_fk_rsa4096_aes256gcm_plain_file_key);
-            PlainFileKey testPfk = Crypto.DecryptFileKey(testEfk, TestUtilities.ReadTestResource<UserPrivateKey>(TestResources.webapp_kp_rsa4096_private_key), TestResources.webapp_kp_rsa4096_password);
-
-            Assert.AreEqual(pfk.Key, testPfk.Key, "File key is incorrect!");
-            Assert.AreEqual(efk.Iv, testEfk.Iv, "Initialization vector is incorrect!");
-            Assert.AreEqual(efk.Tag, testEfk.Tag, "Tag is incorrect!");
-            Assert.AreEqual(efk.Version, testEfk.Version, "Version is incorrect!");
-        }
-
-        [TestMethod()]
         public void Test_FKEncrypt_RSA2048_AES256GCM_Swift() {
             EncryptedFileKey efk = TestUtilities.ReadTestResource<EncryptedFileKey>(TestResources.swift_fk_rsa2048_aes256gcm_enc_file_key);
             EncryptedFileKey testEfk = TestEncryptFileKey(TestResources.swift_fk_rsa2048_aes256gcm_plain_file_key, TestResources.swift_kp_rsa2048_public_key);
@@ -387,6 +358,35 @@ namespace Dracoon.Crypto.Sdk.Test {
 
             PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.swift_fk_rsa4096_aes256gcm_plain_file_key);
             PlainFileKey testPfk = Crypto.DecryptFileKey(testEfk, TestUtilities.ReadTestResource<UserPrivateKey>(TestResources.swift_kp_rsa4096_private_key), TestResources.swift_kp_rsa4096_password);
+
+            Assert.AreEqual(pfk.Key, testPfk.Key, "File key is incorrect!");
+            Assert.AreEqual(efk.Iv, testEfk.Iv, "Initialization vector is incorrect!");
+            Assert.AreEqual(efk.Tag, testEfk.Tag, "Tag is incorrect!");
+            Assert.AreEqual(efk.Version, testEfk.Version, "Version is incorrect!");
+        }
+
+        [TestMethod()]
+        public void Test_FKEncrypt_RSA2048_AES256GCM_JS() {
+            EncryptedFileKey efk = TestUtilities.ReadTestResource<EncryptedFileKey>(TestResources.js_fk_rsa2048_aes256gcm_enc_file_key);
+            EncryptedFileKey testEfk = TestEncryptFileKey(TestResources.js_fk_rsa2048_aes256gcm_plain_file_key, TestResources.js_kp_rsa2048_public_key);
+
+            PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.js_fk_rsa2048_aes256gcm_plain_file_key);
+            PlainFileKey testPfk = Crypto.DecryptFileKey(testEfk, TestUtilities.ReadTestResource<UserPrivateKey>(TestResources.js_kp_rsa2048_private_key), TestResources.js_kp_rsa2048_password);
+
+            Assert.AreEqual(pfk.Key, testPfk.Key, "File key is incorrect!");
+            Assert.AreEqual(efk.Iv, testEfk.Iv, "Initialization vector is incorrect!");
+            Assert.AreEqual(efk.Tag, testEfk.Tag, "Tag is incorrect!");
+            Assert.AreEqual(efk.Version, testEfk.Version, "Version is incorrect!");
+        }
+
+
+        [TestMethod()]
+        public void Test_FKEncrypt_RSA4096_AES256GCM_JS() {
+            EncryptedFileKey efk = TestUtilities.ReadTestResource<EncryptedFileKey>(TestResources.js_fk_rsa4096_aes256gcm_enc_file_key);
+            EncryptedFileKey testEfk = TestEncryptFileKey(TestResources.js_fk_rsa4096_aes256gcm_plain_file_key, TestResources.js_kp_rsa4096_public_key);
+
+            PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.js_fk_rsa4096_aes256gcm_plain_file_key);
+            PlainFileKey testPfk = Crypto.DecryptFileKey(testEfk, TestUtilities.ReadTestResource<UserPrivateKey>(TestResources.js_kp_rsa4096_private_key), TestResources.js_kp_rsa4096_password);
 
             Assert.AreEqual(pfk.Key, testPfk.Key, "File key is incorrect!");
             Assert.AreEqual(efk.Iv, testEfk.Iv, "Initialization vector is incorrect!");
@@ -474,28 +474,6 @@ namespace Dracoon.Crypto.Sdk.Test {
         }
 
         [TestMethod()]
-        public void Test_FKDecrypt_RSA2048_AES256GCM_WebApp() {
-            PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.webapp_fk_rsa2048_aes256gcm_plain_file_key);
-            PlainFileKey testPfk = TestDecryptFileKey(TestResources.webapp_fk_rsa2048_aes256gcm_enc_file_key, TestResources.webapp_kp_rsa2048_private_key, TestResources.webapp_kp_rsa2048_password);
-
-            Assert.AreEqual(pfk.Key, testPfk.Key, "File key is incorrect!");
-            Assert.AreEqual(pfk.Iv, testPfk.Iv, "Initialization vector is incorrect!");
-            Assert.AreEqual(pfk.Tag, testPfk.Tag, "Tag is incorrect!");
-            Assert.AreEqual(pfk.Version, testPfk.Version, "Version is incorrect!");
-        }
-
-        [TestMethod()]
-        public void Test_FKDecrypt_RSA4096_AES256GCM_WebApp() {
-            PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.webapp_fk_rsa4096_aes256gcm_plain_file_key);
-            PlainFileKey testPfk = TestDecryptFileKey(TestResources.webapp_fk_rsa4096_aes256gcm_enc_file_key, TestResources.webapp_kp_rsa4096_private_key, TestResources.webapp_kp_rsa4096_password);
-
-            Assert.AreEqual(pfk.Key, testPfk.Key, "File key is incorrect!");
-            Assert.AreEqual(pfk.Iv, testPfk.Iv, "Initialization vector is incorrect!");
-            Assert.AreEqual(pfk.Tag, testPfk.Tag, "Tag is incorrect!");
-            Assert.AreEqual(pfk.Version, testPfk.Version, "Version is incorrect!");
-        }
-
-        [TestMethod()]
         public void Test_FKDecrypt_RSA2048_AES256GCM_Swift() {
             PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.swift_fk_rsa2048_aes256gcm_plain_file_key);
             PlainFileKey testPfk = TestDecryptFileKey(TestResources.swift_fk_rsa2048_aes256gcm_enc_file_key, TestResources.swift_kp_rsa2048_private_key, TestResources.swift_kp_rsa2048_password);
@@ -510,6 +488,28 @@ namespace Dracoon.Crypto.Sdk.Test {
         public void Test_FKDecrypt_RSA4096_AES256GCM_Swift() {
             PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.swift_fk_rsa4096_aes256gcm_plain_file_key);
             PlainFileKey testPfk = TestDecryptFileKey(TestResources.swift_fk_rsa4096_aes256gcm_enc_file_key, TestResources.swift_kp_rsa4096_private_key, TestResources.swift_kp_rsa4096_password);
+
+            Assert.AreEqual(pfk.Key, testPfk.Key, "File key is incorrect!");
+            Assert.AreEqual(pfk.Iv, testPfk.Iv, "Initialization vector is incorrect!");
+            Assert.AreEqual(pfk.Tag, testPfk.Tag, "Tag is incorrect!");
+            Assert.AreEqual(pfk.Version, testPfk.Version, "Version is incorrect!");
+        }
+
+        [TestMethod()]
+        public void Test_FKDecrypt_RSA2048_AES256GCM_JS() {
+            PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.js_fk_rsa2048_aes256gcm_plain_file_key);
+            PlainFileKey testPfk = TestDecryptFileKey(TestResources.js_fk_rsa2048_aes256gcm_enc_file_key, TestResources.js_kp_rsa2048_private_key, TestResources.js_kp_rsa2048_password);
+
+            Assert.AreEqual(pfk.Key, testPfk.Key, "File key is incorrect!");
+            Assert.AreEqual(pfk.Iv, testPfk.Iv, "Initialization vector is incorrect!");
+            Assert.AreEqual(pfk.Tag, testPfk.Tag, "Tag is incorrect!");
+            Assert.AreEqual(pfk.Version, testPfk.Version, "Version is incorrect!");
+        }
+
+        [TestMethod()]
+        public void Test_FKDecrypt_RSA4096_AES256GCM_JS() {
+            PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.js_fk_rsa4096_aes256gcm_plain_file_key);
+            PlainFileKey testPfk = TestDecryptFileKey(TestResources.js_fk_rsa4096_aes256gcm_enc_file_key, TestResources.js_kp_rsa4096_private_key, TestResources.js_kp_rsa4096_password);
 
             Assert.AreEqual(pfk.Key, testPfk.Key, "File key is incorrect!");
             Assert.AreEqual(pfk.Iv, testPfk.Iv, "Initialization vector is incorrect!");

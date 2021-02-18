@@ -103,6 +103,16 @@
     <None Include="Resources\Keys_Java\data\kp_rsa4096\public_key.json" />
     <None Include="Resources\Keys_Java\files\aes256gcm\enc_file.b64" />
     <None Include="Resources\Keys_Java\files\plain_file.b64" />
+    <None Include="Resources\Keys_JS\data\fk_rsa2048_aes256gcm\enc_file_key.json" />
+    <None Include="Resources\Keys_JS\data\fk_rsa2048_aes256gcm\plain_file_key.json" />
+    <None Include="Resources\Keys_JS\data\fk_rsa4096_aes256gcm\enc_file_key.json" />
+    <None Include="Resources\Keys_JS\data\fk_rsa4096_aes256gcm\plain_file_key.json" />
+    <None Include="Resources\Keys_JS\data\kp_rsa2048\private_key.json" />
+    <None Include="Resources\Keys_JS\data\kp_rsa2048\public_key.json" />
+    <None Include="Resources\Keys_JS\data\kp_rsa4096\private_key.json" />
+    <None Include="Resources\Keys_JS\data\kp_rsa4096\public_key.json" />
+    <None Include="Resources\Keys_JS\files\aes256gcm\enc_file.b64" />
+    <None Include="Resources\Keys_JS\files\plain_file.b64" />
     <None Include="Resources\Keys_Ruby\data\fk_rsa2048_aes256gcm\enc_file_key.json" />
     <None Include="Resources\Keys_Ruby\data\fk_rsa2048_aes256gcm\plain_file_key.json" />
     <None Include="Resources\Keys_Ruby\data\fk_rsa4096_aes256gcm\enc_file_key.json" />
@@ -123,16 +133,6 @@
     <None Include="Resources\Keys_Swift\data\kp_rsa4096\public_key.json" />
     <None Include="Resources\Keys_Swift\files\aes256gcm\enc_file.b64" />
     <None Include="Resources\Keys_Swift\files\plain_file.b64" />
-    <None Include="Resources\Keys_WebApp\data\fk_rsa2048_aes256gcm\enc_file_key.json" />
-    <None Include="Resources\Keys_WebApp\data\fk_rsa2048_aes256gcm\plain_file_key.json" />
-    <None Include="Resources\Keys_WebApp\data\fk_rsa4096_aes256gcm\enc_file_key.json" />
-    <None Include="Resources\Keys_WebApp\data\fk_rsa4096_aes256gcm\plain_file_key.json" />
-    <None Include="Resources\Keys_WebApp\data\kp_rsa2048\private_key.json" />
-    <None Include="Resources\Keys_WebApp\data\kp_rsa2048\public_key.json" />
-    <None Include="Resources\Keys_WebApp\data\kp_rsa4096\private_key.json" />
-    <None Include="Resources\Keys_WebApp\data\kp_rsa4096\public_key.json" />
-    <None Include="Resources\Keys_WebApp\files\aes256gcm\enc_file.b64" />
-    <None Include="Resources\Keys_WebApp\files\plain_file.b64" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DracoonCryptoSdk\DracoonCryptoSdk.csproj">
@@ -159,12 +159,12 @@
     <Content Include="Resources\Keys_CSharp\data\kp_rsa4096\password.txt" />
     <Content Include="Resources\Keys_Java\data\kp_rsa2048\password.txt" />
     <Content Include="Resources\Keys_Java\data\kp_rsa4096\password.txt" />
+    <Content Include="Resources\Keys_JS\data\kp_rsa2048\password.txt" />
+    <Content Include="Resources\Keys_JS\data\kp_rsa4096\password.txt" />
     <Content Include="Resources\Keys_Ruby\data\kp_rsa2048\password.txt" />
     <Content Include="Resources\Keys_Ruby\data\kp_rsa4096\password.txt" />
     <Content Include="Resources\Keys_Swift\data\kp_rsa2048\password.txt" />
     <Content Include="Resources\Keys_Swift\data\kp_rsa4096\password.txt" />
-    <Content Include="Resources\Keys_WebApp\data\kp_rsa2048\password.txt" />
-    <Content Include="Resources\Keys_WebApp\data\kp_rsa4096\password.txt" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
