@@ -438,7 +438,7 @@ namespace Dracoon.Crypto.Sdk {
             if (publicKey == null) {
                 throw new InvalidKeyPairException("Public key container cannot be null.");
             }
-            if (publicKey.PublicKey == null | publicKey.PublicKey.Length == 0) {
+            if (string.IsNullOrEmpty(publicKey.PublicKey)) {
                 throw new InvalidKeyPairException("Public key cannot be null or empty.");
             }
         }
