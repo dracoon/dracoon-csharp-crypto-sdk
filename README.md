@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/dracoon/dracoon-csharp-crypto-sdk.svg?branch=master)](https://travis-ci.org/dracoon/)
+[![Build Status](https://travis-ci.com/dracoon/dracoon-csharp-crypto-sdk.svg?branch=master)](https://travis-ci.com/dracoon/)
 # Dracoon C# Crypto SDK
 
 A library which implements the client-side encryption of Dracoon.
