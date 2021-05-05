@@ -3,21 +3,21 @@ using System.Reflection;
 
 namespace Dracoon.Crypto.Sdk {
 
-    public enum UserKeyPairAlgorithm : int {
+    public enum UserKeyPairAlgorithm {
         [StringValue("A")]
         RSA2048 = 1,
         [StringValue("RSA-4096")]
         RSA4096 = 2
     }
 
-    public enum EncryptedFileKeyAlgorithm : int {
+    public enum EncryptedFileKeyAlgorithm {
         [StringValue("A")]
         RSA2048_AES256GCM = 1,
         [StringValue("RSA-4096/AES-256-GCM")]
         RSA4096_AES256GCM = 2
     }
 
-    public enum PlainFileKeyAlgorithm : int {
+    public enum PlainFileKeyAlgorithm {
         [StringValue("A")]
         AES256GCM = 1
     }
@@ -30,16 +30,14 @@ namespace Dracoon.Crypto.Sdk {
         }
     }
 
-    public static class EnumExtension_UserKeyPairAlgorithm {
+    public static class EnumExtensionUserKeyPairAlgorithm {
         public static string GetStringValue(this UserKeyPairAlgorithm value) {
             Type type = value.GetType();
 
             FieldInfo fieldInfo = type.GetField(value.ToString());
 
-            StringValueAttribute[] attribs = fieldInfo.GetCustomAttributes(
-                typeof(StringValueAttribute), false) as StringValueAttribute[];
-
-            return attribs.Length > 0 ? attribs[0].StringValue : null;
+            return (fieldInfo.GetCustomAttributes(
+                        typeof(StringValueAttribute), false) is StringValueAttribute[] attributes && attributes.Length > 0) ? attributes[0].StringValue : null;
         }
 
         public static UserKeyPairAlgorithm ParseAlgorithm(this UserKeyPairAlgorithm algorithm, string value) {
@@ -54,17 +52,15 @@ namespace Dracoon.Crypto.Sdk {
         }
     }
 
-    public static class EnumExtension_EncryptedFileKeyAlgorithm {
+    public static class EnumExtensionEncryptedFileKeyAlgorithm {
 
         public static string GetStringValue(this EncryptedFileKeyAlgorithm value) {
             Type type = value.GetType();
 
             FieldInfo fieldInfo = type.GetField(value.ToString());
 
-            StringValueAttribute[] attribs = fieldInfo.GetCustomAttributes(
-                typeof(StringValueAttribute), false) as StringValueAttribute[];
-
-            return attribs.Length > 0 ? attribs[0].StringValue : null;
+            return (fieldInfo.GetCustomAttributes(
+                        typeof(StringValueAttribute), false) is StringValueAttribute[] attributes && attributes.Length > 0) ? attributes[0].StringValue : null;
         }
 
         public static EncryptedFileKeyAlgorithm ParseAlgorithm(this EncryptedFileKeyAlgorithm algorithm, string value) {
@@ -90,16 +86,14 @@ namespace Dracoon.Crypto.Sdk {
         }
     }
 
-    public static class EnumExtension_PlainFileKeyAlgorithm {
+    public static class EnumExtensionPlainFileKeyAlgorithm {
         public static string GetStringValue(this PlainFileKeyAlgorithm value) {
             Type type = value.GetType();
 
             FieldInfo fieldInfo = type.GetField(value.ToString());
 
-            StringValueAttribute[] attribs = fieldInfo.GetCustomAttributes(
-                typeof(StringValueAttribute), false) as StringValueAttribute[];
-
-            return attribs.Length > 0 ? attribs[0].StringValue : null;
+            return (fieldInfo.GetCustomAttributes(
+                        typeof(StringValueAttribute), false) is StringValueAttribute[] attributes && attributes.Length > 0) ? attributes[0].StringValue : null;
         }
 
         public static PlainFileKeyAlgorithm ParseAlgorithm(this PlainFileKeyAlgorithm algorithm, string value) {

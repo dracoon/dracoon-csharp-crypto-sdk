@@ -1,11 +1,10 @@
 ﻿namespace Dracoon.Crypto.Sdk.Model {
     public class EncryptedDataContainer {
-        public byte[] Content {
-            get; private set;
-        }
-        public byte[] Tag {
-            get; private set;
-        }
+        
+        public byte[] Content { get; }
+
+        public byte[] Tag { get; }
+
         /// <summary>
         /// Creates a encryted data container.
         /// </summary>
