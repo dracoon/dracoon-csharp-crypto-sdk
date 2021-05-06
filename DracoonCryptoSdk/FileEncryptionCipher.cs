@@ -3,7 +3,7 @@ using System;
 
 namespace Dracoon.Crypto.Sdk {
     /// <summary>
-    /// Implements the Secure Data Space file encryption.
+    /// Implements the DRACOON file encryption.
     /// </summary>
     public class FileEncryptionCipher : FileCipher {
 

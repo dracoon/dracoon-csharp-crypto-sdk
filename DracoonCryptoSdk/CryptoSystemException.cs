@@ -8,12 +8,16 @@ namespace Dracoon.Crypto.Sdk {
     [Serializable]
     public class CryptoSystemException : CryptoException {
 
+        /// <inheritdoc/>
         public CryptoSystemException() { }
 
+        /// <inheritdoc/>
         public CryptoSystemException(string message) : base(message) { }
 
+        /// <inheritdoc/>
         public CryptoSystemException(string message, Exception cause) : base(message, cause) { }
 
+        /// <inheritdoc/>
         protected CryptoSystemException(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 }

@@ -8,12 +8,16 @@ namespace Dracoon.Crypto.Sdk {
     [Serializable]
     public class InvalidFileKeyException : CryptoException {
 
+        /// <inheritdoc/>
         public InvalidFileKeyException() { }
 
+        /// <inheritdoc/>
         public InvalidFileKeyException(string message) : base(message) { }
 
+        /// <inheritdoc/>
         public InvalidFileKeyException(string message, Exception cause) : base(message, cause) { }
 
+        /// <inheritdoc/>
         protected InvalidFileKeyException(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 }

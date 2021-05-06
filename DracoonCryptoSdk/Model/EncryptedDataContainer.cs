@@ -1,12 +1,21 @@
 ﻿namespace Dracoon.Crypto.Sdk.Model {
+    /// <summary>
+    /// Represents an encrypted block for the decryption.
+    /// </summary>
     public class EncryptedDataContainer {
         
+        /// <summary>
+        /// The encrypted content bytes.
+        /// </summary>
         public byte[] Content { get; }
 
+        /// <summary>
+        /// The tag bytes.
+        /// </summary>
         public byte[] Tag { get; }
 
         /// <summary>
-        /// Creates a encryted data container.
+        /// Creates a encrypted data container.
         /// </summary>
         /// <param name="content">If you want use this container for <see cref="FileDecryptionCipher.ProcessBytes(EncryptedDataContainer)"/> you must set this bytes. 
         /// Otherwise null.

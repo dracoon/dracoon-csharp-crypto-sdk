@@ -362,16 +362,21 @@ namespace Dracoon.Crypto.Sdk {
 
         #region Utilities
 
+        /// <summary>
+        /// Converts a char array into a byte array.
+        /// </summary>
+        /// <param name="password">The password as char array.</param>
+        /// <returns>The password as byte array.</returns>
         public static byte[] PKCS5PasswordToBytes(char[] password) {
-            if (password != null) {
-                byte[] bytes = new byte[password.Length];
-                for (int i = 0; i != bytes.Length; i++) {
-                    bytes[i] = (byte) password[i];
-                }
-                return bytes;
-            } else {
+            if (password == null) {
                 return new byte[0];
             }
+
+            byte[] bytes = new byte[password.Length];
+            for (int i = 0; i != bytes.Length; i++) {
+                bytes[i] = (byte) password[i];
+            }
+            return bytes;
         }
 
         private static string ConvertPublicKey(AsymmetricKeyParameter pubKey) {

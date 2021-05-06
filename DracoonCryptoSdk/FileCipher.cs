@@ -7,6 +7,11 @@ using System;
 using System.IO;
 
 namespace Dracoon.Crypto.Sdk {
+    /// <summary>
+    /// Base class to implement base things for encryption and decryption cipher.
+    /// <seealso cref="FileDecryptionCipher"/>
+    /// <seealso cref="FileEncryptionCipher"/>
+    /// </summary>
     public class FileCipher {
 
         // byte
