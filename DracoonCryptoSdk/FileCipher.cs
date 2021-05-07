@@ -15,12 +15,13 @@ namespace Dracoon.Crypto.Sdk {
     public class FileCipher {
 
         // byte
-        protected const int BlockSize = 16;
+        private protected const int BlockSize = 16;
         // byte
-        protected const int TagSize = 16;
+        private protected const int TagSize = 16;
 
-        protected GcmBlockCipher Cipher;
-        protected FileCipher(bool forEncryption, PlainFileKey fileKey) {
+        private protected GcmBlockCipher Cipher;
+
+        private protected FileCipher(bool forEncryption, PlainFileKey fileKey) {
             try {
                 byte[] key = Convert.FromBase64String(fileKey.Key);
                 byte[] iv = Convert.FromBase64String(fileKey.Iv);
@@ -32,7 +33,7 @@ namespace Dracoon.Crypto.Sdk {
             }
         }
 
-        protected byte[] Process(byte[] block, bool finalize) {
+        private protected byte[] Process(byte[] block, bool finalize) {
             try {
                 using (MemoryStream inputStream = new MemoryStream(block)) {
                     using (MemoryStream outputStream = new MemoryStream()) {
