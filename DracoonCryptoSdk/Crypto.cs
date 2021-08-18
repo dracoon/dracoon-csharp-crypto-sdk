@@ -26,43 +26,43 @@ namespace Dracoon.Crypto.Sdk {
     /// 
     /// <item>
     /// <description>User key pair generation: 
-    /// <see cref="Dracoon.Crypto.Sdk.Crypto.GenerateUserKeyPair(string, string)"/>
+    /// <see cref="Crypto.GenerateUserKeyPair(UserKeyPairAlgorithm, string)"/>
     /// </description>
     /// </item>
     /// 
     /// <item>
     /// <description>User key pair check: 
-    /// <see cref="Dracoon.Crypto.Sdk.Crypto.CheckUserKeyPair(UserKeyPair, string)"/>
+    /// <see cref="Crypto.CheckUserKeyPair(UserKeyPair, string)"/>
     /// </description>
     /// </item>
     /// 
     /// <item>
     /// <description> File key generation: 
-    /// <see cref="Dracoon.Crypto.Sdk.Crypto.GenerateFileKey(string)"/>
+    /// <see cref="Crypto.GenerateFileKey(PlainFileKeyAlgorithm)"/>
     /// </description>
     /// </item>
     /// 
     /// <item>
     /// <description> File key encryption:
-    /// <see cref="Dracoon.Crypto.Sdk.Crypto.EncryptFileKey(PlainFileKey, UserPublicKey)"/>
+    /// <see cref="Crypto.EncryptFileKey(PlainFileKey, UserPublicKey)"/>
     /// </description>
     /// </item>
     /// 
     /// <item>
     /// <description> File key decryption:
-    /// <see cref="Dracoon.Crypto.Sdk.Crypto.DecryptFileKey(EncryptedFileKey, UserPrivateKey, string)"/>
+    /// <see cref="Crypto.DecryptFileKey(EncryptedFileKey, UserPrivateKey, string)"/>
     /// </description>
     /// </item>
     /// 
     /// <item>
     /// <description> Cipher creation for file encryption:
-    /// <see cref="Dracoon.Crypto.Sdk.Crypto.CreateFileEncryptionCipher(PlainFileKey)"/>
+    /// <see cref="Crypto.CreateFileEncryptionCipher(PlainFileKey)"/>
     /// </description>
     /// </item>
     /// 
     /// <item>
     /// <description> Cipher creation for file decryption:
-    /// <see cref="Dracoon.Crypto.Sdk.Crypto.CreateFileDecryptionCipher(PlainFileKey)"/>
+    /// <see cref="Crypto.CreateFileDecryptionCipher(PlainFileKey)"/>
     /// </description>
     /// </item>
     /// </list>
@@ -70,17 +70,20 @@ namespace Dracoon.Crypto.Sdk {
     public class Crypto {
 
         private class Password : IPasswordFinder {
-            private readonly char[] password;
+
+            private readonly char[] _password;
+
             public Password(char[] word) {
-                password = (char[]) word.Clone();
+                _password = (char[]) word.Clone();
             }
+
             public char[] GetPassword() {
-                return (char[]) password.Clone();
+                return (char[]) _password.Clone();
             }
         }
 
-        private const int hashIterationCount = 10000;
-        private const int ivSize = 12;
+        private const int HashIterationCount = 10000;
+        private const int IvSize = 12;
 
         private static AsymmetricCipherKeyPair ParseAsymmetricCypherKeyPair(UserKeyPairAlgorithm algorithm) {
             AsymmetricCipherKeyPair asymmetricCipher;
@@ -119,22 +122,22 @@ namespace Dracoon.Crypto.Sdk {
         /// <summary>
         /// Generates a random user key pair.
         /// </summary>
-        /// <param name="version">The encryption version for which the key pair should be created.</param>
+        /// <param name="algorithm">The encryption algorithm for which the key pair should be created.</param>
         /// <param name="password">The password which should be used to secure the private key.</param>
         /// <returns>The generated user key pair.</returns>
-        /// <exception cref="Dracoon.Crypto.Sdk.InvalidKeyPairException">If the version for the user key pair is not supported.</exception>
-        /// <exception cref="Dracoon.Crypto.Sdk.InvalidPasswordException">If the password to secure the private key is invalid.</exception>
-        /// <exception cref="Dracoon.Crypto.Sdk.CryptoSystemException">If an unexpected error occured.</exception>
-        /// <exception cref="Dracoon.Crypto.Sdk.CryptoException">If an unexpected error in the encryption of the private key occured.</exception>
+        /// <exception cref="InvalidKeyPairException">If the version for the user key pair is not supported.</exception>
+        /// <exception cref="InvalidPasswordException">If the password to secure the private key is invalid.</exception>
+        /// <exception cref="CryptoSystemException">If an unexpected error occured.</exception>
+        /// <exception cref="CryptoException">If an unexpected error in the encryption of the private key occured.</exception>
         public static UserKeyPair GenerateUserKeyPair(UserKeyPairAlgorithm algorithm, string password) {
             ValidatePassword(password);
 
             AsymmetricCipherKeyPair rsaKeyInfo = ParseAsymmetricCypherKeyPair(algorithm);
 
-            string encrytedPrivateKeyString = EncryptPrivateKey(rsaKeyInfo.Private, password);
+            string encryptedPrivateKeyString = EncryptPrivateKey(rsaKeyInfo.Private, password);
             string publicKeyString = ConvertPublicKey(rsaKeyInfo.Public);
 
-            UserPrivateKey userPrivateKey = new UserPrivateKey() { Version = algorithm, PrivateKey = encrytedPrivateKeyString };
+            UserPrivateKey userPrivateKey = new UserPrivateKey() { Version = algorithm, PrivateKey = encryptedPrivateKeyString };
             UserPublicKey userPublicKey = new UserPublicKey() { Version = algorithm, PublicKey = publicKeyString };
 
             return new UserKeyPair() { UserPrivateKey = userPrivateKey, UserPublicKey = userPublicKey };
@@ -153,14 +156,14 @@ namespace Dracoon.Crypto.Sdk {
 
                 // Prepare encryption
                 Pkcs5S2ParametersGenerator pkcs5S2Gen = new Pkcs5S2ParametersGenerator();
-                pkcs5S2Gen.Init(PKCS5PasswordToBytes(password.ToCharArray()), keySalt, hashIterationCount);
+                pkcs5S2Gen.Init(PKCS5PasswordToBytes(password.ToCharArray()), keySalt, HashIterationCount);
                 ICipherParameters cipherParams = pkcs5S2Gen.GenerateDerivedParameters(NistObjectIdentifiers.IdAes256Cbc.Id, 256);
                 IBufferedCipher cipher = CipherUtilities.GetCipher(NistObjectIdentifiers.IdAes256Cbc);
                 cipher.Init(true, new ParametersWithIV(cipherParams, aesIv));
 
                 // Generate encrypted private key info
                 Asn1OctetString aesIvOctetString = new DerOctetString(aesIv);
-                KeyDerivationFunc keyFunction = new KeyDerivationFunc(PkcsObjectIdentifiers.IdPbkdf2, new Pbkdf2Params(keySalt, hashIterationCount));
+                KeyDerivationFunc keyFunction = new KeyDerivationFunc(PkcsObjectIdentifiers.IdPbkdf2, new Pbkdf2Params(keySalt, HashIterationCount));
                 EncryptionScheme encScheme = new EncryptionScheme(NistObjectIdentifiers.IdAes256Cbc, aesIvOctetString);
                 Asn1EncodableVector encryptionInfo = new Asn1EncodableVector { keyFunction, encScheme };
                 AlgorithmIdentifier algIdentifier = new AlgorithmIdentifier(PkcsObjectIdentifiers.IdPbeS2, new DerSequence(encryptionInfo));
@@ -200,18 +203,18 @@ namespace Dracoon.Crypto.Sdk {
 
 
         /// <summary>
-        /// Cheks if a user key pair can be unlocked.
+        /// Checks if a user key pair can be unlocked.
         /// </summary>
         /// <param name="userKeyPair">The user key pair which should be unlocked.</param>
         /// <param name="password">The password which secures the private key</param>
         /// <returns>True if the user key pair could be unlocked. Otherwise false.</returns>
-        /// <exception cref="Dracoon.Crypto.Sdk.InvalidKeyPairException">If the provided key pair is invalid.</exception>
-        /// <exception cref="Dracoon.Crypto.Sdk.CryptoException">If an unexpected error in the decryption of the private key occured.</exception>
+        /// <exception cref="InvalidKeyPairException">If the provided key pair is invalid.</exception>
+        /// <exception cref="CryptoException">If an unexpected error in the decryption of the private key occured.</exception>
         public static bool CheckUserKeyPair(UserKeyPair userKeyPair, string password) {
             ValidateUserKeyPair(userKeyPair);
             ValidateUserPrivateKey(userKeyPair.UserPrivateKey);
 
-            if (password == null || password.Length == 0) {
+            if (string.IsNullOrEmpty(password)) {
                 return false;
             }
 
@@ -226,7 +229,7 @@ namespace Dracoon.Crypto.Sdk {
 
         #region Asymmetric encryption and decryption
 
-        private static IDigest SelectMGF1Hash(UserKeyPairAlgorithm algorithm) {
+        private static IDigest SelectMgf1Hash(UserKeyPairAlgorithm algorithm) {
             IDigest mgf1Hashing = null;
             switch (algorithm) {
                 case UserKeyPairAlgorithm.RSA2048:
@@ -245,9 +248,9 @@ namespace Dracoon.Crypto.Sdk {
         /// <param name="plainFileKey">The file key to encrypt.</param>
         /// <param name="userPublicKey">The public key which should be used for the encryption.</param>
         /// <returns>The encrypted file key.</returns>
-        /// <exception cref="Dracoon.Crypto.Sdk.InvalidFileKeyException">If the provided file key is invalid.</exception>
-        /// <exception cref="Dracoon.Crypto.Sdk.InvalidKeyPairException">If the provided public key is invalid.</exception>
-        /// <exception cref="Dracoon.Crypto.Sdk.CryptoException">If an unexpected error occured.</exception>
+        /// <exception cref="InvalidFileKeyException">If the provided file key is invalid.</exception>
+        /// <exception cref="InvalidKeyPairException">If the provided public key is invalid.</exception>
+        /// <exception cref="CryptoException">If an unexpected error occured.</exception>
         public static EncryptedFileKey EncryptFileKey(PlainFileKey plainFileKey, UserPublicKey userPublicKey) {
             ValidatePlainFileKey(plainFileKey);
             ValidateUserPublicKey(userPublicKey);
@@ -256,7 +259,7 @@ namespace Dracoon.Crypto.Sdk {
             AsymmetricKeyParameter pubKey = ConvertPublicKey(userPublicKey.PublicKey);
             byte[] eFileKey;
             try {
-                OaepEncoding engine = new OaepEncoding(new RsaEngine(), new Sha256Digest(), SelectMGF1Hash(userPublicKey.Version), null);
+                OaepEncoding engine = new OaepEncoding(new RsaEngine(), new Sha256Digest(), SelectMgf1Hash(userPublicKey.Version), null);
                 engine.Init(true, pubKey);
                 byte[] pFileKey = Convert.FromBase64String(plainFileKey.Key);
                 eFileKey = engine.ProcessBlock(pFileKey, 0, pFileKey.Length);
@@ -279,10 +282,10 @@ namespace Dracoon.Crypto.Sdk {
         /// <param name="userPrivateKey">The private key which should be used for the decryption.</param>
         /// <param name="password">The password which secures the private key.</param>
         /// <returns>The decrypted file key.</returns>
-        /// <exception cref="Dracoon.Crypto.Sdk.InvalidFileKeyException">If the provided encrypted file key is invalid.</exception>
-        /// <exception cref="Dracoon.Crypto.Sdk.InvalidKeyPairException">If the provided private key is invalid.</exception>
-        /// <exception cref="Dracoon.Crypto.Sdk.InvalidPasswordException">If the provided private key password is invalid</exception>
-        /// <exception cref="Dracoon.Crypto.Sdk.CryptoException">If an unexpected error in the decryption occured.</exception>
+        /// <exception cref="InvalidFileKeyException">If the provided encrypted file key is invalid.</exception>
+        /// <exception cref="InvalidKeyPairException">If the provided private key is invalid.</exception>
+        /// <exception cref="InvalidPasswordException">If the provided private key password is invalid</exception>
+        /// <exception cref="CryptoException">If an unexpected error in the decryption occured.</exception>
         public static PlainFileKey DecryptFileKey(EncryptedFileKey encFileKey, UserPrivateKey userPrivateKey, string password) {
             ValidateEncryptedFileKey(encFileKey);
             ValidateUserPrivateKey(userPrivateKey);
@@ -292,7 +295,7 @@ namespace Dracoon.Crypto.Sdk {
             AsymmetricKeyParameter privateKey = DecryptPrivateKey(userPrivateKey.PrivateKey, password);
             byte[] dFileKey;
             try {
-                OaepEncoding engine = new OaepEncoding(new RsaEngine(), new Sha256Digest(), SelectMGF1Hash(userPrivateKey.Version), null);
+                OaepEncoding engine = new OaepEncoding(new RsaEngine(), new Sha256Digest(), SelectMgf1Hash(userPrivateKey.Version), null);
                 engine.Init(false, privateKey);
                 byte[] eFileKey = Convert.FromBase64String(encFileKey.Key);
                 dFileKey = engine.ProcessBlock(eFileKey, 0, eFileKey.Length);
@@ -317,11 +320,11 @@ namespace Dracoon.Crypto.Sdk {
         /// </summary>
         /// <param name="version">The encryption version for which the file key should be created.</param>
         /// <returns>The generated file key.</returns>
-        /// <exception cref="Dracoon.Crypto.Sdk.InvalidFileKeyException">If the version for the file key is not supported.</exception>
+        /// <exception cref="InvalidFileKeyException">If the version for the file key is not supported.</exception>
         public static PlainFileKey GenerateFileKey(PlainFileKeyAlgorithm version) {
             byte[] key = new byte[ParseSymmetricKeyLength(version)];
             new SecureRandom().NextBytes(key);
-            byte[] iv = new byte[ivSize];
+            byte[] iv = new byte[IvSize];
             new SecureRandom().NextBytes(iv);
 
             PlainFileKey fileKey = new PlainFileKey() {
@@ -338,8 +341,8 @@ namespace Dracoon.Crypto.Sdk {
         /// </summary>
         /// <param name="fileKey">The file key which should be used for the encryption.</param>
         /// <returns>The file encryption cipher.</returns>
-        /// <exception cref="Dracoon.Crypto.Sdk.InvalidFileKeyException">If the provided file key is invalid.</exception>
-        /// <exception cref="Dracoon.Crypto.Sdk.CryptoSystemException">If an unexpected error occured.</exception>
+        /// <exception cref="InvalidFileKeyException">If the provided file key is invalid.</exception>
+        /// <exception cref="CryptoSystemException">If an unexpected error occured.</exception>
         public static FileEncryptionCipher CreateFileEncryptionCipher(PlainFileKey fileKey) {
             ValidatePlainFileKey(fileKey);
             return new FileEncryptionCipher(fileKey);
@@ -349,8 +352,8 @@ namespace Dracoon.Crypto.Sdk {
         /// </summary>
         /// <param name="fileKey">The file key which should be used for the decryption.</param>
         /// <returns>The file decryption cipher</returns>
-        /// <exception cref="Dracoon.Crypto.Sdk.InvalidFileKeyException">If the provided file key is invalid.</exception>
-        /// <exception cref="Dracoon.Crypto.Sdk.CryptoSystemException">If an unexpected error occured.</exception>
+        /// <exception cref="InvalidFileKeyException">If the provided file key is invalid.</exception>
+        /// <exception cref="CryptoSystemException">If an unexpected error occured.</exception>
         public static FileDecryptionCipher CreateFileDecryptionCipher(PlainFileKey fileKey) {
             ValidatePlainFileKey(fileKey);
             return new FileDecryptionCipher(fileKey);
@@ -358,18 +361,25 @@ namespace Dracoon.Crypto.Sdk {
         #endregion
 
         #region Utilities
+
+        /// <summary>
+        /// Converts a char array into a byte array.
+        /// </summary>
+        /// <param name="password">The password as char array.</param>
+        /// <returns>The password as byte array.</returns>
         public static byte[] PKCS5PasswordToBytes(char[] password) {
-            if (password != null) {
-                byte[] bytes = new byte[password.Length];
-                for (int i = 0; i != bytes.Length; i++) {
-                    bytes[i] = (byte) password[i];
-                }
-                return bytes;
-            } else {
+            if (password == null) {
                 return new byte[0];
             }
+
+            byte[] bytes = new byte[password.Length];
+            for (int i = 0; i != bytes.Length; i++) {
+                bytes[i] = (byte) password[i];
+            }
+            return bytes;
         }
-        private static String ConvertPublicKey(AsymmetricKeyParameter pubKey) {
+
+        private static string ConvertPublicKey(AsymmetricKeyParameter pubKey) {
             using (TextWriter txtWriter = new StringWriter()) {
                 PemWriter pemWriter = new PemWriter(txtWriter);
                 pemWriter.WriteObject(pubKey);
@@ -377,6 +387,7 @@ namespace Dracoon.Crypto.Sdk {
                 return txtWriter.ToString();
             }
         }
+
         private static AsymmetricKeyParameter ConvertPublicKey(string pubKeyString) {
             Environment.SetEnvironmentVariable("Org.BouncyCastle.Asn1.AllowUnsafeInteger", "true", EnvironmentVariableTarget.Process);
             AsymmetricKeyParameter pubKey;
@@ -386,9 +397,11 @@ namespace Dracoon.Crypto.Sdk {
             }
             return pubKey;
         }
+
         #endregion
 
         #region Validators
+
         private static void ValidateFileKeyCompatibility(string keyPairAlgorithm, string fileKeyAlgorithm) {
             string[] fileKeyParts = fileKeyAlgorithm.Split('/');
             if (!"A".Equals(fileKeyAlgorithm) && !keyPairAlgorithm.Equals(fileKeyParts[0])) {
@@ -405,63 +418,69 @@ namespace Dracoon.Crypto.Sdk {
             if (privateKey == null) {
                 throw new InvalidKeyPairException("Private key container cannot be null.");
             }
-            if (privateKey.PrivateKey == null || privateKey.PrivateKey.Length == 0) {
+            if (string.IsNullOrEmpty(privateKey.PrivateKey)) {
                 throw new InvalidKeyPairException("Private key cannot be null or empty.");
             }
         }
+
         /// <summary>
         /// Checks the key pair (private and public key) of a user.
         /// </summary>
         /// <param name="userKeyPair">The key pair to check.</param>
-        /// <exception cref="Dracoon.Crypto.Sdk.InvalidKeyPairException"/>
+        /// <exception cref="InvalidKeyPairException"/>
         private static void ValidateUserKeyPair(UserKeyPair userKeyPair) {
             if (userKeyPair == null) {
                 throw new InvalidKeyPairException("User key pair cannot be null.");
             }
         }
+
         /// <summary>
         /// Checks the password from the user.
         /// </summary>
         /// <param name="password">The password to check.</param>
-        /// <exception cref="Dracoon.Crypto.Sdk.InvalidPasswordException"/>
+        /// <exception cref="InvalidPasswordException"/>
         private static void ValidatePassword(string password) {
-            if (password == null || password.Length == 0) {
+            if (string.IsNullOrEmpty(password)) {
                 throw new InvalidPasswordException("Password cannot be null or empty.");
             }
         }
+
         /// <summary>
         /// Checks the public key of a user.
         /// </summary>
         /// <param name="publicKey">The public key to check.</param>
-        /// <exception cref="Dracoon.Crypto.Sdk.InvalidKeyPairException"/>
+        /// <exception cref="InvalidKeyPairException"/>
         private static void ValidateUserPublicKey(UserPublicKey publicKey) {
             if (publicKey == null) {
                 throw new InvalidKeyPairException("Public key container cannot be null.");
             }
-            if (publicKey.PublicKey == null | publicKey.PublicKey.Length == 0) {
+            if (string.IsNullOrEmpty(publicKey.PublicKey)) {
                 throw new InvalidKeyPairException("Public key cannot be null or empty.");
             }
         }
+
         /// <summary>
         /// Checks the file key for file encryption.
         /// </summary>
         /// <param name="fileKey">The file key to check.</param>
-        /// <exception cref="Dracoon.Crypto.Sdk.InvalidFileKeyException"/>
+        /// <exception cref="InvalidFileKeyException"/>
         private static void ValidatePlainFileKey(PlainFileKey fileKey) {
             if (fileKey == null) {
                 throw new InvalidFileKeyException("File key cannot be null.");
             }
         }
+
         /// <summary>
         /// Checks the encrypted file key for file encryption.
         /// </summary>
         /// <param name="encFileKey">The encrypted file key to check.</param>
-        /// /// <exception cref="Dracoon.Crypto.Sdk.InvalidFileKeyException"/>
+        /// /// <exception cref="InvalidFileKeyException"/>
         private static void ValidateEncryptedFileKey(EncryptedFileKey encFileKey) {
             if (encFileKey == null) {
                 throw new InvalidFileKeyException("File key cannot be null.");
             }
         }
+
         #endregion
     }
 }

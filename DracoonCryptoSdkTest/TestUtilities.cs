@@ -4,7 +4,8 @@ using System;
 using System.IO;
 
 namespace Dracoon.Crypto.Sdk.Test {
-    class TestUtilities {
+    internal static class TestUtilities {
+
         internal static T ReadTestResource<T>(byte[] resourceBytes) {
             if (resourceBytes == null || resourceBytes.Length == 0) {
                 return default(T);
@@ -20,8 +21,8 @@ namespace Dracoon.Crypto.Sdk.Test {
     }
 
     internal class UserFileKeyAlgorithm : StringEnumConverter {
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) {
 
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) {
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer) {

@@ -5,29 +5,23 @@ using System.IO;
 using System.Text;
 
 namespace Dracoon.Crypto.Sdk.Example {
-    class Program
-    {
-        private static readonly String USER_PASSWORD = "acw9q857n(";
+    public static class Program {
 
-        private static readonly String DATA =
-                "Things1\n" +
-                "OtherThings12\n" +
-                "MoreThings123";
+        private const string UserPassword = "acw9q857n(";
+        private const string Data = "Things1\nOtherThings12\nMoreThings123";
+        private const int BlockSize = 16;
 
-        private static readonly int BLOCK_SIZE = 16;
-
-        static void Main(String[] args){
+        static void Main(String[] args) {
             // --- INITIALIZATION ---
             // Generate key pair
-            UserKeyPair userKeyPair = Crypto.GenerateUserKeyPair(UserKeyPairAlgorithm.RSA4096, USER_PASSWORD);
+            UserKeyPair userKeyPair = Crypto.GenerateUserKeyPair(UserKeyPairAlgorithm.RSA4096, UserPassword);
             // Check key pair
-            if (!Crypto.CheckUserKeyPair(userKeyPair, USER_PASSWORD))
-            {
+            if (!Crypto.CheckUserKeyPair(userKeyPair, UserPassword)) {
                 Trace.WriteLine("Invalid user password!");
                 return;
             }
 
-            byte[] plainData = Encoding.UTF8.GetBytes(DATA);
+            byte[] plainData = Encoding.UTF8.GetBytes(Data);
 
             Trace.WriteLine("Plain Data:");
             Trace.WriteLine(Encoding.UTF8.GetString(plainData));
@@ -48,7 +42,7 @@ namespace Dracoon.Crypto.Sdk.Example {
             // --- DECRYPTION ---
             // Decrypt file key
             PlainFileKey decFileKey = Crypto.DecryptFileKey(encFileKey, userKeyPair.UserPrivateKey,
-                    USER_PASSWORD);
+                    UserPassword);
             // Decrypt blocks
             byte[] decData = DecryptData(decFileKey, encData);
 
@@ -65,28 +59,23 @@ namespace Dracoon.Crypto.Sdk.Example {
         /// <param name="fileKey">The file key to use.</param>
         ///  <param name="data">The plain bytes.</param>
         /// <returns>Encrypted bytes.</returns>
-        private static byte[] EncryptData(PlainFileKey fileKey, byte[] data)
-        {
+        private static byte[] EncryptData(PlainFileKey fileKey, byte[] data) {
 
             // !!! This method is an example for encryption. It uses byte array streams for input and
             //     output. However, any kind of stream (e.g. FileInputStream) could be used here.
 
             FileEncryptionCipher cipher = Crypto.CreateFileEncryptionCipher(fileKey);
             byte[] encData;
-            using (Stream is2 = new MemoryStream(data))
-            {
-                using (MemoryStream os = new MemoryStream())
-                {
-                    byte[] buffer = new byte[BLOCK_SIZE];
-                    int count;
-                    try
-                    {
+            using (Stream is2 = new MemoryStream(data)) {
+                using (MemoryStream os = new MemoryStream()) {
+                    byte[] buffer = new byte[BlockSize];
+                    try {
                         EncryptedDataContainer eDataContainer;
 
                         // Encrypt blocks
-                        while ((count = is2.Read(buffer, 0, buffer.Length)) > 0)
-                        {
-                            byte[] pData = createByteArray(buffer, count);
+                        int count;
+                        while ((count = is2.Read(buffer, 0, buffer.Length)) > 0) {
+                            byte[] pData = CreateByteArray(buffer, count);
                             eDataContainer = cipher.ProcessBytes(new PlainDataContainer(pData));
                             os.Write(eDataContainer.Content, 0, eDataContainer.Content.Length);
                         }
@@ -94,18 +83,14 @@ namespace Dracoon.Crypto.Sdk.Example {
                         // Complete encryption
                         eDataContainer = cipher.DoFinal();
                         os.Write(eDataContainer.Content, 0, eDataContainer.Content.Length);
-                        String tag = Convert.ToBase64String(eDataContainer.Tag);
+                        string tag = Convert.ToBase64String(eDataContainer.Tag);
                         fileKey.Tag = tag;
 
                         encData = os.ToArray();
-                    }
-                    catch (IOException e)
-                    {
-                        throw new Exception("Error while reading/writing data!", e);
-                    }
-                    catch (CryptoException e)
-                    {
-                        throw new Exception("Error while encrypting data!", e);
+                    } catch (IOException e) {
+                        throw new IOException("Error while reading/writing data!", e);
+                    } catch (CryptoException e) {
+                        throw new CryptoException("Error while encrypting data!", e);
                     }
                 }
             }
@@ -119,8 +104,7 @@ namespace Dracoon.Crypto.Sdk.Example {
         /// <param name="fileKey">The file key to use.</param>
         ///  <param name="data">The encrypted bytes.</param>
         /// <returns>Plain bytes.</returns>
-        private static byte[] DecryptData(PlainFileKey fileKey, byte[] data)
-        {
+        private static byte[] DecryptData(PlainFileKey fileKey, byte[] data) {
 
             // !!! This method is an example for decryption. Like the method 'encryptData(...)', it uses
             //     byte array streams for input and output. However, any kind of stream
@@ -128,21 +112,17 @@ namespace Dracoon.Crypto.Sdk.Example {
 
             FileDecryptionCipher cipher = Crypto.CreateFileDecryptionCipher(fileKey);
             byte[] decData;
-            using (MemoryStream is2 = new MemoryStream(data))
-            {
-                using (MemoryStream os = new MemoryStream())
-                {
-                    byte[] buffer = new byte[BLOCK_SIZE];
-                    int count;
+            using (MemoryStream is2 = new MemoryStream(data)) {
+                using (MemoryStream os = new MemoryStream()) {
+                    byte[] buffer = new byte[BlockSize];
 
-                    try
-                    {
+                    try {
                         PlainDataContainer pDataContainer;
 
                         // Decrypt blocks
-                        while ((count = is2.Read(buffer, 0, buffer.Length)) > 0)
-                        {
-                            byte[] eData = createByteArray(buffer, count);
+                        int count;
+                        while ((count = is2.Read(buffer, 0, buffer.Length)) > 0) {
+                            byte[] eData = CreateByteArray(buffer, count);
                             pDataContainer = cipher.ProcessBytes(new EncryptedDataContainer(eData, null));
                             os.Write(pDataContainer.Content, 0, pDataContainer.Content.Length);
                         }
@@ -153,22 +133,17 @@ namespace Dracoon.Crypto.Sdk.Example {
                         os.Write(pDataContainer.Content, 0, pDataContainer.Content.Length);
 
                         decData = os.ToArray();
-                    }
-                    catch (IOException e)
-                    {
-                        throw new Exception("Error while reading/writing data!", e);
-                    }
-                    catch (CryptoException e)
-                    {
-                        throw new Exception("Error while decrypting data!", e);
+                    } catch (IOException e) {
+                        throw new IOException("Error while reading/writing data!", e);
+                    } catch (CryptoException e) {
+                        throw new CryptoException("Error while decrypting data!", e);
                     }
                 }
-            }     
+            }
             return decData;
         }
 
-        private static byte[] createByteArray(byte[] bytes, int len)
-        {
+        private static byte[] CreateByteArray(byte[] bytes, int len) {
             byte[] b = new byte[len];
             Array.Copy(bytes, 0, b, 0, len);
             return b;

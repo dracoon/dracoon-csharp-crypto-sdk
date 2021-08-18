@@ -1,13 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DracoonCryptoSdk", "DracoonCryptoSdk\DracoonCryptoSdk.csproj", "{7FD948AF-07CB-415C-A6E8-5985AD82D2CE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DracoonCryptoSdkTest", "DracoonCryptoSdkTest\DracoonCryptoSdkTest.csproj", "{BE2B0D34-FBBC-48B1-BC55-8ECC5015AF07}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DracoonCryptoSdkExample", "DracoonCryptoSdkExample\DracoonCryptoSdkExample.csproj", "{4BAEA086-6A9C-4675-999A-56A75372E63A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9346A2E3-3586-41B1-B79F-BC761E789155}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,16 +1,16 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Dracoon.Crypto.Sdk.Model;
+﻿using Dracoon.Crypto.Sdk.Model;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.IO;
 using System.Text;
 
 namespace Dracoon.Crypto.Sdk.Test {
-    [TestClass()]
+    [TestClass]
     public class FileDecryptionCipherTests {
 
         #region Single block decryption tests
 
-        [TestMethod()]
+        [TestMethod]
         public void TestDecryptSingleBlock_Success() {
             PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.csharp_fk_rsa2048_aes256gcm_plain_file_key);
             byte[] fileTag = Convert.FromBase64String(pfk.Tag);
@@ -23,7 +23,8 @@ namespace Dracoon.Crypto.Sdk.Test {
             System.Diagnostics.Debug.WriteLine(Convert.ToBase64String(pf));
             CollectionAssert.AreEqual(pf, testPdc.Content, "File content does not match!");
         }
-        [TestMethod()]
+
+        [TestMethod]
         public void TestDecryptSingleBlock_ModifiedContent() {
             PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.csharp_fk_rsa2048_aes256gcm_plain_file_key);
             byte[] ft = Convert.FromBase64String(pfk.Tag);
@@ -36,7 +37,8 @@ namespace Dracoon.Crypto.Sdk.Test {
             }
             Assert.Fail();
         }
-        [TestMethod()]
+
+        [TestMethod]
         public void TestDecryptSingleBlock_ModifiedTag() {
             PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.plain_file_key_bad_tag);
             byte[] ft = Convert.FromBase64String(pfk.Tag);
@@ -50,7 +52,8 @@ namespace Dracoon.Crypto.Sdk.Test {
             }
             Assert.Fail();
         }
-        [TestMethod()]
+
+        [TestMethod]
         public void TestDecryptSingleBlock_ModifiedKey() {
             PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.plain_file_key_bad_key);
             byte[] ft = Convert.FromBase64String(pfk.Tag);
@@ -64,7 +67,8 @@ namespace Dracoon.Crypto.Sdk.Test {
             }
             Assert.Fail();
         }
-        [TestMethod()]
+
+        [TestMethod]
         public void TestDecryptSingleBlock_ModifiedIv() {
             PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.plain_file_key_bad_iv);
             byte[] ft = Convert.FromBase64String(pfk.Tag);
@@ -79,7 +83,7 @@ namespace Dracoon.Crypto.Sdk.Test {
             Assert.Fail();
         }
 
-        private PlainDataContainer TestDecryptSingleBlock(PlainFileKey pfk, EncryptedDataContainer edc) {
+        private static PlainDataContainer TestDecryptSingleBlock(PlainFileKey pfk, EncryptedDataContainer edc) {
             FileDecryptionCipher decryptCipher = Crypto.CreateFileDecryptionCipher(pfk);
 
             using (MemoryStream ms = new MemoryStream()) {
@@ -90,11 +94,12 @@ namespace Dracoon.Crypto.Sdk.Test {
                 return new PlainDataContainer(ms.ToArray());
             }
         }
+
         #endregion
 
         #region Multi block decryption tests
 
-        [TestMethod()]
+        [TestMethod]
         public void Test_FileDecrypt_AES256GCM_CSharp() {
             PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.csharp_fk_rsa2048_aes256gcm_plain_file_key);
             byte[] ft = Convert.FromBase64String(pfk.Tag);
@@ -121,7 +126,7 @@ namespace Dracoon.Crypto.Sdk.Test {
             }
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Test_FileDecrypt_AES256GCM_Ruby() {
             PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.ruby_fk_rsa2048_aes256gcm_plain_file_key);
             byte[] ft = Convert.FromBase64String(pfk.Tag);
@@ -148,7 +153,7 @@ namespace Dracoon.Crypto.Sdk.Test {
             }
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Test_FileDecrypt_AES256GCM_Java() {
             PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.java_fk_rsa2048_aes256gcm_plain_file_key);
             byte[] ft = Convert.FromBase64String(pfk.Tag);
@@ -175,12 +180,12 @@ namespace Dracoon.Crypto.Sdk.Test {
             }
         }
 
-        [TestMethod()]
-        public void Test_FileDecrypt_AES256GCM_WebApp() {
-            PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.webapp_fk_rsa2048_aes256gcm_plain_file_key);
+        [TestMethod]
+        public void Test_FileDecrypt_AES256GCM_Swift() {
+            PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.swift_fk_rsa2048_aes256gcm_plain_file_key);
             byte[] ft = Convert.FromBase64String(pfk.Tag);
-            byte[] efc = Convert.FromBase64String(Encoding.UTF8.GetString(TestResources.webapp_aes256gcm_enc_file));
-            byte[] pfc = Convert.FromBase64String(Encoding.UTF8.GetString(TestResources.webapp_plain_file));
+            byte[] efc = Convert.FromBase64String(Encoding.UTF8.GetString(TestResources.swift_aes256gcm_enc_file));
+            byte[] pfc = Convert.FromBase64String(Encoding.UTF8.GetString(TestResources.swift_plain_file));
 
             FileDecryptionCipher decryptCipher = Crypto.CreateFileDecryptionCipher(pfk);
 
@@ -202,12 +207,12 @@ namespace Dracoon.Crypto.Sdk.Test {
             }
         }
 
-        [TestMethod()]
-        public void Test_FileDecrypt_AES256GCM_Swift() {
-            PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.swift_fk_rsa2048_aes256gcm_plain_file_key);
+        [TestMethod]
+        public void Test_FileDecrypt_AES256GCM_JS() {
+            PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.js_fk_rsa2048_aes256gcm_plain_file_key);
             byte[] ft = Convert.FromBase64String(pfk.Tag);
-            byte[] efc = Convert.FromBase64String(Encoding.UTF8.GetString(TestResources.swift_aes256gcm_enc_file));
-            byte[] pfc = Convert.FromBase64String(Encoding.UTF8.GetString(TestResources.swift_plain_file));
+            byte[] efc = Convert.FromBase64String(Encoding.UTF8.GetString(TestResources.js_aes256gcm_enc_file));
+            byte[] pfc = Convert.FromBase64String(Encoding.UTF8.GetString(TestResources.js_plain_file));
 
             FileDecryptionCipher decryptCipher = Crypto.CreateFileDecryptionCipher(pfk);
 
@@ -235,7 +240,7 @@ namespace Dracoon.Crypto.Sdk.Test {
 
         #region ProcessBytes
 
-        [TestMethod()]
+        [TestMethod]
         public void TestDecryptProcessArguments_InvalidDataContainer() {
             try {
                 TestDecryptProcessArguments(null);
@@ -244,7 +249,8 @@ namespace Dracoon.Crypto.Sdk.Test {
             }
             Assert.Fail();
         }
-        [TestMethod()]
+
+        [TestMethod]
         public void TestDecryptProcessArguments_InvalidDataContent() {
             try {
                 TestDecryptProcessArguments(new EncryptedDataContainer(null, null));
@@ -253,7 +259,8 @@ namespace Dracoon.Crypto.Sdk.Test {
             }
             Assert.Fail();
         }
-        [TestMethod()]
+
+        [TestMethod]
         public void TestDecryptProcessArguments_InvalidDataTag() {
             try {
                 TestDecryptProcessArguments(new EncryptedDataContainer(new byte[] { }, new byte[] { }));
@@ -262,15 +269,18 @@ namespace Dracoon.Crypto.Sdk.Test {
             }
             Assert.Fail();
         }
-        private void TestDecryptProcessArguments(EncryptedDataContainer edc) {
+
+        private static void TestDecryptProcessArguments(EncryptedDataContainer edc) {
             PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.csharp_fk_rsa2048_aes256gcm_plain_file_key);
             FileDecryptionCipher decCipher = Crypto.CreateFileDecryptionCipher(pfk);
             decCipher.ProcessBytes(edc);
         }
+
         #endregion
 
         #region DoFinal
-        [TestMethod()]
+
+        [TestMethod]
         public void TestDecryptDoFinalArguments_InvalidDataContainer() {
             try {
                 TestDecryptDoFinalArguments(null);
@@ -279,7 +289,8 @@ namespace Dracoon.Crypto.Sdk.Test {
             }
             Assert.Fail();
         }
-        [TestMethod()]
+
+        [TestMethod]
         public void TestDecryptDoFinalArguments_InvalidDataContent() {
             try {
                 TestDecryptDoFinalArguments(new EncryptedDataContainer(null, null));
@@ -288,7 +299,8 @@ namespace Dracoon.Crypto.Sdk.Test {
             }
             Assert.Fail();
         }
-        [TestMethod()]
+
+        [TestMethod]
         public void TestDecryptDoFinalArguments_InvalidDataTag() {
             try {
                 TestDecryptDoFinalArguments(new EncryptedDataContainer(new byte[] { }, new byte[] { }));
@@ -297,11 +309,13 @@ namespace Dracoon.Crypto.Sdk.Test {
             }
             Assert.Fail();
         }
-        private void TestDecryptDoFinalArguments(EncryptedDataContainer edc) {
+
+        private static void TestDecryptDoFinalArguments(EncryptedDataContainer edc) {
             PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.csharp_fk_rsa2048_aes256gcm_plain_file_key);
             FileDecryptionCipher decCipher = Crypto.CreateFileDecryptionCipher(pfk);
             decCipher.DoFinal(edc);
         }
+
         #endregion
 
         #endregion
