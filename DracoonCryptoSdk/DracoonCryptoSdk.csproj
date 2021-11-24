@@ -1,83 +1,39 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7FD948AF-07CB-415C-A6E8-5985AD82D2CE}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Dracoon.Crypto.Sdk</RootNamespace>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Company>DRACOON GmbH</Company>
+    <PackageId>Dracoon.Crypto.Sdk</PackageId>
+    <Title>Dracoon Crypto SDK</Title>
+    <Description>A library which implements the client-side encryption of DRACOON.</Description>
+    <Product>Dracoon Crypto Sdk for .NET Standard</Product>
+    <Copyright>Copyright ©2021 Dracoon GmbH</Copyright>
     <AssemblyName>Dracoon.Crypto.Sdk</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <RootNamespace>Dracoon.Crypto.Sdk</RootNamespace>
+    <PackageTags>dracoon, sdk, crypto, cryptography, encryption</PackageTags>
+    <Authors>DRACOON Developers</Authors>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageIcon>DracoonCryptoSdk_NugetImage.png</PackageIcon>
+    <PackageIconUrl />
+    <PackageProjectUrl>https://github.com/dracoon/dracoon-csharp-crypto-sdk</PackageProjectUrl>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <Version>3.0.0-SNAPSHOT</Version>
+    <OutDir></OutDir>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <RunCodeAnalysis>false</RunCodeAnalysis>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Dracoon.Crypto.Sdk.xml</DocumentationFile>
-    <RunCodeAnalysis>false</RunCodeAnalysis>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>
-    </AssemblyOriginatorKeyFile>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="BouncyCastle.Crypto, Version=1.8.6.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
-      <HintPath>..\packages\BouncyCastle.1.8.6.1\lib\BouncyCastle.Crypto.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
+    <PackageReference Include="Portable.BouncyCastle" Version="1.9.0" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="Crypto.cs" />
-    <Compile Include="CryptoConstants.cs" />
-    <Compile Include="CryptoException.cs" />
-    <Compile Include="CryptoSystemException.cs" />
-    <Compile Include="FileCipher.cs" />
-    <Compile Include="FileDecryptionCipher.cs" />
-    <Compile Include="BadFileException.cs" />
-    <Compile Include="FileEncryptionCipher.cs" />
-    <Compile Include="InvalidFileKeyException.cs" />
-    <Compile Include="InvalidKeyPairException.cs" />
-    <Compile Include="InvalidPasswordException.cs" />
-    <Compile Include="Model\EncryptedDataContainer.cs" />
-    <Compile Include="Model\EncryptedFileKey.cs" />
-    <Compile Include="Model\PlainDataContainer.cs" />
-    <Compile Include="Model\PlainFileKey.cs" />
-    <Compile Include="Model\UserKeyPair.cs" />
-    <Compile Include="Model\UserPrivateKey.cs" />
-    <Compile Include="Model\UserPublicKey.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="DracoonCryptoSdk_NugetImage.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+
 </Project>
