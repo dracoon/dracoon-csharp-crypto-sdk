@@ -34,7 +34,7 @@ Note that you also need to include the following dependencies:
 
 # Example
 
-An example can be found here: `DracoonCryptoSdkStandardExample/Program.cs`
+An example can be found here: `DracoonCryptoSdkExample/Program.cs`
 
 The example shows the complete encryption workflow, i.e. generate user keypair, validate user keypair, generate file key, encrypt file key, and finally encrypt and decrypt a file.
 
@@ -72,7 +72,7 @@ static void Main(String[] args) {
 
 # Copyright and License
 
-Copyright 2017 Dracoon GmbH. All rights reserved.
+Copyright 2021 Dracoon GmbH. All rights reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
 License. You may obtain a copy of the License at
