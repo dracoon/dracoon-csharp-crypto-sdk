@@ -15,7 +15,6 @@ using Dracoon.Crypto.Sdk.Model;
 using System;
 using System.IO;
 using System.Security.Cryptography;
-using System.Text;
 
 namespace Dracoon.Crypto.Sdk {
     /// <summary>
@@ -88,20 +87,18 @@ namespace Dracoon.Crypto.Sdk {
         private static AsymmetricCipherKeyPair ParseAsymmetricCypherKeyPair(UserKeyPairAlgorithm algorithm) {
             AsymmetricCipherKeyPair asymmetricCipher;
             try {
+                RsaKeyPairGenerator gen = new RsaKeyPairGenerator();
                 switch (algorithm) {
                     case UserKeyPairAlgorithm.RSA2048:
-                        using (RSACryptoServiceProvider provider = new RSACryptoServiceProvider(2048)) {
-                            asymmetricCipher = DotNetUtilities.GetRsaKeyPair(provider.ExportParameters(true));
-                        }
+                        gen.Init(new KeyGenerationParameters(new SecureRandom(), 2048));
                         break;
                     case UserKeyPairAlgorithm.RSA4096:
-                        using (RSACryptoServiceProvider provider = new RSACryptoServiceProvider(4096)) {
-                            asymmetricCipher = DotNetUtilities.GetRsaKeyPair(provider.ExportParameters(true));
-                        }
+                        gen.Init(new KeyGenerationParameters(new SecureRandom(), 4096));
                         break;
                     default:
                         throw new InvalidKeyPairException((algorithm.GetStringValue() ?? "null") + " is not a supported key pair algorithm.");
                 }
+                asymmetricCipher = gen.GenerateKeyPair();
             } catch (CryptographicException e) {
                 throw new CryptoSystemException("Could not generate RSA key pair.", e);
             }

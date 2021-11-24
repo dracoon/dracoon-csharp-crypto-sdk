@@ -21,6 +21,7 @@ DracoonCryptoSdkExample/[Ll]og/
 
 ## NuGet
 packages/
+dist/
 
 ## Windows
 Thumbs.db
