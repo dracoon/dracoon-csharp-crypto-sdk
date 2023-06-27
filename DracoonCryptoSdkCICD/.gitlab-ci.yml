@@ -1,9 +1,14 @@
+#------------------------------ VARIABLES -----------------------------
+
+variables:
+  DISABLE_QUALITY_GATES: 'false'
+
 #------------------------------ TEMPLATES -----------------------------
 
 .secrets-template: &secrets-template
   secrets:
-    ARTIFACTORY_RELEASE_REPO:
-      vault: Artifactory/repo-dracoon-sdk-crypto-csharp-release@Build-Environment
+    ARTIFACTORY_REPO:
+      vault: Artifactory/repo-dracoon-sdk-crypto-csharp@Build-Environment
       file: false
     SONAR_ACCESS_KEY:
       vault: Sonar/access-key@Build-Environment
@@ -64,6 +69,12 @@ unit-test:
 sonar:
   stage: test
   <<: *secrets-template
+  rules:
+    - if: $DISABLE_QUALITY_GATES == "false" && ($CI_COMMIT_REF_SLUG == "main" || $CI_COMMIT_REF_SLUG == "develop")
+      when: on_success
+    - if: $DISABLE_QUALITY_GATES == "true" || ($CI_COMMIT_REF_SLUG != "main" && $CI_COMMIT_REF_SLUG != "develop")
+      allow_failure: true
+      when: on_success
   tags:
     - windows-amd64
   dependencies:
@@ -85,14 +96,12 @@ sonar:
 deploy-to-artifactory:
   stage: deploy
   <<: *secrets-template
-  only:
-    - tags
   tags:
     - windows-amd64
   dependencies:
     - build-project
   script:
-    - jf rt u --flat=true "dist\*.nupkg" $ARTIFACTORY_RELEASE_REPO
+    - jf rt u --flat=true "dist\*.nupkg" $ARTIFACTORY_REPO
 
 deploy-to-nuget:
   stage: deploy
