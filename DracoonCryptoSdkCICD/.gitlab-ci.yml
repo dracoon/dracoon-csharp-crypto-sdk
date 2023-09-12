@@ -10,8 +10,8 @@ variables:
     ARTIFACTORY_REPO:
       vault: Artifactory/repo-dracoon-sdk-crypto-csharp@Build-Environment
       file: false
-    SONAR_ACCESS_KEY:
-      vault: Sonar/access-key@Build-Environment
+    SONAR_TOKEN:
+      vault: Sonar/token@Build-Environment
       file: false
     SONAR_URL:
       vault: Sonar/url@Build-Environment
@@ -87,9 +87,9 @@ sonar:
     - C:\BuildTools\dependency-check\bin\dependency-check.bat --scan .\DracoonCryptoSdk --project dracoon-crypto-sdk-csharp --format ALL
     - C:\BuildTools\dotCover\dotCover.exe cover /TargetExecutable="C:\BuildTools\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe" /TargetArguments="Dracoon.Crypto.Sdk.Test.dll" /TargetWorkingDir="DracoonCryptoSdkTest\bin\Release\net5.0" /Scope="Dracoon.Crypto.Sdk.dll" /Filters="-:module=Dracoon.Crypto.Sdk.Example;-:module=Dracoon.Crypto.Sdk.Test" /Output=".\dotCoverResult.html" /ReportType="HTML"
     - dotnet clean -c Release .\DracoonCryptoSdkSolution.sln
-    - C:\ProgramData\chocolatey\lib\sonarscanner-msbuild-net46\tools\SonarScanner.MSBuild.exe begin /s:${BASE_DIR}\SonarQube.Analysis.xml /k:dracoon-crypto-sdk-csharp /v:${VERSION} /d:sonar.host.url=$SONAR_URL /d:sonar.login=$SONAR_ACCESS_KEY /d:sonar.branch.name="${CI_COMMIT_REF_SLUG}" /d:sonar.scm.revision=${CI_COMMIT_SHORT_SHA}
+    - C:\ProgramData\chocolatey\lib\sonarscanner-msbuild-net46\tools\SonarScanner.MSBuild.exe begin /s:${BASE_DIR}\SonarQube.Analysis.xml /k:dracoon-crypto-sdk-csharp /v:${VERSION} /d:sonar.host.url=$SONAR_URL /d:sonar.login=$SONAR_TOKEN /d:sonar.branch.name="${CI_COMMIT_REF_SLUG}" /d:sonar.scm.revision=${CI_COMMIT_SHORT_SHA}
     - dotnet build -c Release .\DracoonCryptoSdk\DracoonCryptoSdk.csproj
-    - C:\ProgramData\chocolatey\lib\sonarscanner-msbuild-net46\tools\SonarScanner.MSBuild.exe end /d:sonar.login=$SONAR_ACCESS_KEY
+    - C:\ProgramData\chocolatey\lib\sonarscanner-msbuild-net46\tools\SonarScanner.MSBuild.exe end /d:sonar.login=$SONAR_TOKEN
 
 #-------------------------------- DEPLOY ------------------------------
 
