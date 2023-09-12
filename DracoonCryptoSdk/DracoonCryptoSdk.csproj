@@ -17,7 +17,7 @@
     <PackageIconUrl />
     <PackageProjectUrl>https://github.com/dracoon/dracoon-csharp-crypto-sdk</PackageProjectUrl>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <Version>3.0.0-SNAPSHOT</Version>
+    <Version>3.1.0-SNAPSHOT</Version>
     <OutDir></OutDir>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <SignAssembly>False</SignAssembly>
