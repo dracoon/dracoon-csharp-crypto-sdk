@@ -83,6 +83,8 @@ sonar:
     - $VERSION = (GET-CONTENT ./shared.txt)
     - $BASE_DIR=(Get-Location).path
   script:
+    - nuget restore .\DracoonCryptoSdk\DracoonCryptoSdk.csproj -Source https://api.nuget.org/v3/index.json
+    - nuget restore .\DracoonCryptoSdkTest\DracoonCryptoSdkTest.csproj -Source https://api.nuget.org/v3/index.json
     - dotnet build -c Release .\DracoonCryptoSdkTest\DracoonCryptoSdkTest.csproj
     - C:\BuildTools\dependency-check\bin\dependency-check.bat --scan .\DracoonCryptoSdk --project dracoon-crypto-sdk-csharp --format ALL
     - C:\BuildTools\dotCover\dotCover.exe cover /TargetExecutable="C:\BuildTools\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe" /TargetArguments="Dracoon.Crypto.Sdk.Test.dll" /TargetWorkingDir="DracoonCryptoSdkTest\bin\Release\net5.0" /Scope="Dracoon.Crypto.Sdk.dll" /Filters="-:module=Dracoon.Crypto.Sdk.Example;-:module=Dracoon.Crypto.Sdk.Test" /Output=".\dotCoverResult.html" /ReportType="HTML"
