@@ -81,7 +81,8 @@ namespace Dracoon.Crypto.Sdk {
             }
         }
 
-        private const int HashIterationCount = 10000;
+        private const int pbkdf2HashIterationCount = 1300000;
+        private const int pbkdf2SaltSize = 20;
         private const int IvSize = 12;
 
         private static AsymmetricCipherKeyPair ParseAsymmetricCypherKeyPair(UserKeyPairAlgorithm algorithm) {
@@ -144,7 +145,7 @@ namespace Dracoon.Crypto.Sdk {
 
             // Create salts
             byte[] aesIv = new byte[16];
-            byte[] keySalt = new byte[20];
+            byte[] keySalt = new byte[pbkdf2SaltSize];
             SecureRandom randomGen = new SecureRandom();
             randomGen.NextBytes(aesIv);
             randomGen.NextBytes(keySalt);
@@ -152,15 +153,15 @@ namespace Dracoon.Crypto.Sdk {
                 PrivateKeyInfo decryptedPrivateKeyInfo = PrivateKeyInfoFactory.CreatePrivateKeyInfo(privateKey);
 
                 // Prepare encryption
-                Pkcs5S2ParametersGenerator pkcs5S2Gen = new Pkcs5S2ParametersGenerator();
-                pkcs5S2Gen.Init(PKCS5PasswordToBytes(password.ToCharArray()), keySalt, HashIterationCount);
+                Pkcs5S2ParametersGenerator pkcs5S2Gen = new Pkcs5S2ParametersGenerator(new Sha1Digest());
+                pkcs5S2Gen.Init(PKCS5PasswordToBytes(password.ToCharArray()), keySalt, pbkdf2HashIterationCount);
                 ICipherParameters cipherParams = pkcs5S2Gen.GenerateDerivedParameters(NistObjectIdentifiers.IdAes256Cbc.Id, 256);
                 IBufferedCipher cipher = CipherUtilities.GetCipher(NistObjectIdentifiers.IdAes256Cbc);
                 cipher.Init(true, new ParametersWithIV(cipherParams, aesIv));
 
                 // Generate encrypted private key info
                 Asn1OctetString aesIvOctetString = new DerOctetString(aesIv);
-                KeyDerivationFunc keyFunction = new KeyDerivationFunc(PkcsObjectIdentifiers.IdPbkdf2, new Pbkdf2Params(keySalt, HashIterationCount));
+                KeyDerivationFunc keyFunction = new KeyDerivationFunc(PkcsObjectIdentifiers.IdPbkdf2, new Pbkdf2Params(keySalt, pbkdf2HashIterationCount, new AlgorithmIdentifier(PkcsObjectIdentifiers.IdHmacWithSha1)));
                 EncryptionScheme encScheme = new EncryptionScheme(NistObjectIdentifiers.IdAes256Cbc, aesIvOctetString);
                 Asn1EncodableVector encryptionInfo = new Asn1EncodableVector { keyFunction, encScheme };
                 AlgorithmIdentifier algIdentifier = new AlgorithmIdentifier(PkcsObjectIdentifiers.IdPbeS2, new DerSequence(encryptionInfo));
