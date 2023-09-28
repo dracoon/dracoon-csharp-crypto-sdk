@@ -345,6 +345,35 @@ namespace Dracoon.Crypto.Sdk.Test {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Qwer1234! ähnelt.
+        /// </summary>
+        internal static string java_kp_rsa4096_pbkdf2_sha1_1300k_password {
+            get {
+                return ResourceManager.GetString("java_kp_rsa4096_pbkdf2_sha1_1300k_password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] java_kp_rsa4096_pbkdf2_sha1_1300k_private_key {
+            get {
+                object obj = ResourceManager.GetObject("java_kp_rsa4096_pbkdf2_sha1_1300k_private_key", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] java_kp_rsa4096_pbkdf2_sha1_1300k_public_key {
+            get {
+                object obj = ResourceManager.GetObject("java_kp_rsa4096_pbkdf2_sha1_1300k_public_key", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
         internal static byte[] java_kp_rsa4096_private_key {
