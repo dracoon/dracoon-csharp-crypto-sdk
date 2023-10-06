@@ -161,7 +161,7 @@ namespace Dracoon.Crypto.Sdk {
 
                 // Generate encrypted private key info
                 Asn1OctetString aesIvOctetString = new DerOctetString(aesIv);
-                KeyDerivationFunc keyFunction = new KeyDerivationFunc(PkcsObjectIdentifiers.IdPbkdf2, new Pbkdf2Params(keySalt, pbkdf2HashIterationCount, new AlgorithmIdentifier(PkcsObjectIdentifiers.IdHmacWithSha1)));
+                KeyDerivationFunc keyFunction = new KeyDerivationFunc(PkcsObjectIdentifiers.IdPbkdf2, new Pbkdf2Params(keySalt, pbkdf2HashIterationCount, new AlgorithmIdentifier(PkcsObjectIdentifiers.IdHmacWithSha1, DerNull.Instance)));
                 EncryptionScheme encScheme = new EncryptionScheme(NistObjectIdentifiers.IdAes256Cbc, aesIvOctetString);
                 Asn1EncodableVector encryptionInfo = new Asn1EncodableVector { keyFunction, encScheme };
                 AlgorithmIdentifier algIdentifier = new AlgorithmIdentifier(PkcsObjectIdentifiers.IdPbeS2, new DerSequence(encryptionInfo));

@@ -176,6 +176,13 @@ namespace Dracoon.Crypto.Sdk.Test {
         }
 
         [TestMethod]
+        public void Test_KP_RSA4096_PBKDF2_SHA1_1300k_Swift() {
+            bool testCheck = TestCheckUserKeyPair(TestResources.swift_kp_rsa4096_pbkdf2_sha1_1300k_private_key, TestResources.swift_kp_rsa4096_pbkdf2_sha1_1300k_password);
+
+            Assert.IsTrue(testCheck, "User key pair check failed!");
+        }
+
+        [TestMethod]
         public void Test_KP_RSA2048_JS() {
             bool testCheck = TestCheckUserKeyPair(TestResources.js_kp_rsa2048_private_key, TestResources.js_kp_rsa2048_password);
 
@@ -185,6 +192,13 @@ namespace Dracoon.Crypto.Sdk.Test {
         [TestMethod]
         public void Test_KP_RSA4096_JS() {
             bool testCheck = TestCheckUserKeyPair(TestResources.js_kp_rsa4096_private_key, TestResources.js_kp_rsa4096_password);
+
+            Assert.IsTrue(testCheck, "User key pair check failed!");
+        }
+
+        [TestMethod]
+        public void Test_KP_RSA4096_PBKDF2_SHA1_1300k_JS() {
+            bool testCheck = TestCheckUserKeyPair(TestResources.js_kp_rsa4096_pbkdf2_sha1_1300k_private_key, TestResources.js_kp_rsa4096_pbkdf2_sha1_1300k_password);
 
             Assert.IsTrue(testCheck, "User key pair check failed!");
         }
