@@ -19,7 +19,7 @@ namespace Dracoon.Crypto.Sdk.Test {
     // -Klasse über ein Tool wie ResGen oder Visual Studio automatisch generiert.
     // Um einen Member hinzuzufügen oder zu entfernen, bearbeiten Sie die .ResX-Datei und führen dann ResGen
     // mit der /str-Option erneut aus, oder Sie erstellen Ihr VS-Projekt neu.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class TestResources {
@@ -145,6 +145,35 @@ namespace Dracoon.Crypto.Sdk.Test {
         internal static string csharp_kp_rsa4096_password {
             get {
                 return ResourceManager.GetString("csharp_kp_rsa4096_password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die acw9q857n( ähnelt.
+        /// </summary>
+        internal static string csharp_kp_rsa4096_pbkdf2_sha1_1300k_password {
+            get {
+                return ResourceManager.GetString("csharp_kp_rsa4096_pbkdf2_sha1_1300k_password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] csharp_kp_rsa4096_pbkdf2_sha1_1300k_private_key {
+            get {
+                object obj = ResourceManager.GetObject("csharp_kp_rsa4096_pbkdf2_sha1_1300k_private_key", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] csharp_kp_rsa4096_pbkdf2_sha1_1300k_public_key {
+            get {
+                object obj = ResourceManager.GetObject("csharp_kp_rsa4096_pbkdf2_sha1_1300k_public_key", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         
@@ -316,6 +345,35 @@ namespace Dracoon.Crypto.Sdk.Test {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Qwer1234! ähnelt.
+        /// </summary>
+        internal static string java_kp_rsa4096_pbkdf2_sha1_1300k_password {
+            get {
+                return ResourceManager.GetString("java_kp_rsa4096_pbkdf2_sha1_1300k_password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] java_kp_rsa4096_pbkdf2_sha1_1300k_private_key {
+            get {
+                object obj = ResourceManager.GetObject("java_kp_rsa4096_pbkdf2_sha1_1300k_private_key", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] java_kp_rsa4096_pbkdf2_sha1_1300k_public_key {
+            get {
+                object obj = ResourceManager.GetObject("java_kp_rsa4096_pbkdf2_sha1_1300k_public_key", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
         internal static byte[] java_kp_rsa4096_private_key {
@@ -430,6 +488,35 @@ namespace Dracoon.Crypto.Sdk.Test {
         internal static string js_kp_rsa4096_password {
             get {
                 return ResourceManager.GetString("js_kp_rsa4096_password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Qwer1234! ähnelt.
+        /// </summary>
+        internal static string js_kp_rsa4096_pbkdf2_sha1_1300k_password {
+            get {
+                return ResourceManager.GetString("js_kp_rsa4096_pbkdf2_sha1_1300k_password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] js_kp_rsa4096_pbkdf2_sha1_1300k_private_key {
+            get {
+                object obj = ResourceManager.GetObject("js_kp_rsa4096_pbkdf2_sha1_1300k_private_key", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] js_kp_rsa4096_pbkdf2_sha1_1300k_public_key {
+            get {
+                object obj = ResourceManager.GetObject("js_kp_rsa4096_pbkdf2_sha1_1300k_public_key", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         
@@ -745,6 +832,35 @@ namespace Dracoon.Crypto.Sdk.Test {
         internal static string swift_kp_rsa4096_password {
             get {
                 return ResourceManager.GetString("swift_kp_rsa4096_password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die ABC123DEFF456 ähnelt.
+        /// </summary>
+        internal static string swift_kp_rsa4096_pbkdf2_sha1_1300k_password {
+            get {
+                return ResourceManager.GetString("swift_kp_rsa4096_pbkdf2_sha1_1300k_password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] swift_kp_rsa4096_pbkdf2_sha1_1300k_private_key {
+            get {
+                object obj = ResourceManager.GetObject("swift_kp_rsa4096_pbkdf2_sha1_1300k_private_key", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] swift_kp_rsa4096_pbkdf2_sha1_1300k_public_key {
+            get {
+                object obj = ResourceManager.GetObject("swift_kp_rsa4096_pbkdf2_sha1_1300k_public_key", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         
