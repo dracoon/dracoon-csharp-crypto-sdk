@@ -13,10 +13,12 @@ namespace Dracoon.Crypto.Sdk.Example {
 
         static void Main(String[] args) {
             // --- INITIALIZATION ---
+            byte[] userPasswordBytes = Encoding.UTF8.GetBytes(UserPassword);
+
             // Generate key pair
-            UserKeyPair userKeyPair = Crypto.GenerateUserKeyPair(UserKeyPairAlgorithm.RSA4096, UserPassword);
+            UserKeyPair userKeyPair = Crypto.GenerateUserKeyPair(UserKeyPairAlgorithm.RSA4096, userPasswordBytes);
             // Check key pair
-            if (!Crypto.CheckUserKeyPair(userKeyPair, UserPassword)) {
+            if (!Crypto.CheckUserKeyPair(userKeyPair, userPasswordBytes)) {
                 Trace.WriteLine("Invalid user password!");
                 return;
             }
@@ -42,7 +44,7 @@ namespace Dracoon.Crypto.Sdk.Example {
             // --- DECRYPTION ---
             // Decrypt file key
             PlainFileKey decFileKey = Crypto.DecryptFileKey(encFileKey, userKeyPair.UserPrivateKey,
-                    UserPassword);
+                    userPasswordBytes);
             // Decrypt blocks
             byte[] decData = DecryptData(decFileKey, encData);
 

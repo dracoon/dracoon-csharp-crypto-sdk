@@ -10,7 +10,7 @@
         public UserKeyPairAlgorithm Version { get; set; }
 
         /// <summary>
-        /// The private key string.
+        /// The PEM encoded encrypted private key string.
         /// </summary>
         public string PrivateKey { get; set; }
     }
