@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Converters;
 using System;
 using System.IO;
+using System.Text;
 
 namespace Dracoon.Crypto.Sdk.Test {
     internal static class TestUtilities {
@@ -16,31 +17,47 @@ namespace Dracoon.Crypto.Sdk.Test {
                     result = sr.ReadToEnd();
                 }
             }
-            return JsonConvert.DeserializeObject<T>(result, new JsonConverter[] { new UserFileKeyAlgorithm() });
+            return JsonConvert.DeserializeObject<T>(result, new JsonConverter[] { new AlgorithmEnumConverter(), new ByteArrayConverter() });
         }
     }
 
-    internal class UserFileKeyAlgorithm : StringEnumConverter {
+    internal class AlgorithmEnumConverter : StringEnumConverter {
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) {
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer) {
             string stringValue = (string) reader.Value;
-            if (existingValue is UserKeyPairAlgorithm) {
+            if (objectType == typeof(UserKeyPairAlgorithm)) {
                 return new UserKeyPairAlgorithm().ParseAlgorithm(stringValue);
             }
-            if (existingValue is PlainFileKeyAlgorithm) {
+            if (objectType == typeof(PlainFileKeyAlgorithm)) {
                 return new PlainFileKeyAlgorithm().ParseAlgorithm(stringValue);
             }
-            if (existingValue is EncryptedFileKeyAlgorithm) {
+            if (objectType == typeof(EncryptedFileKeyAlgorithm)) {
                 return new EncryptedFileKeyAlgorithm().ParseAlgorithm(stringValue);
             }
             return stringValue;
         }
 
         public override bool CanConvert(Type objectType) {
-            return objectType == typeof(string) || objectType == typeof(UserKeyPairAlgorithm) || objectType == typeof(EncryptedFileKeyAlgorithm) || objectType == typeof(PlainFileKeyAlgorithm);
+            return objectType == typeof(UserKeyPairAlgorithm) || objectType == typeof(EncryptedFileKeyAlgorithm) || objectType == typeof(PlainFileKeyAlgorithm);
         }
     }
+
+    internal class ByteArrayConverter : JsonConverter {
+        public override bool CanConvert(Type objectType) {
+            return objectType == typeof(byte[]);
+        }
+
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer) {
+            string stringValue = (string) reader.Value;
+            return Encoding.UTF8.GetBytes(stringValue);
+        }
+
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) {
+
+        }
+    }
+
 }

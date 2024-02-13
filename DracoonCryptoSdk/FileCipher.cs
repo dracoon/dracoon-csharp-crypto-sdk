@@ -23,7 +23,7 @@ namespace Dracoon.Crypto.Sdk {
 
         private protected FileCipher(bool forEncryption, PlainFileKey fileKey) {
             try {
-                byte[] key = Convert.FromBase64String(fileKey.Key);
+                byte[] key = Convert.FromBase64CharArray(Crypto.ConvertBytesToChars(fileKey.Key), 0, fileKey.Key.Length);
                 byte[] iv = Convert.FromBase64String(fileKey.Iv);
                 AeadParameters parameters = new AeadParameters(new KeyParameter(key), 8 * TagSize, iv);
                 Cipher = new GcmBlockCipher(new AesEngine());
