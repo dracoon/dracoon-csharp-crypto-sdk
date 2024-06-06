@@ -111,15 +111,6 @@ namespace Dracoon.Crypto.Sdk.Test {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die acw9q857n( ähnelt.
-        /// </summary>
-        internal static string csharp_kp_rsa2048_password {
-            get {
-                return ResourceManager.GetString("csharp_kp_rsa2048_password", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
         internal static byte[] csharp_kp_rsa2048_private_key {
@@ -136,24 +127,6 @@ namespace Dracoon.Crypto.Sdk.Test {
             get {
                 object obj = ResourceManager.GetObject("csharp_kp_rsa2048_public_key", resourceCulture);
                 return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die acw9q857n( ähnelt.
-        /// </summary>
-        internal static string csharp_kp_rsa4096_password {
-            get {
-                return ResourceManager.GetString("csharp_kp_rsa4096_password", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die acw9q857n( ähnelt.
-        /// </summary>
-        internal static string csharp_kp_rsa4096_pbkdf2_sha1_1300k_password {
-            get {
-                return ResourceManager.GetString("csharp_kp_rsa4096_pbkdf2_sha1_1300k_password", resourceCulture);
             }
         }
         
@@ -193,6 +166,26 @@ namespace Dracoon.Crypto.Sdk.Test {
         internal static byte[] csharp_kp_rsa4096_public_key {
             get {
                 object obj = ResourceManager.GetObject("csharp_kp_rsa4096_public_key", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] csharp_kp_rsa4096_utf8_umlaut_emoji_private_key {
+            get {
+                object obj = ResourceManager.GetObject("csharp_kp_rsa4096_utf8_umlaut_emoji_private_key", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] csharp_kp_rsa4096_utf8_umlaut_emoji_public_key {
+            get {
+                object obj = ResourceManager.GetObject("csharp_kp_rsa4096_utf8_umlaut_emoji_public_key", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -307,15 +300,6 @@ namespace Dracoon.Crypto.Sdk.Test {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Qwer1234! ähnelt.
-        /// </summary>
-        internal static string java_kp_rsa2048_password {
-            get {
-                return ResourceManager.GetString("java_kp_rsa2048_password", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
         internal static byte[] java_kp_rsa2048_private_key {
@@ -336,20 +320,22 @@ namespace Dracoon.Crypto.Sdk.Test {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Qwer1234! ähnelt.
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
-        internal static string java_kp_rsa4096_password {
+        internal static byte[] java_kp_rsa4096_iso_umlaut_private_key {
             get {
-                return ResourceManager.GetString("java_kp_rsa4096_password", resourceCulture);
+                object obj = ResourceManager.GetObject("java_kp_rsa4096_iso_umlaut_private_key", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Qwer1234! ähnelt.
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
-        internal static string java_kp_rsa4096_pbkdf2_sha1_1300k_password {
+        internal static byte[] java_kp_rsa4096_iso_umlaut_public_key {
             get {
-                return ResourceManager.GetString("java_kp_rsa4096_pbkdf2_sha1_1300k_password", resourceCulture);
+                object obj = ResourceManager.GetObject("java_kp_rsa4096_iso_umlaut_public_key", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         
@@ -389,6 +375,26 @@ namespace Dracoon.Crypto.Sdk.Test {
         internal static byte[] java_kp_rsa4096_public_key {
             get {
                 object obj = ResourceManager.GetObject("java_kp_rsa4096_public_key", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] java_kp_rsa4096_utf8_umlaut_emoji_private_key {
+            get {
+                object obj = ResourceManager.GetObject("java_kp_rsa4096_utf8_umlaut_emoji_private_key", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] java_kp_rsa4096_utf8_umlaut_emoji_public_key {
+            get {
+                object obj = ResourceManager.GetObject("java_kp_rsa4096_utf8_umlaut_emoji_public_key", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -454,15 +460,6 @@ namespace Dracoon.Crypto.Sdk.Test {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Qwer1234! ähnelt.
-        /// </summary>
-        internal static string js_kp_rsa2048_password {
-            get {
-                return ResourceManager.GetString("js_kp_rsa2048_password", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
         internal static byte[] js_kp_rsa2048_private_key {
@@ -483,20 +480,22 @@ namespace Dracoon.Crypto.Sdk.Test {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Qwer1234! ähnelt.
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
-        internal static string js_kp_rsa4096_password {
+        internal static byte[] js_kp_rsa4096_iso_umlaut_private_key {
             get {
-                return ResourceManager.GetString("js_kp_rsa4096_password", resourceCulture);
+                object obj = ResourceManager.GetObject("js_kp_rsa4096_iso_umlaut_private_key", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Qwer1234! ähnelt.
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
-        internal static string js_kp_rsa4096_pbkdf2_sha1_1300k_password {
+        internal static byte[] js_kp_rsa4096_iso_umlaut_public_key {
             get {
-                return ResourceManager.GetString("js_kp_rsa4096_pbkdf2_sha1_1300k_password", resourceCulture);
+                object obj = ResourceManager.GetObject("js_kp_rsa4096_iso_umlaut_public_key", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         
@@ -536,6 +535,26 @@ namespace Dracoon.Crypto.Sdk.Test {
         internal static byte[] js_kp_rsa4096_public_key {
             get {
                 object obj = ResourceManager.GetObject("js_kp_rsa4096_public_key", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] js_kp_rsa4096_utf8_umlaut_emoji_private_key {
+            get {
+                object obj = ResourceManager.GetObject("js_kp_rsa4096_utf8_umlaut_emoji_private_key", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] js_kp_rsa4096_utf8_umlaut_emoji_public_key {
+            get {
+                object obj = ResourceManager.GetObject("js_kp_rsa4096_utf8_umlaut_emoji_public_key", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -680,15 +699,6 @@ namespace Dracoon.Crypto.Sdk.Test {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Qwer1234! ähnelt.
-        /// </summary>
-        internal static string ruby_kp_rsa2048_password {
-            get {
-                return ResourceManager.GetString("ruby_kp_rsa2048_password", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
         internal static byte[] ruby_kp_rsa2048_private_key {
@@ -705,15 +715,6 @@ namespace Dracoon.Crypto.Sdk.Test {
             get {
                 object obj = ResourceManager.GetObject("ruby_kp_rsa2048_public_key", resourceCulture);
                 return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Qwer1234! ähnelt.
-        /// </summary>
-        internal static string ruby_kp_rsa4096_password {
-            get {
-                return ResourceManager.GetString("ruby_kp_rsa4096_password", resourceCulture);
             }
         }
         
@@ -798,15 +799,6 @@ namespace Dracoon.Crypto.Sdk.Test {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Pass1234! ähnelt.
-        /// </summary>
-        internal static string swift_kp_rsa2048_password {
-            get {
-                return ResourceManager.GetString("swift_kp_rsa2048_password", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
         internal static byte[] swift_kp_rsa2048_private_key {
@@ -823,24 +815,6 @@ namespace Dracoon.Crypto.Sdk.Test {
             get {
                 object obj = ResourceManager.GetObject("swift_kp_rsa2048_public_key", resourceCulture);
                 return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die ABC123DEFF456 ähnelt.
-        /// </summary>
-        internal static string swift_kp_rsa4096_password {
-            get {
-                return ResourceManager.GetString("swift_kp_rsa4096_password", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die ABC123DEFF456 ähnelt.
-        /// </summary>
-        internal static string swift_kp_rsa4096_pbkdf2_sha1_1300k_password {
-            get {
-                return ResourceManager.GetString("swift_kp_rsa4096_pbkdf2_sha1_1300k_password", resourceCulture);
             }
         }
         
@@ -880,6 +854,26 @@ namespace Dracoon.Crypto.Sdk.Test {
         internal static byte[] swift_kp_rsa4096_public_key {
             get {
                 object obj = ResourceManager.GetObject("swift_kp_rsa4096_public_key", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] swift_kp_utf8_umlaut_emoji_private_key {
+            get {
+                object obj = ResourceManager.GetObject("swift_kp_utf8_umlaut_emoji_private_key", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] swift_kp_utf8_umlaut_emoji_public_key {
+            get {
+                object obj = ResourceManager.GetObject("swift_kp_utf8_umlaut_emoji_public_key", resourceCulture);
                 return ((byte[])(obj));
             }
         }

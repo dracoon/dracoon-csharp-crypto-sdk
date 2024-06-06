@@ -133,20 +133,11 @@
   <data name="csharp_fk_rsa4096_aes256gcm_plain_file_key" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>resources\keys_csharp\data\fk_rsa4096_aes256gcm\plain_file_key.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="csharp_kp_rsa2048_password" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\keys_csharp\data\kp_rsa2048\password.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
   <data name="csharp_kp_rsa2048_private_key" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>resources\keys_csharp\data\kp_rsa2048\private_key.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="csharp_kp_rsa2048_public_key" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>resources\keys_csharp\data\kp_rsa2048\public_key.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="csharp_kp_rsa4096_password" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\keys_csharp\data\kp_rsa4096\password.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="csharp_kp_rsa4096_pbkdf2_sha1_1300k_password" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\Keys_CSharp\data\kp_rsa4096_pbkdf2_sha1_1300k\password.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="csharp_kp_rsa4096_pbkdf2_sha1_1300k_private_key" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\Keys_CSharp\data\kp_rsa4096_pbkdf2_sha1_1300k\private_key.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -159,6 +150,12 @@
   </data>
   <data name="csharp_kp_rsa4096_public_key" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>resources\keys_csharp\data\kp_rsa4096\public_key.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="csharp_kp_rsa4096_utf8_umlaut_emoji_private_key" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Keys_CSharp\data\kp_rsa4096_utf8_umlaut_emoji\private_key.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="csharp_kp_rsa4096_utf8_umlaut_emoji_public_key" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Keys_CSharp\data\kp_rsa4096_utf8_umlaut_emoji\public_key.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="csharp_plain_file" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>resources\keys_csharp\files\plain_file.b64;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -193,20 +190,17 @@
   <data name="java_fk_rsa4096_aes256gcm_plain_file_key" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>resources\keys_java\data\fk_rsa4096_aes256gcm\plain_file_key.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="java_kp_rsa2048_password" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\keys_java\data\kp_rsa2048\password.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
   <data name="java_kp_rsa2048_private_key" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>resources\keys_java\data\kp_rsa2048\private_key.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="java_kp_rsa2048_public_key" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>resources\keys_java\data\kp_rsa2048\public_key.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="java_kp_rsa4096_password" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\keys_java\data\kp_rsa4096\password.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  <data name="java_kp_rsa4096_iso_umlaut_private_key" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Keys_Java\data\kp_rsa4096_iso_umlaut\private_key.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="java_kp_rsa4096_pbkdf2_sha1_1300k_password" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\Keys_Java\data\kp_rsa4096_pbkdf2_sha1_1300k\password.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  <data name="java_kp_rsa4096_iso_umlaut_public_key" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Keys_Java\data\kp_rsa4096_iso_umlaut\public_key.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="java_kp_rsa4096_pbkdf2_sha1_1300k_private_key" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\Keys_Java\data\kp_rsa4096_pbkdf2_sha1_1300k\private_key.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -219,6 +213,12 @@
   </data>
   <data name="java_kp_rsa4096_public_key" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>resources\keys_java\data\kp_rsa4096\public_key.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="java_kp_rsa4096_utf8_umlaut_emoji_private_key" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Keys_Java\data\kp_rsa4096_utf8_umlaut_emoji\private_key.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="java_kp_rsa4096_utf8_umlaut_emoji_public_key" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Keys_Java\data\kp_rsa4096_utf8_umlaut_emoji\public_key.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="java_plain_file" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>resources\keys_java\files\plain_file.b64;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -238,20 +238,17 @@
   <data name="js_fk_rsa4096_aes256gcm_plain_file_key" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>resources\keys_js\data\fk_rsa4096_aes256gcm\plain_file_key.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="js_kp_rsa2048_password" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\keys_js\data\kp_rsa2048\password.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
   <data name="js_kp_rsa2048_private_key" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>resources\keys_js\data\kp_rsa2048\private_key.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="js_kp_rsa2048_public_key" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>resources\keys_js\data\kp_rsa2048\public_key.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="js_kp_rsa4096_password" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\keys_js\data\kp_rsa4096\password.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  <data name="js_kp_rsa4096_iso_umlaut_private_key" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Keys_JS\data\kp_rsa4096_iso_umlaut\private_key.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="js_kp_rsa4096_pbkdf2_sha1_1300k_password" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\Keys_JS\data\kp_rsa4096_pbkdf2_sha1_1300k\password.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  <data name="js_kp_rsa4096_iso_umlaut_public_key" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Keys_JS\data\kp_rsa4096_iso_umlaut\public_key.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="js_kp_rsa4096_pbkdf2_sha1_1300k_private_key" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\Keys_JS\data\kp_rsa4096_pbkdf2_sha1_1300k\private_key.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -264,6 +261,12 @@
   </data>
   <data name="js_kp_rsa4096_public_key" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>resources\keys_js\data\kp_rsa4096\public_key.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="js_kp_rsa4096_utf8_umlaut_emoji_private_key" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Keys_JS\data\kp_rsa4096_utf8_umlaut_emoji\private_key.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="js_kp_rsa4096_utf8_umlaut_emoji_public_key" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Keys_JS\data\kp_rsa4096_utf8_umlaut_emoji\public_key.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="js_plain_file" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>resources\keys_js\files\plain_file.b64;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -307,17 +310,11 @@
   <data name="ruby_fk_rsa4096_aes256gcm_plain_file_key" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>resources\keys_ruby\data\fk_rsa4096_aes256gcm\plain_file_key.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="ruby_kp_rsa2048_password" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\keys_ruby\data\kp_rsa2048\password.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
   <data name="ruby_kp_rsa2048_private_key" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>resources\keys_ruby\data\kp_rsa2048\private_key.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="ruby_kp_rsa2048_public_key" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>resources\keys_ruby\data\kp_rsa2048\public_key.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="ruby_kp_rsa4096_password" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\keys_ruby\data\kp_rsa4096\password.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="ruby_kp_rsa4096_private_key" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>resources\keys_ruby\data\kp_rsa4096\private_key.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -343,20 +340,11 @@
   <data name="swift_fk_rsa4096_aes256gcm_plain_file_key" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>resources\keys_swift\data\fk_rsa4096_aes256gcm\plain_file_key.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="swift_kp_rsa2048_password" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\keys_swift\data\kp_rsa2048\password.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
   <data name="swift_kp_rsa2048_private_key" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>resources\keys_swift\data\kp_rsa2048\private_key.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="swift_kp_rsa2048_public_key" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>resources\keys_swift\data\kp_rsa2048\public_key.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="swift_kp_rsa4096_password" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\keys_swift\data\kp_rsa4096\password.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="swift_kp_rsa4096_pbkdf2_sha1_1300k_password" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\Keys_Swift\data\kp_rsa4096_pbkdf2_sha1_1300k\password.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="swift_kp_rsa4096_pbkdf2_sha1_1300k_private_key" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\Keys_Swift\data\kp_rsa4096_pbkdf2_sha1_1300k\private_key.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -369,6 +357,12 @@
   </data>
   <data name="swift_kp_rsa4096_public_key" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>resources\keys_swift\data\kp_rsa4096\public_key.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="swift_kp_utf8_umlaut_emoji_private_key" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Keys_Swift\data\kp_rsa4096_utf8_umlaut_emoji\private_key.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="swift_kp_utf8_umlaut_emoji_public_key" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Keys_Swift\data\kp_rsa4096_utf8_umlaut_emoji\public_key.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="swift_plain_file" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>resources\keys_swift\files\plain_file.b64;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

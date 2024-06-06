@@ -5,9 +5,9 @@
     public class PlainFileKey {
 
         /// <summary>
-        /// The plain file key (bytes) as base64 byte array.
+        /// The plain file key (chars) as base64 byte array.
         /// </summary>
-        public byte[] Key { get; set; }
+        public char[] Key { get; set; }
 
         /// <summary>
         /// The initialization vector which is used on the key encryption.

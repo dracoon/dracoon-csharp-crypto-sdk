@@ -1,6 +1,5 @@
 ﻿using Dracoon.Crypto.Sdk.Model;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Text;
 
 namespace Dracoon.Crypto.Sdk.Test {
     [TestClass]
@@ -12,14 +11,14 @@ namespace Dracoon.Crypto.Sdk.Test {
 
         [TestMethod]
         public void TestGenerateKP_RSA2048_Success() {
-            UserKeyPair testUkp = Crypto.GenerateUserKeyPair(UserKeyPairAlgorithm.RSA2048, Encoding.UTF8.GetBytes("Qwer1234"));
+            UserKeyPair testUkp = Crypto.GenerateUserKeyPair(UserKeyPairAlgorithm.RSA2048, "Qwer1234".ToCharArray());
             Assert.IsNotNull(testUkp, "Key pair is null!");
 
             UserPrivateKey testPrivateKey = testUkp.UserPrivateKey;
             Assert.IsNotNull(testPrivateKey, "Private key container is null!");
             Assert.IsNotNull(testPrivateKey.Version, "Private key version is null");
             Assert.IsNotNull(testPrivateKey.PrivateKey, "Private key is null!");
-            //Assert.IsTrue(testPrivateKey.PrivateKey.StartsWith("-----BEGIN ENCRYPTED PRIVATE KEY-----"), "Private key is invalid!");
+            Assert.IsTrue(testPrivateKey.PrivateKey.StartsWith("-----BEGIN ENCRYPTED PRIVATE KEY-----"), "Private key is invalid!");
             Assert.AreEqual(testPrivateKey.Version, UserKeyPairAlgorithm.RSA2048, "Private key version is not correct!");
 
             UserPublicKey testPublicKey = testUkp.UserPublicKey;
@@ -32,14 +31,14 @@ namespace Dracoon.Crypto.Sdk.Test {
 
         [TestMethod]
         public void TestGenerateKP_RSA4096_Success() {
-            UserKeyPair testUkp = Crypto.GenerateUserKeyPair(UserKeyPairAlgorithm.RSA4096, Encoding.UTF8.GetBytes("Qwer1234"));
+            UserKeyPair testUkp = Crypto.GenerateUserKeyPair(UserKeyPairAlgorithm.RSA4096, "Qwer1234".ToCharArray());
             Assert.IsNotNull(testUkp, "Key pair is null!");
 
             UserPrivateKey testPrivateKey = testUkp.UserPrivateKey;
             Assert.IsNotNull(testPrivateKey, "Private key container is null!");
             Assert.IsNotNull(testPrivateKey.Version, "Private key version is null");
             Assert.IsNotNull(testPrivateKey.PrivateKey, "Private key is null!");
-            //Assert.IsTrue(testPrivateKey.PrivateKey.StartsWith("-----BEGIN ENCRYPTED PRIVATE KEY-----"), "Private key is invalid!");
+            Assert.IsTrue(testPrivateKey.PrivateKey.StartsWith("-----BEGIN ENCRYPTED PRIVATE KEY-----"), "Private key is invalid!");
             Assert.AreEqual(testPrivateKey.Version, UserKeyPairAlgorithm.RSA4096, "Private key version is not correct!");
 
             UserPublicKey testPublicKey = testUkp.UserPublicKey;
@@ -57,7 +56,7 @@ namespace Dracoon.Crypto.Sdk.Test {
         [TestMethod]
         public void TestGenerateUserKeyPair_VersionNull() {
             try {
-                Crypto.GenerateUserKeyPair(new UserKeyPairAlgorithm().ParseAlgorithm(null), Encoding.UTF8.GetBytes("Qwer1234"));
+                Crypto.GenerateUserKeyPair(new UserKeyPairAlgorithm().ParseAlgorithm(null), "Qwer1234".ToCharArray());
             } catch (InvalidKeyPairException) {
                 return;
             }
@@ -67,7 +66,7 @@ namespace Dracoon.Crypto.Sdk.Test {
         [TestMethod]
         public void TestGenerateUserKeyPair_VersionInvalid() {
             try {
-                Crypto.GenerateUserKeyPair(new UserKeyPairAlgorithm().ParseAlgorithm("Z"), Encoding.UTF8.GetBytes("Qwer1234"));
+                Crypto.GenerateUserKeyPair(new UserKeyPairAlgorithm().ParseAlgorithm("Z"), "Qwer1234".ToCharArray());
             } catch (InvalidKeyPairException) {
                 return;
             }
@@ -91,7 +90,7 @@ namespace Dracoon.Crypto.Sdk.Test {
         [TestMethod]
         public void TestGenerateUserKeyPair_PasswordEmpty() {
             try {
-                Crypto.GenerateUserKeyPair(UserKeyPairAlgorithm.RSA2048, new byte[0]);
+                Crypto.GenerateUserKeyPair(UserKeyPairAlgorithm.RSA2048, new char[0]);
             } catch (InvalidPasswordException) {
                 return;
             }
@@ -108,98 +107,140 @@ namespace Dracoon.Crypto.Sdk.Test {
 
         [TestMethod]
         public void Test_KP_RSA2048_CSharp() {
-            bool testCheck = TestCheckUserKeyPair(TestResources.csharp_kp_rsa2048_private_key, Encoding.UTF8.GetBytes(TestResources.csharp_kp_rsa2048_password));
+            bool testCheck = TestCheckUserKeyPair(TestResources.csharp_kp_rsa2048_private_key, "acw9q857n(".ToCharArray());
 
             Assert.IsTrue(testCheck, "User key pair check failed!");
         }
 
         [TestMethod]
         public void Test_KP_RSA4096_CSharp() {
-            bool testCheck = TestCheckUserKeyPair(TestResources.csharp_kp_rsa4096_private_key, Encoding.UTF8.GetBytes(TestResources.csharp_kp_rsa4096_password));
+            bool testCheck = TestCheckUserKeyPair(TestResources.csharp_kp_rsa4096_private_key, "acw9q857n(".ToCharArray());
 
             Assert.IsTrue(testCheck, "User key pair check failed!");
         }
 
         [TestMethod]
         public void Test_KP_RSA4096_PBKDF2_SHA1_1300k_CSharp() {
-            bool testCheck = TestCheckUserKeyPair(TestResources.csharp_kp_rsa4096_pbkdf2_sha1_1300k_private_key, Encoding.UTF8.GetBytes(TestResources.csharp_kp_rsa4096_pbkdf2_sha1_1300k_password));
+            bool testCheck = TestCheckUserKeyPair(TestResources.csharp_kp_rsa4096_pbkdf2_sha1_1300k_private_key, "acw9q857n(".ToCharArray());
+
+            Assert.IsTrue(testCheck, "User key pair check failed!");
+        }
+
+        [TestMethod]
+        public void Test_KP_RSA4096_UTF8_Umlaut_Emoji_CSharp() {
+            bool testCheck = TestCheckUserKeyPair(TestResources.csharp_kp_rsa4096_utf8_umlaut_emoji_private_key, "Qwer1234!ä🐛".ToCharArray());
 
             Assert.IsTrue(testCheck, "User key pair check failed!");
         }
 
         [TestMethod]
         public void Test_KP_RSA2048_Ruby() {
-            bool testCheck = TestCheckUserKeyPair(TestResources.ruby_kp_rsa2048_private_key, Encoding.UTF8.GetBytes(TestResources.ruby_kp_rsa2048_password));
+            bool testCheck = TestCheckUserKeyPair(TestResources.ruby_kp_rsa2048_private_key, "Qwer1234!".ToCharArray());
 
             Assert.IsTrue(testCheck, "User key pair check failed!");
         }
 
         [TestMethod]
         public void Test_KP_RSA4096_Ruby() {
-            bool testCheck = TestCheckUserKeyPair(TestResources.ruby_kp_rsa4096_private_key, Encoding.UTF8.GetBytes(TestResources.ruby_kp_rsa4096_password));
+            bool testCheck = TestCheckUserKeyPair(TestResources.ruby_kp_rsa4096_private_key, "Qwer1234!".ToCharArray());
 
             Assert.IsTrue(testCheck, "User key pair check failed!");
         }
 
         [TestMethod]
         public void Test_KP_RSA2048_Java() {
-            bool testCheck = TestCheckUserKeyPair(TestResources.java_kp_rsa2048_private_key, Encoding.UTF8.GetBytes(TestResources.java_kp_rsa2048_password));
+            bool testCheck = TestCheckUserKeyPair(TestResources.java_kp_rsa2048_private_key, "Qwer1234!".ToCharArray());
 
             Assert.IsTrue(testCheck, "User key pair check failed!");
         }
 
         [TestMethod]
         public void Test_KP_RSA4096_Java() {
-            bool testCheck = TestCheckUserKeyPair(TestResources.java_kp_rsa4096_private_key, Encoding.UTF8.GetBytes(TestResources.java_kp_rsa4096_password));
+            bool testCheck = TestCheckUserKeyPair(TestResources.java_kp_rsa4096_private_key, "Qwer1234!".ToCharArray());
 
             Assert.IsTrue(testCheck, "User key pair check failed!");
         }
 
         [TestMethod]
         public void Test_KP_RSA4096_PBKDF2_SHA1_1300k_Java() {
-            bool testCheck = TestCheckUserKeyPair(TestResources.java_kp_rsa4096_pbkdf2_sha1_1300k_private_key, Encoding.UTF8.GetBytes(TestResources.java_kp_rsa4096_pbkdf2_sha1_1300k_password));
+            bool testCheck = TestCheckUserKeyPair(TestResources.java_kp_rsa4096_pbkdf2_sha1_1300k_private_key, "Qwer1234!".ToCharArray());
+
+            Assert.IsTrue(testCheck, "User key pair check failed!");
+        }
+
+        [TestMethod]
+        public void Test_KP_RSA4096_UTF8_Umlaut_Emoji_Java() {
+            bool testCheck = TestCheckUserKeyPair(TestResources.java_kp_rsa4096_utf8_umlaut_emoji_private_key, "Qwer1234!ä🐛".ToCharArray());
+
+            Assert.IsTrue(testCheck, "User key pair check failed!");
+        }
+
+        [TestMethod]
+        public void Test_KP_RSA4096_ISO8859_1_Umlaut_Java() {
+            bool testCheck = TestCheckUserKeyPair(TestResources.java_kp_rsa4096_iso_umlaut_private_key, "Qwer1234!ä".ToCharArray());
 
             Assert.IsTrue(testCheck, "User key pair check failed!");
         }
 
         [TestMethod]
         public void Test_KP_RSA2048_Swift() {
-            bool testCheck = TestCheckUserKeyPair(TestResources.swift_kp_rsa2048_private_key, Encoding.UTF8.GetBytes(TestResources.swift_kp_rsa2048_password));
+            bool testCheck = TestCheckUserKeyPair(TestResources.swift_kp_rsa2048_private_key, "Pass1234!".ToCharArray());
 
             Assert.IsTrue(testCheck, "User key pair check failed!");
         }
 
         [TestMethod]
         public void Test_KP_RSA4096_Swift() {
-            bool testCheck = TestCheckUserKeyPair(TestResources.swift_kp_rsa4096_private_key, Encoding.UTF8.GetBytes(TestResources.swift_kp_rsa4096_password));
+            bool testCheck = TestCheckUserKeyPair(TestResources.swift_kp_rsa4096_private_key, "ABC123DEFF456".ToCharArray());
 
             Assert.IsTrue(testCheck, "User key pair check failed!");
         }
 
         [TestMethod]
         public void Test_KP_RSA4096_PBKDF2_SHA1_1300k_Swift() {
-            bool testCheck = TestCheckUserKeyPair(TestResources.swift_kp_rsa4096_pbkdf2_sha1_1300k_private_key, Encoding.UTF8.GetBytes(TestResources.swift_kp_rsa4096_pbkdf2_sha1_1300k_password));
+            bool testCheck = TestCheckUserKeyPair(TestResources.swift_kp_rsa4096_pbkdf2_sha1_1300k_private_key, "ABC123DEFF456".ToCharArray());
+
+            Assert.IsTrue(testCheck, "User key pair check failed!");
+        }
+
+        [TestMethod]
+        public void Test_KP_RSA4096_UTF8_Umlaut_Emoji_Swift() {
+            bool testCheck = TestCheckUserKeyPair(TestResources.swift_kp_utf8_umlaut_emoji_private_key, "Qwer1234!ä🐛".ToCharArray());
 
             Assert.IsTrue(testCheck, "User key pair check failed!");
         }
 
         [TestMethod]
         public void Test_KP_RSA2048_JS() {
-            bool testCheck = TestCheckUserKeyPair(TestResources.js_kp_rsa2048_private_key, Encoding.UTF8.GetBytes(TestResources.js_kp_rsa2048_password));
+            bool testCheck = TestCheckUserKeyPair(TestResources.js_kp_rsa2048_private_key, "Qwer1234!".ToCharArray());
 
             Assert.IsTrue(testCheck, "User key pair check failed!");
         }
 
         [TestMethod]
         public void Test_KP_RSA4096_JS() {
-            bool testCheck = TestCheckUserKeyPair(TestResources.js_kp_rsa4096_private_key, Encoding.UTF8.GetBytes(TestResources.js_kp_rsa4096_password));
+            bool testCheck = TestCheckUserKeyPair(TestResources.js_kp_rsa4096_private_key, "Qwer1234!".ToCharArray());
 
             Assert.IsTrue(testCheck, "User key pair check failed!");
         }
 
         [TestMethod]
         public void Test_KP_RSA4096_PBKDF2_SHA1_1300k_JS() {
-            bool testCheck = TestCheckUserKeyPair(TestResources.js_kp_rsa4096_pbkdf2_sha1_1300k_private_key, Encoding.UTF8.GetBytes(TestResources.js_kp_rsa4096_pbkdf2_sha1_1300k_password));
+            bool testCheck = TestCheckUserKeyPair(TestResources.js_kp_rsa4096_pbkdf2_sha1_1300k_private_key, "Qwer1234!".ToCharArray());
+
+            Assert.IsTrue(testCheck, "User key pair check failed!");
+        }
+
+        [TestMethod]
+        public void Test_KP_RSA4096_UTF8_Umlaut_Emoji_JS() {
+            bool testCheck = TestCheckUserKeyPair(TestResources.js_kp_rsa4096_utf8_umlaut_emoji_private_key, "Qwer1234!ä🐛".ToCharArray());
+
+            Assert.IsTrue(testCheck, "User key pair check failed!");
+        }
+
+        [TestMethod]
+        public void Test_KP_RSA4096_ISO8859_1_Umlaut_JS() {
+            bool testCheck = TestCheckUserKeyPair(TestResources.js_kp_rsa4096_iso_umlaut_private_key, "Qwer1234!ä".ToCharArray());
 
             Assert.IsTrue(testCheck, "User key pair check failed!");
         }
@@ -211,7 +252,7 @@ namespace Dracoon.Crypto.Sdk.Test {
         [TestMethod]
         public void TestCheckUserKeyPair_PrivateKeyNull() {
             try {
-                TestCheckUserKeyPair(null, Encoding.UTF8.GetBytes("Pass1234!"));
+                TestCheckUserKeyPair(null, "Pass1234!".ToCharArray());
             } catch (InvalidKeyPairException) {
                 return;
             }
@@ -221,7 +262,7 @@ namespace Dracoon.Crypto.Sdk.Test {
         [TestMethod]
         public void TestCheckUserKeyPair_PrivateKeyBadVersion() {
             try {
-                TestCheckUserKeyPair(TestResources.private_key_bad_version, Encoding.UTF8.GetBytes("Pass1234!"));
+                TestCheckUserKeyPair(TestResources.private_key_bad_version, "Pass1234!".ToCharArray());
             } catch (InvalidKeyPairException) {
                 return;
             }
@@ -231,7 +272,7 @@ namespace Dracoon.Crypto.Sdk.Test {
         [TestMethod]
         public void TestCheckUserKeyPair_PrivateKeyBadPem() {
             try {
-                TestCheckUserKeyPair(TestResources.private_key_bad_pem, Encoding.UTF8.GetBytes("Pass1234!"));
+                TestCheckUserKeyPair(TestResources.private_key_bad_pem, "Pass1234!".ToCharArray());
             } catch (CryptoException) {
                 return;
             }
@@ -241,7 +282,7 @@ namespace Dracoon.Crypto.Sdk.Test {
         [TestMethod]
         public void TestCheckUserKeyPair_PrivateKeyBadValue() {
             try {
-                TestCheckUserKeyPair(TestResources.private_key_bad_value, Encoding.UTF8.GetBytes("Pass1234!"));
+                TestCheckUserKeyPair(TestResources.private_key_bad_value, "Pass1234!".ToCharArray());
             } catch (CryptoException) {
                 return;
             }
@@ -250,7 +291,7 @@ namespace Dracoon.Crypto.Sdk.Test {
 
         [TestMethod]
         public void TestCheckUserKeyPair_PrivateKeyBadAsn1() {
-            bool testCheck = TestCheckUserKeyPair(TestResources.private_key_bad_asn1, Encoding.UTF8.GetBytes("Qwer1234!"));
+            bool testCheck = TestCheckUserKeyPair(TestResources.private_key_bad_asn1, "Qwer1234!".ToCharArray());
             Assert.IsTrue(testCheck, "User key pair ASN1 check failed!");
         }
 
@@ -267,14 +308,14 @@ namespace Dracoon.Crypto.Sdk.Test {
 
         [TestMethod]
         public void TestCheckUserKeyPair_PasswordInvalid() {
-            bool testCheck = TestCheckUserKeyPair(TestResources.csharp_kp_rsa2048_private_key, Encoding.UTF8.GetBytes("Invalid-Password"));
+            bool testCheck = TestCheckUserKeyPair(TestResources.csharp_kp_rsa2048_private_key, "Invalid-Password".ToCharArray());
 
             Assert.IsFalse(testCheck, "User key pair check was successful!");
         }
 
         #endregion
 
-        private static bool TestCheckUserKeyPair(byte[] ukpFileBytes, byte[] pw) {
+        private static bool TestCheckUserKeyPair(byte[] ukpFileBytes, char[] pw) {
             UserKeyPair ukp = new UserKeyPair {
                 UserPrivateKey = TestUtilities.ReadTestResource<UserPrivateKey>(ukpFileBytes)
             };
@@ -293,7 +334,7 @@ namespace Dracoon.Crypto.Sdk.Test {
             EncryptedFileKey testEfk = TestEncryptFileKey(TestResources.csharp_fk_rsa2048_aes256gcm_plain_file_key, TestResources.csharp_kp_rsa2048_public_key);
 
             PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.csharp_fk_rsa2048_aes256gcm_plain_file_key);
-            PlainFileKey testPfk = Crypto.DecryptFileKey(testEfk, TestUtilities.ReadTestResource<UserPrivateKey>(TestResources.csharp_kp_rsa2048_private_key), Encoding.UTF8.GetBytes(TestResources.csharp_kp_rsa2048_password));
+            PlainFileKey testPfk = Crypto.DecryptFileKey(testEfk, TestUtilities.ReadTestResource<UserPrivateKey>(TestResources.csharp_kp_rsa2048_private_key), "acw9q857n(".ToCharArray());
 
             CollectionAssert.AreEqual(pfk.Key, testPfk.Key, "File key is incorrect!");
             Assert.AreEqual(efk.Iv, testEfk.Iv, "Initialization vector is incorrect!");
@@ -308,7 +349,7 @@ namespace Dracoon.Crypto.Sdk.Test {
             EncryptedFileKey testEfk = TestEncryptFileKey(TestResources.csharp_fk_rsa4096_aes256gcm_plain_file_key, TestResources.csharp_kp_rsa4096_public_key);
 
             PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.csharp_fk_rsa4096_aes256gcm_plain_file_key);
-            PlainFileKey testPfk = Crypto.DecryptFileKey(testEfk, TestUtilities.ReadTestResource<UserPrivateKey>(TestResources.csharp_kp_rsa4096_private_key), Encoding.UTF8.GetBytes(TestResources.csharp_kp_rsa4096_password));
+            PlainFileKey testPfk = Crypto.DecryptFileKey(testEfk, TestUtilities.ReadTestResource<UserPrivateKey>(TestResources.csharp_kp_rsa4096_private_key), "acw9q857n(".ToCharArray());
 
             CollectionAssert.AreEqual(pfk.Key, testPfk.Key, "File key is incorrect!");
             Assert.AreEqual(efk.Iv, testEfk.Iv, "Initialization vector is incorrect!");
@@ -322,7 +363,7 @@ namespace Dracoon.Crypto.Sdk.Test {
             EncryptedFileKey testEfk = TestEncryptFileKey(TestResources.ruby_fk_rsa2048_aes256gcm_plain_file_key, TestResources.ruby_kp_rsa2048_public_key);
 
             PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.ruby_fk_rsa2048_aes256gcm_plain_file_key);
-            PlainFileKey testPfk = Crypto.DecryptFileKey(testEfk, TestUtilities.ReadTestResource<UserPrivateKey>(TestResources.ruby_kp_rsa2048_private_key), Encoding.UTF8.GetBytes(TestResources.ruby_kp_rsa2048_password));
+            PlainFileKey testPfk = Crypto.DecryptFileKey(testEfk, TestUtilities.ReadTestResource<UserPrivateKey>(TestResources.ruby_kp_rsa2048_private_key), "Qwer1234!".ToCharArray());
 
             CollectionAssert.AreEqual(pfk.Key, testPfk.Key, "File key is incorrect!");
             Assert.AreEqual(efk.Iv, testEfk.Iv, "Initialization vector is incorrect!");
@@ -336,7 +377,7 @@ namespace Dracoon.Crypto.Sdk.Test {
             EncryptedFileKey testEfk = TestEncryptFileKey(TestResources.ruby_fk_rsa4096_aes256gcm_plain_file_key, TestResources.ruby_kp_rsa4096_public_key);
 
             PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.ruby_fk_rsa4096_aes256gcm_plain_file_key);
-            PlainFileKey testPfk = Crypto.DecryptFileKey(testEfk, TestUtilities.ReadTestResource<UserPrivateKey>(TestResources.ruby_kp_rsa4096_private_key), Encoding.UTF8.GetBytes(TestResources.ruby_kp_rsa4096_password));
+            PlainFileKey testPfk = Crypto.DecryptFileKey(testEfk, TestUtilities.ReadTestResource<UserPrivateKey>(TestResources.ruby_kp_rsa4096_private_key), "Qwer1234!".ToCharArray());
 
             CollectionAssert.AreEqual(pfk.Key, testPfk.Key, "File key is incorrect!");
             Assert.AreEqual(efk.Iv, testEfk.Iv, "Initialization vector is incorrect!");
@@ -350,7 +391,7 @@ namespace Dracoon.Crypto.Sdk.Test {
             EncryptedFileKey testEfk = TestEncryptFileKey(TestResources.java_fk_rsa2048_aes256gcm_plain_file_key, TestResources.java_kp_rsa2048_public_key);
 
             PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.java_fk_rsa2048_aes256gcm_plain_file_key);
-            PlainFileKey testPfk = Crypto.DecryptFileKey(testEfk, TestUtilities.ReadTestResource<UserPrivateKey>(TestResources.java_kp_rsa2048_private_key), Encoding.UTF8.GetBytes(TestResources.java_kp_rsa2048_password));
+            PlainFileKey testPfk = Crypto.DecryptFileKey(testEfk, TestUtilities.ReadTestResource<UserPrivateKey>(TestResources.java_kp_rsa2048_private_key), "Qwer1234!".ToCharArray());
 
             CollectionAssert.AreEqual(pfk.Key, testPfk.Key, "File key is incorrect!");
             Assert.AreEqual(efk.Iv, testEfk.Iv, "Initialization vector is incorrect!");
@@ -364,7 +405,7 @@ namespace Dracoon.Crypto.Sdk.Test {
             EncryptedFileKey testEfk = TestEncryptFileKey(TestResources.java_fk_rsa4096_aes256gcm_plain_file_key, TestResources.java_kp_rsa4096_public_key);
 
             PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.java_fk_rsa4096_aes256gcm_plain_file_key);
-            PlainFileKey testPfk = Crypto.DecryptFileKey(testEfk, TestUtilities.ReadTestResource<UserPrivateKey>(TestResources.java_kp_rsa4096_private_key), Encoding.UTF8.GetBytes(TestResources.java_kp_rsa4096_password));
+            PlainFileKey testPfk = Crypto.DecryptFileKey(testEfk, TestUtilities.ReadTestResource<UserPrivateKey>(TestResources.java_kp_rsa4096_private_key), "Qwer1234!".ToCharArray());
 
             CollectionAssert.AreEqual(pfk.Key, testPfk.Key, "File key is incorrect!");
             Assert.AreEqual(efk.Iv, testEfk.Iv, "Initialization vector is incorrect!");
@@ -378,7 +419,7 @@ namespace Dracoon.Crypto.Sdk.Test {
             EncryptedFileKey testEfk = TestEncryptFileKey(TestResources.swift_fk_rsa2048_aes256gcm_plain_file_key, TestResources.swift_kp_rsa2048_public_key);
 
             PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.swift_fk_rsa2048_aes256gcm_plain_file_key);
-            PlainFileKey testPfk = Crypto.DecryptFileKey(testEfk, TestUtilities.ReadTestResource<UserPrivateKey>(TestResources.swift_kp_rsa2048_private_key), Encoding.UTF8.GetBytes(TestResources.swift_kp_rsa2048_password));
+            PlainFileKey testPfk = Crypto.DecryptFileKey(testEfk, TestUtilities.ReadTestResource<UserPrivateKey>(TestResources.swift_kp_rsa2048_private_key), "Pass1234!".ToCharArray());
 
             CollectionAssert.AreEqual(pfk.Key, testPfk.Key, "File key is incorrect!");
             Assert.AreEqual(efk.Iv, testEfk.Iv, "Initialization vector is incorrect!");
@@ -393,7 +434,7 @@ namespace Dracoon.Crypto.Sdk.Test {
             EncryptedFileKey testEfk = TestEncryptFileKey(TestResources.swift_fk_rsa4096_aes256gcm_plain_file_key, TestResources.swift_kp_rsa4096_public_key);
 
             PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.swift_fk_rsa4096_aes256gcm_plain_file_key);
-            PlainFileKey testPfk = Crypto.DecryptFileKey(testEfk, TestUtilities.ReadTestResource<UserPrivateKey>(TestResources.swift_kp_rsa4096_private_key), Encoding.UTF8.GetBytes(TestResources.swift_kp_rsa4096_password));
+            PlainFileKey testPfk = Crypto.DecryptFileKey(testEfk, TestUtilities.ReadTestResource<UserPrivateKey>(TestResources.swift_kp_rsa4096_private_key), "ABC123DEFF456".ToCharArray());
 
             CollectionAssert.AreEqual(pfk.Key, testPfk.Key, "File key is incorrect!");
             Assert.AreEqual(efk.Iv, testEfk.Iv, "Initialization vector is incorrect!");
@@ -407,7 +448,7 @@ namespace Dracoon.Crypto.Sdk.Test {
             EncryptedFileKey testEfk = TestEncryptFileKey(TestResources.js_fk_rsa2048_aes256gcm_plain_file_key, TestResources.js_kp_rsa2048_public_key);
 
             PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.js_fk_rsa2048_aes256gcm_plain_file_key);
-            PlainFileKey testPfk = Crypto.DecryptFileKey(testEfk, TestUtilities.ReadTestResource<UserPrivateKey>(TestResources.js_kp_rsa2048_private_key), Encoding.UTF8.GetBytes(TestResources.js_kp_rsa2048_password));
+            PlainFileKey testPfk = Crypto.DecryptFileKey(testEfk, TestUtilities.ReadTestResource<UserPrivateKey>(TestResources.js_kp_rsa2048_private_key), "Qwer1234!".ToCharArray());
 
             CollectionAssert.AreEqual(pfk.Key, testPfk.Key, "File key is incorrect!");
             Assert.AreEqual(efk.Iv, testEfk.Iv, "Initialization vector is incorrect!");
@@ -421,7 +462,7 @@ namespace Dracoon.Crypto.Sdk.Test {
             EncryptedFileKey testEfk = TestEncryptFileKey(TestResources.js_fk_rsa4096_aes256gcm_plain_file_key, TestResources.js_kp_rsa4096_public_key);
 
             PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.js_fk_rsa4096_aes256gcm_plain_file_key);
-            PlainFileKey testPfk = Crypto.DecryptFileKey(testEfk, TestUtilities.ReadTestResource<UserPrivateKey>(TestResources.js_kp_rsa4096_private_key), Encoding.UTF8.GetBytes(TestResources.js_kp_rsa4096_password));
+            PlainFileKey testPfk = Crypto.DecryptFileKey(testEfk, TestUtilities.ReadTestResource<UserPrivateKey>(TestResources.js_kp_rsa4096_private_key), "Qwer1234!".ToCharArray());
 
             CollectionAssert.AreEqual(pfk.Key, testPfk.Key, "File key is incorrect!");
             Assert.AreEqual(efk.Iv, testEfk.Iv, "Initialization vector is incorrect!");
@@ -446,7 +487,7 @@ namespace Dracoon.Crypto.Sdk.Test {
         [TestMethod]
         public void Test_FKDecrypt_RSA2048_AES256GCM_CSharp() {
             PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.csharp_fk_rsa2048_aes256gcm_plain_file_key);
-            PlainFileKey testPfk = TestDecryptFileKey(TestResources.csharp_fk_rsa2048_aes256gcm_enc_file_key, TestResources.csharp_kp_rsa2048_private_key, Encoding.UTF8.GetBytes(TestResources.csharp_kp_rsa2048_password));
+            PlainFileKey testPfk = TestDecryptFileKey(TestResources.csharp_fk_rsa2048_aes256gcm_enc_file_key, TestResources.csharp_kp_rsa2048_private_key, "acw9q857n(".ToCharArray());
 
             CollectionAssert.AreEqual(pfk.Key, testPfk.Key, "File key is incorrect!");
             Assert.AreEqual(pfk.Iv, testPfk.Iv, "Initialization vector is incorrect!");
@@ -457,7 +498,7 @@ namespace Dracoon.Crypto.Sdk.Test {
         [TestMethod]
         public void Test_FKDecrypt_RSA4096_AES256GCM_CSharp() {
             PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.csharp_fk_rsa4096_aes256gcm_plain_file_key);
-            PlainFileKey testPfk = TestDecryptFileKey(TestResources.csharp_fk_rsa4096_aes256gcm_enc_file_key, TestResources.csharp_kp_rsa4096_private_key, Encoding.UTF8.GetBytes(TestResources.csharp_kp_rsa4096_password));
+            PlainFileKey testPfk = TestDecryptFileKey(TestResources.csharp_fk_rsa4096_aes256gcm_enc_file_key, TestResources.csharp_kp_rsa4096_private_key, "acw9q857n(".ToCharArray());
 
             CollectionAssert.AreEqual(pfk.Key, testPfk.Key, "File key is incorrect!");
             Assert.AreEqual(pfk.Iv, testPfk.Iv, "Initialization vector is incorrect!");
@@ -468,7 +509,7 @@ namespace Dracoon.Crypto.Sdk.Test {
         [TestMethod]
         public void Test_FKDecrypt_RSA2048_AES256GCM_Ruby() {
             PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.ruby_fk_rsa2048_aes256gcm_plain_file_key);
-            PlainFileKey testPfk = TestDecryptFileKey(TestResources.ruby_fk_rsa2048_aes256gcm_enc_file_key, TestResources.ruby_kp_rsa2048_private_key, Encoding.UTF8.GetBytes(TestResources.ruby_kp_rsa2048_password));
+            PlainFileKey testPfk = TestDecryptFileKey(TestResources.ruby_fk_rsa2048_aes256gcm_enc_file_key, TestResources.ruby_kp_rsa2048_private_key, "Qwer1234!".ToCharArray());
 
             CollectionAssert.AreEqual(pfk.Key, testPfk.Key, "File key is incorrect!");
             Assert.AreEqual(pfk.Iv, testPfk.Iv, "Initialization vector is incorrect!");
@@ -479,7 +520,7 @@ namespace Dracoon.Crypto.Sdk.Test {
         [TestMethod]
         public void Test_FKDecrypt_RSA4096_AES256GCM_Ruby() {
             PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.ruby_fk_rsa4096_aes256gcm_plain_file_key);
-            PlainFileKey testPfk = TestDecryptFileKey(TestResources.ruby_fk_rsa4096_aes256gcm_enc_file_key, TestResources.ruby_kp_rsa4096_private_key, Encoding.UTF8.GetBytes(TestResources.ruby_kp_rsa4096_password));
+            PlainFileKey testPfk = TestDecryptFileKey(TestResources.ruby_fk_rsa4096_aes256gcm_enc_file_key, TestResources.ruby_kp_rsa4096_private_key, "Qwer1234!".ToCharArray());
 
             CollectionAssert.AreEqual(pfk.Key, testPfk.Key, "File key is incorrect!");
             Assert.AreEqual(pfk.Iv, testPfk.Iv, "Initialization vector is incorrect!");
@@ -490,7 +531,7 @@ namespace Dracoon.Crypto.Sdk.Test {
         [TestMethod]
         public void Test_FKDecrypt_RSA2048_AES256GCM_Java() {
             PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.java_fk_rsa2048_aes256gcm_plain_file_key);
-            PlainFileKey testPfk = TestDecryptFileKey(TestResources.java_fk_rsa2048_aes256gcm_enc_file_key, TestResources.java_kp_rsa2048_private_key, Encoding.UTF8.GetBytes(TestResources.java_kp_rsa2048_password));
+            PlainFileKey testPfk = TestDecryptFileKey(TestResources.java_fk_rsa2048_aes256gcm_enc_file_key, TestResources.java_kp_rsa2048_private_key, "Qwer1234!".ToCharArray());
 
             CollectionAssert.AreEqual(pfk.Key, testPfk.Key, "File key is incorrect!");
             Assert.AreEqual(pfk.Iv, testPfk.Iv, "Initialization vector is incorrect!");
@@ -501,7 +542,7 @@ namespace Dracoon.Crypto.Sdk.Test {
         [TestMethod]
         public void Test_FKDecrypt_RSA4096_AES256GCM_Java() {
             PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.java_fk_rsa4096_aes256gcm_plain_file_key);
-            PlainFileKey testPfk = TestDecryptFileKey(TestResources.java_fk_rsa4096_aes256gcm_enc_file_key, TestResources.java_kp_rsa4096_private_key, Encoding.UTF8.GetBytes(TestResources.java_kp_rsa4096_password));
+            PlainFileKey testPfk = TestDecryptFileKey(TestResources.java_fk_rsa4096_aes256gcm_enc_file_key, TestResources.java_kp_rsa4096_private_key, "Qwer1234!".ToCharArray());
 
             CollectionAssert.AreEqual(pfk.Key, testPfk.Key, "File key is incorrect!");
             Assert.AreEqual(pfk.Iv, testPfk.Iv, "Initialization vector is incorrect!");
@@ -512,7 +553,7 @@ namespace Dracoon.Crypto.Sdk.Test {
         [TestMethod]
         public void Test_FKDecrypt_RSA2048_AES256GCM_Swift() {
             PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.swift_fk_rsa2048_aes256gcm_plain_file_key);
-            PlainFileKey testPfk = TestDecryptFileKey(TestResources.swift_fk_rsa2048_aes256gcm_enc_file_key, TestResources.swift_kp_rsa2048_private_key, Encoding.UTF8.GetBytes(TestResources.swift_kp_rsa2048_password));
+            PlainFileKey testPfk = TestDecryptFileKey(TestResources.swift_fk_rsa2048_aes256gcm_enc_file_key, TestResources.swift_kp_rsa2048_private_key, "Pass1234!".ToCharArray());
 
             CollectionAssert.AreEqual(pfk.Key, testPfk.Key, "File key is incorrect!");
             Assert.AreEqual(pfk.Iv, testPfk.Iv, "Initialization vector is incorrect!");
@@ -523,7 +564,7 @@ namespace Dracoon.Crypto.Sdk.Test {
         [TestMethod]
         public void Test_FKDecrypt_RSA4096_AES256GCM_Swift() {
             PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.swift_fk_rsa4096_aes256gcm_plain_file_key);
-            PlainFileKey testPfk = TestDecryptFileKey(TestResources.swift_fk_rsa4096_aes256gcm_enc_file_key, TestResources.swift_kp_rsa4096_private_key, Encoding.UTF8.GetBytes(TestResources.swift_kp_rsa4096_password));
+            PlainFileKey testPfk = TestDecryptFileKey(TestResources.swift_fk_rsa4096_aes256gcm_enc_file_key, TestResources.swift_kp_rsa4096_private_key, "ABC123DEFF456".ToCharArray());
 
             CollectionAssert.AreEqual(pfk.Key, testPfk.Key, "File key is incorrect!");
             Assert.AreEqual(pfk.Iv, testPfk.Iv, "Initialization vector is incorrect!");
@@ -534,7 +575,7 @@ namespace Dracoon.Crypto.Sdk.Test {
         [TestMethod]
         public void Test_FKDecrypt_RSA2048_AES256GCM_JS() {
             PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.js_fk_rsa2048_aes256gcm_plain_file_key);
-            PlainFileKey testPfk = TestDecryptFileKey(TestResources.js_fk_rsa2048_aes256gcm_enc_file_key, TestResources.js_kp_rsa2048_private_key, Encoding.UTF8.GetBytes(TestResources.js_kp_rsa2048_password));
+            PlainFileKey testPfk = TestDecryptFileKey(TestResources.js_fk_rsa2048_aes256gcm_enc_file_key, TestResources.js_kp_rsa2048_private_key, "Qwer1234!".ToCharArray());
 
             CollectionAssert.AreEqual(pfk.Key, testPfk.Key, "File key is incorrect!");
             Assert.AreEqual(pfk.Iv, testPfk.Iv, "Initialization vector is incorrect!");
@@ -545,7 +586,7 @@ namespace Dracoon.Crypto.Sdk.Test {
         [TestMethod]
         public void Test_FKDecrypt_RSA4096_AES256GCM_JS() {
             PlainFileKey pfk = TestUtilities.ReadTestResource<PlainFileKey>(TestResources.js_fk_rsa4096_aes256gcm_plain_file_key);
-            PlainFileKey testPfk = TestDecryptFileKey(TestResources.js_fk_rsa4096_aes256gcm_enc_file_key, TestResources.js_kp_rsa4096_private_key, Encoding.UTF8.GetBytes(TestResources.js_kp_rsa4096_password));
+            PlainFileKey testPfk = TestDecryptFileKey(TestResources.js_fk_rsa4096_aes256gcm_enc_file_key, TestResources.js_kp_rsa4096_private_key, "Qwer1234!".ToCharArray());
 
             CollectionAssert.AreEqual(pfk.Key, testPfk.Key, "File key is incorrect!");
             Assert.AreEqual(pfk.Iv, testPfk.Iv, "Initialization vector is incorrect!");
@@ -560,7 +601,7 @@ namespace Dracoon.Crypto.Sdk.Test {
         [TestMethod]
         public void TestDecryptFileKey_FileKeyNull() {
             try {
-                TestDecryptFileKey(null, TestResources.csharp_kp_rsa2048_private_key, Encoding.UTF8.GetBytes(TestResources.csharp_kp_rsa2048_password));
+                TestDecryptFileKey(null, TestResources.csharp_kp_rsa2048_private_key, "acw9q857n(".ToCharArray());
             } catch (InvalidFileKeyException) {
                 return;
             }
@@ -570,7 +611,7 @@ namespace Dracoon.Crypto.Sdk.Test {
         [TestMethod]
         public void TestDecryptFileKey_FileKeyBadVersion() {
             try {
-                TestDecryptFileKey(TestResources.enc_file_key_bad_version, TestResources.csharp_kp_rsa2048_private_key, Encoding.UTF8.GetBytes(TestResources.csharp_kp_rsa2048_password));
+                TestDecryptFileKey(TestResources.enc_file_key_bad_version, TestResources.csharp_kp_rsa2048_private_key, "acw9q857n(".ToCharArray());
             } catch (InvalidFileKeyException) {
                 return;
             }
@@ -580,7 +621,7 @@ namespace Dracoon.Crypto.Sdk.Test {
         [TestMethod]
         public void TestDecryptFileKey_FileKeyBadKey() {
             try {
-                TestDecryptFileKey(TestResources.enc_file_key_bad_key, TestResources.csharp_kp_rsa2048_private_key, Encoding.UTF8.GetBytes(TestResources.csharp_kp_rsa2048_password));
+                TestDecryptFileKey(TestResources.enc_file_key_bad_key, TestResources.csharp_kp_rsa2048_private_key, "acw9q857n(".ToCharArray());
             } catch (CryptoException) {
                 return;
             }
@@ -594,7 +635,7 @@ namespace Dracoon.Crypto.Sdk.Test {
         [TestMethod]
         public void TestDecryptFileKey_PrivateKeyNull() {
             try {
-                TestDecryptFileKey(TestResources.csharp_fk_rsa2048_aes256gcm_enc_file_key, null, Encoding.UTF8.GetBytes(TestResources.csharp_kp_rsa2048_password));
+                TestDecryptFileKey(TestResources.csharp_fk_rsa2048_aes256gcm_enc_file_key, null, "acw9q857n(".ToCharArray());
             } catch (InvalidKeyPairException) {
                 return;
             }
@@ -604,7 +645,7 @@ namespace Dracoon.Crypto.Sdk.Test {
         [TestMethod]
         public void TestDecryptFileKey_PrivateKeyBadVersion() {
             try {
-                TestDecryptFileKey(TestResources.csharp_fk_rsa2048_aes256gcm_enc_file_key, TestResources.private_key_bad_version, Encoding.UTF8.GetBytes(TestResources.csharp_kp_rsa2048_password));
+                TestDecryptFileKey(TestResources.csharp_fk_rsa2048_aes256gcm_enc_file_key, TestResources.private_key_bad_version, "acw9q857n(".ToCharArray());
             } catch (InvalidKeyPairException) {
                 return;
             }
@@ -614,7 +655,7 @@ namespace Dracoon.Crypto.Sdk.Test {
         [TestMethod]
         public void TestDecryptFileKey_PrivateKeyBadPem() {
             try {
-                TestDecryptFileKey(TestResources.csharp_fk_rsa2048_aes256gcm_enc_file_key, TestResources.private_key_bad_pem, Encoding.UTF8.GetBytes(TestResources.csharp_kp_rsa2048_password));
+                TestDecryptFileKey(TestResources.csharp_fk_rsa2048_aes256gcm_enc_file_key, TestResources.private_key_bad_pem, "acw9q857n(".ToCharArray());
             } catch (CryptoException) {
                 return;
             }
@@ -624,7 +665,7 @@ namespace Dracoon.Crypto.Sdk.Test {
         [TestMethod]
         public void TestDecryptFileKey_PrivateKeyBadValue() {
             try {
-                TestDecryptFileKey(TestResources.csharp_fk_rsa2048_aes256gcm_enc_file_key, TestResources.private_key_bad_value, Encoding.UTF8.GetBytes(TestResources.csharp_kp_rsa2048_password));
+                TestDecryptFileKey(TestResources.csharp_fk_rsa2048_aes256gcm_enc_file_key, TestResources.private_key_bad_value, "acw9q857n(".ToCharArray());
             } catch (CryptoException) {
                 return;
             }
@@ -648,7 +689,7 @@ namespace Dracoon.Crypto.Sdk.Test {
         [TestMethod]
         public void TestDecryptFileKey_PasswordInvalid() {
             try {
-                TestDecryptFileKey(TestResources.csharp_fk_rsa2048_aes256gcm_enc_file_key, TestResources.csharp_kp_rsa2048_private_key, Encoding.UTF8.GetBytes("Invalid-Password"));
+                TestDecryptFileKey(TestResources.csharp_fk_rsa2048_aes256gcm_enc_file_key, TestResources.csharp_kp_rsa2048_private_key, "Invalid-Password".ToCharArray());
             } catch (CryptoException) {
                 return;
             }
@@ -657,7 +698,7 @@ namespace Dracoon.Crypto.Sdk.Test {
 
         #endregion
 
-        private static PlainFileKey TestDecryptFileKey(byte[] encryptedFileKeyResource, byte[] userPrivateKeyResource, byte[] password) {
+        private static PlainFileKey TestDecryptFileKey(byte[] encryptedFileKeyResource, byte[] userPrivateKeyResource, char[] password) {
             EncryptedFileKey efk = TestUtilities.ReadTestResource<EncryptedFileKey>(encryptedFileKeyResource);
             UserPrivateKey upk = TestUtilities.ReadTestResource<UserPrivateKey>(userPrivateKeyResource);
             return Crypto.DecryptFileKey(efk, upk, password);
