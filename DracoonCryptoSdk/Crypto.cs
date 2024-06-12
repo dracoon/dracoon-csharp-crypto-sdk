@@ -15,6 +15,7 @@ using Org.BouncyCastle.Security;
 using System;
 using System.IO;
 using System.Security.Cryptography;
+using System.Text;
 
 namespace Dracoon.Crypto.Sdk {
     /// <summary>
@@ -25,13 +26,13 @@ namespace Dracoon.Crypto.Sdk {
     /// 
     /// <item>
     /// <description>User key pair generation: 
-    /// <see cref="Crypto.GenerateUserKeyPair(UserKeyPairAlgorithm, string)"/>
+    /// <see cref="Crypto.GenerateUserKeyPair(UserKeyPairAlgorithm, char[])"/>
     /// </description>
     /// </item>
     /// 
     /// <item>
     /// <description>User key pair check: 
-    /// <see cref="Crypto.CheckUserKeyPair(UserKeyPair, string)"/>
+    /// <see cref="Crypto.CheckUserKeyPair(UserKeyPair, char[])"/>
     /// </description>
     /// </item>
     /// 
@@ -49,7 +50,7 @@ namespace Dracoon.Crypto.Sdk {
     /// 
     /// <item>
     /// <description> File key decryption:
-    /// <see cref="Crypto.DecryptFileKey(EncryptedFileKey, UserPrivateKey, string)"/>
+    /// <see cref="Crypto.DecryptFileKey(EncryptedFileKey, UserPrivateKey, char[])"/>
     /// </description>
     /// </item>
     /// 
@@ -78,6 +79,10 @@ namespace Dracoon.Crypto.Sdk {
 
             public char[] GetPassword() {
                 return (char[]) _password.Clone();
+            }
+
+            public void ClearPasswordArray() {
+                Array.Clear(_password, 0, _password.Length);
             }
         }
 
@@ -127,7 +132,7 @@ namespace Dracoon.Crypto.Sdk {
         /// <exception cref="InvalidPasswordException">If the password to secure the private key is invalid.</exception>
         /// <exception cref="CryptoSystemException">If an unexpected error occured.</exception>
         /// <exception cref="CryptoException">If an unexpected error in the encryption of the private key occured.</exception>
-        public static UserKeyPair GenerateUserKeyPair(UserKeyPairAlgorithm algorithm, byte[] password) {
+        public static UserKeyPair GenerateUserKeyPair(UserKeyPairAlgorithm algorithm, char[] password) {
             ValidatePassword(password);
 
             AsymmetricCipherKeyPair rsaKeyInfo = ParseAsymmetricCipherKeyPair(algorithm);
@@ -141,7 +146,8 @@ namespace Dracoon.Crypto.Sdk {
             return new UserKeyPair() { UserPrivateKey = userPrivateKey, UserPublicKey = userPublicKey };
         }
 
-        private static string EncryptPrivateKey(AsymmetricKeyParameter privateKey, byte[] password) {
+        private static string EncryptPrivateKey(AsymmetricKeyParameter privateKey, char[] password) {
+            byte[] passwordBytes = Encoding.UTF8.GetBytes(password);
             string result = null;
 
             // Create salts
@@ -155,7 +161,7 @@ namespace Dracoon.Crypto.Sdk {
 
                 // Prepare encryption
                 Pkcs5S2ParametersGenerator pkcs5S2Gen = new Pkcs5S2ParametersGenerator(new Sha1Digest());
-                pkcs5S2Gen.Init(password, keySalt, pbkdf2HashIterationCount);
+                pkcs5S2Gen.Init(passwordBytes, keySalt, pbkdf2HashIterationCount);
                 ICipherParameters cipherParams = pkcs5S2Gen.GenerateDerivedParameters(NistObjectIdentifiers.IdAes256Cbc.Id, 256);
                 IBufferedCipher cipher = CipherUtilities.GetCipher(NistObjectIdentifiers.IdAes256Cbc);
                 cipher.Init(true, new ParametersWithIV(cipherParams, aesIv));
@@ -182,28 +188,39 @@ namespace Dracoon.Crypto.Sdk {
             } finally {
                 Array.Clear(aesIv, 0, aesIv.Length);
                 Array.Clear(keySalt, 0, keySalt.Length);
+                Array.Clear(passwordBytes, 0, passwordBytes.Length);
             }
             return result;
         }
 
-        private static AsymmetricKeyParameter DecryptPrivateKey(string encryptedPrivateKey, byte[] password) {
+        private static AsymmetricKeyParameter DecryptPrivateKey(string encryptedPrivateKey, char[] password, string encoding = "utf-8") {
             Environment.SetEnvironmentVariable("Org.BouncyCastle.Asn1.AllowUnsafeInteger", "true", EnvironmentVariableTarget.Process);
+            byte[] passwordBytes = Encoding.GetEncoding(encoding).GetBytes(password);
+            Password p = new Password(ConvertBytesToChars(passwordBytes));
+            Array.Clear(passwordBytes, 0, passwordBytes.Length);
             try {
                 AsymmetricKeyParameter decryptedPrivateKey;
                 using (StringReader tr = new StringReader(encryptedPrivateKey)) {
-                    using (PemReader pemReader = new PemReader(tr, new Password(ConvertBytesToChars(password)))) {
+                    using (PemReader pemReader = new PemReader(tr, p)) {
                         decryptedPrivateKey = (AsymmetricKeyParameter) pemReader.ReadObject();
                     }
                 }
                 return decryptedPrivateKey;
             } catch (PemException e) {
                 if (e.Message.StartsWith("problem creating ENCRYPTED private key: Org.BouncyCastle.Crypto.InvalidCipherTextException")) {
+                    if(encoding == "utf-8") {
+                        // default encoding is utf-8 but if it failes retry to decrypt with iso-8859-1 (because old keys created by different sdks used it)
+                        CheckISO88591Validity(password); // check before if there is a char > 255 which is not iso encodable
+                        return DecryptPrivateKey(encryptedPrivateKey, password, "iso-8859-1");
+                    }
                     throw new InvalidPasswordException("Could not decrypt private key. Invalid private key password.", e);
                 } else {
                     throw new CryptoException("Could not decrypt private key.", e);
                 }
             } catch (Exception e) {
                 throw new CryptoException("Could not decrypt private key.", e);
+            } finally {
+                p.ClearPasswordArray();
             }
         }
 
@@ -216,7 +233,7 @@ namespace Dracoon.Crypto.Sdk {
         /// <returns>True if the user key pair could be unlocked. Otherwise false.</returns>
         /// <exception cref="InvalidKeyPairException">If the provided key pair is invalid.</exception>
         /// <exception cref="CryptoException">If an unexpected error in the decryption of the private key occured.</exception>
-        public static bool CheckUserKeyPair(UserKeyPair userKeyPair, byte[] password) {
+        public static bool CheckUserKeyPair(UserKeyPair userKeyPair, char[] password) {
             ValidateUserKeyPair(userKeyPair);
             ValidateUserPrivateKey(userKeyPair.UserPrivateKey);
 
@@ -269,7 +286,7 @@ namespace Dracoon.Crypto.Sdk {
             try {
                 OaepEncoding engine = new OaepEncoding(new RsaEngine(), new Sha256Digest(), SelectMgf1Hash(userPublicKey.Version), null);
                 engine.Init(true, pubKey);
-                pFileKey = Convert.FromBase64CharArray(ConvertBytesToChars(plainFileKey.Key), 0, plainFileKey.Key.Length);
+                pFileKey = Convert.FromBase64CharArray(plainFileKey.Key, 0, plainFileKey.Key.Length);
                 eFileKey = engine.ProcessBlock(pFileKey, 0, pFileKey.Length);
                 encFileKey = new EncryptedFileKey() {
                     Key = Convert.ToBase64String(eFileKey),
@@ -302,7 +319,7 @@ namespace Dracoon.Crypto.Sdk {
         /// <exception cref="InvalidKeyPairException">If the provided private key is invalid.</exception>
         /// <exception cref="InvalidPasswordException">If the provided private key password is invalid</exception>
         /// <exception cref="CryptoException">If an unexpected error in the decryption occured.</exception>
-        public static PlainFileKey DecryptFileKey(EncryptedFileKey encFileKey, UserPrivateKey userPrivateKey, byte[] password) {
+        public static PlainFileKey DecryptFileKey(EncryptedFileKey encFileKey, UserPrivateKey userPrivateKey, char[] password) {
             ValidateEncryptedFileKey(encFileKey);
             ValidateUserPrivateKey(userPrivateKey);
             ValidatePassword(password);
@@ -320,7 +337,7 @@ namespace Dracoon.Crypto.Sdk {
                 charKey = new char[DetectBase64ArrayLengthRequirement(dFileKey.Length)];
                 Convert.ToBase64CharArray(dFileKey, 0, dFileKey.Length, charKey, 0);
                 plainFileKey = new PlainFileKey() {
-                    Key = ConvertCharsToBytes(charKey),
+                    Key = charKey,
                     Iv = encFileKey.Iv,
                     Tag = encFileKey.Tag,
                     Version = encFileKey.Version.ParseEncryptedAlgorithm()
@@ -330,9 +347,6 @@ namespace Dracoon.Crypto.Sdk {
             } finally {
                 if (dFileKey != null) {
                     Array.Clear(dFileKey, 0, dFileKey.Length);
-                }
-                if (charKey != null) {
-                    Array.Clear(charKey, 0, charKey.Length);
                 }
             }
             return plainFileKey;
@@ -357,13 +371,11 @@ namespace Dracoon.Crypto.Sdk {
             Convert.ToBase64CharArray(key, 0, key.Length, charKey, 0);
 
             PlainFileKey fileKey = new PlainFileKey() {
-                Key = ConvertCharsToBytes(charKey),
+                Key = charKey,
                 Iv = Convert.ToBase64String(iv),
                 Tag = null,
                 Version = version
             };
-
-            Array.Clear(charKey, 0, charKey.Length);
             Array.Clear(key, 0, key.Length);
             Array.Clear(iv, 0, iv.Length);
             return fileKey;
@@ -396,23 +408,6 @@ namespace Dracoon.Crypto.Sdk {
         #region Utilities
 
         /// <summary>
-        /// Converts a char array into a byte array.
-        /// </summary>
-        /// <param name="chars">The char array.</param>
-        /// <returns>The byte array.</returns>
-        public static byte[] ConvertCharsToBytes(char[] chars) {
-            if (chars == null) {
-                return new byte[0];
-            }
-
-            byte[] bytes = new byte[chars.Length];
-            for (int i = 0; i != bytes.Length; i++) {
-                bytes[i] = (byte) chars[i];
-            }
-            return bytes;
-        }
-
-        /// <summary>
         /// Converts a byte array into a char array.
         /// </summary>
         /// <param name="bytes">The byte array.</param>
@@ -427,6 +422,12 @@ namespace Dracoon.Crypto.Sdk {
                 chars[i] = (char) bytes[i];
             }
             return chars;
+        }
+
+        private static void CheckISO88591Validity(char[] chars) {
+            if(Array.Exists(chars, current => current > 255)) {
+                throw new InvalidPasswordException("Could not decrypt private key. Invalid private key password.");
+            }
         }
 
         private static string ConvertPublicKey(AsymmetricKeyParameter pubKey) {
@@ -505,7 +506,7 @@ namespace Dracoon.Crypto.Sdk {
         /// </summary>
         /// <param name="password">The password to check.</param>
         /// <exception cref="InvalidPasswordException"/>
-        private static void ValidatePassword(byte[] password) {
+        private static void ValidatePassword(char[] password) {
             if (password == null || password.Length == 0) {
                 throw new InvalidPasswordException("Password cannot be null or empty.");
             }

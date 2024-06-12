@@ -1,3 +1,18 @@
+workflow:
+    rules:
+        - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+        - if: $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS
+          when: never
+        - if: $CI_COMMIT_BRANCH
+        - if: $CI_COMMIT_TAG
+
+#------------------------------- GLOBAL DEFAULTS ------------------------------
+
+default:
+  id_tokens:
+    ID_TOKEN:
+      aud: https://vault.dracoon.net
+
 #------------------------------ VARIABLES -----------------------------
 
 variables:
@@ -34,6 +49,7 @@ prepare:
     - $VERSION = $VERSION_LINE.SubString($VERSION_LINE.IndexOf("<Version>") + 9, $VERSION_LINE.IndexOf("</Version>") - $VERSION_LINE.IndexOf("<Version>") - 9)
     - echo "$VERSION" >> shared.txt
   artifacts:
+    expire_in: 1 week
     paths:
       - .\shared.txt
 
@@ -49,6 +65,7 @@ build:
     - nuget restore .\DracoonCryptoSdk\DracoonCryptoSdk.csproj -Source https://api.nuget.org/v3/index.json
     - dotnet pack -c Release .\DracoonCryptoSdk\DracoonCryptoSdk.csproj -o .\dist
   artifacts:
+    expire_in: 1 week
     paths:
       - .\dist
 
@@ -84,7 +101,7 @@ sonar:
     - nuget restore .\DracoonCryptoSdkTest\DracoonCryptoSdkTest.csproj -Source https://api.nuget.org/v3/index.json
     - dotnet build -c Release .\DracoonCryptoSdkTest\DracoonCryptoSdkTest.csproj
     - C:\BuildTools\dependency-check\bin\dependency-check.bat --scan .\DracoonCryptoSdk --project dracoon-crypto-sdk-csharp --format ALL
-    - C:\BuildTools\dotCover\dotCover.exe cover /TargetExecutable="C:\BuildTools\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe" /TargetArguments="Dracoon.Crypto.Sdk.Test.dll" /TargetWorkingDir="DracoonCryptoSdkTest\bin\Release\net5.0" /Scope="Dracoon.Crypto.Sdk.dll" /Filters="-:module=Dracoon.Crypto.Sdk.Example;-:module=Dracoon.Crypto.Sdk.Test" /Output=".\dotCoverResult.html" /ReportType="HTML"
+    - C:\BuildTools\dotCover\dotCover.exe cover /TargetExecutable="C:\BuildTools\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe" /TargetArguments="Dracoon.Crypto.Sdk.Test.dll" /TargetWorkingDir="DracoonCryptoSdkTest\bin\Release\net8.0" /Scope="Dracoon.Crypto.Sdk.dll" /Filters="-:module=Dracoon.Crypto.Sdk.Example;-:module=Dracoon.Crypto.Sdk.Test" /Output=".\dotCoverResult.html" /ReportType="HTML"
     - dotnet clean -c Release .\DracoonCryptoSdkSolution.sln
     - C:\ProgramData\chocolatey\lib\sonarscanner-msbuild-net46\tools\SonarScanner.MSBuild.exe begin /s:${BASE_DIR}\SonarQube.Analysis.xml /k:dracoon-crypto-sdk-csharp /v:${VERSION} /d:sonar.host.url=$SONAR_URL /d:sonar.login=$SONAR_TOKEN /d:sonar.branch.name="${CI_COMMIT_REF_SLUG}" /d:sonar.scm.revision=${CI_COMMIT_SHORT_SHA}
     - dotnet build -c Release .\DracoonCryptoSdk\DracoonCryptoSdk.csproj
@@ -95,6 +112,9 @@ sonar:
 deploy-to-artifactory:
   stage: deploy
   <<: *secrets-template
+  rules:
+    - when: manual
+      allow_failure: true
   tags:
     - windows-amd64
   dependencies:
@@ -105,8 +125,11 @@ deploy-to-artifactory:
 deploy-to-nuget:
   stage: deploy
   <<: *secrets-template
-  only:
-    - tags
+  rules:
+    - if: $CI_COMMIT_TAG
+      when: manual
+      allow_failure: true
+    - when: never
   tags:
     - windows-amd64
   dependencies:

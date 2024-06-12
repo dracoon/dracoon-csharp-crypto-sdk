@@ -2,7 +2,6 @@
 using Newtonsoft.Json.Converters;
 using System;
 using System.IO;
-using System.Text;
 
 namespace Dracoon.Crypto.Sdk.Test {
     internal static class TestUtilities {
@@ -17,7 +16,7 @@ namespace Dracoon.Crypto.Sdk.Test {
                     result = sr.ReadToEnd();
                 }
             }
-            return JsonConvert.DeserializeObject<T>(result, new JsonConverter[] { new AlgorithmEnumConverter(), new ByteArrayConverter() });
+            return JsonConvert.DeserializeObject<T>(result, new JsonConverter[] { new AlgorithmEnumConverter(), new CharArrayConverter() });
         }
     }
 
@@ -45,14 +44,14 @@ namespace Dracoon.Crypto.Sdk.Test {
         }
     }
 
-    internal class ByteArrayConverter : JsonConverter {
+    internal class CharArrayConverter : JsonConverter {
         public override bool CanConvert(Type objectType) {
-            return objectType == typeof(byte[]);
+            return objectType == typeof(char[]);
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer) {
             string stringValue = (string) reader.Value;
-            return Encoding.UTF8.GetBytes(stringValue);
+            return stringValue.ToCharArray();
         }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) {

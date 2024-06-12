@@ -30,7 +30,7 @@ If you are using Visual Studio 2017 (or higher) add you're using nuget with pack
 DLL import: The latest DLL can be found [here](https://github.com/dracoon/dracoon-csharp-crypto-sdk/releases).
 
 Note that you also need to include the following dependencies:
-1. Bouncy Castle Provider (v2.3.0): https://www.nuget.org/packages/BouncyCastle.Cryptography
+1. Bouncy Castle Provider (v2.4.0): https://www.nuget.org/packages/BouncyCastle.Cryptography
 
 # Example
 
