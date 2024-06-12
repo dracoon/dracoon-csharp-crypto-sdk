@@ -1,3 +1,10 @@
+#------------------------------- GLOBAL DEFAULTS ------------------------------
+
+default:
+  id_tokens:
+    ID_TOKEN:
+      aud: https://vault.dracoon.net
+
 #------------------------------ VARIABLES -----------------------------
 
 variables:
